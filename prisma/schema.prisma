@@ -26,10 +26,10 @@ model School {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  @@map("schools")
   Teacher Teacher[]
   Student Student[]
   Class   Class[]
+  @@map("schools")
 }
 
 model Teacher {
@@ -37,7 +37,7 @@ model Teacher {
   name      String
   document  String
   password  String
-  birthDate String
+  birthDate DateTime
   schoolId  String
   school    School   @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
@@ -52,7 +52,7 @@ model Student {
   name      String
   document  String
   password  String
-  birthDate String
+  birthDate DateTime
   schoolId  String
   school    School   @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
