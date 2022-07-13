@@ -1,5 +1,5 @@
 import { Network } from ".prisma/client";
-import { prismaClient } from "../database/prismaClient";
+import { prismaDB } from "../database/prismaClient";
 import { ICreateNetworkDTO } from "../dtos/ICreateNetworkDTO";
 
 class CreateNetworkService {
@@ -7,7 +7,7 @@ class CreateNetworkService {
 
         
 
-        const network = await prismaClient.network.create({
+        const network = await prismaDB.network.create({
             data: {
                 name
             }
