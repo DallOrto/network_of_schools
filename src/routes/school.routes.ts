@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateSchoolController } from "../controllers/CreateSchoolController";
+import { CreateSchoolController } from "../controllers/school/CreateSchoolController";
 
 
 

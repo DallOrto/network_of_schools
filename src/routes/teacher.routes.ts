@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateTeacherController } from "../controllers/CreateTeacherController";
+import { CreateTeacherController } from "../controllers/teacher/CreateTeacherController";
 
 const createTeacherController = new CreateTeacherController();
 

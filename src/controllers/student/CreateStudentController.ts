@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ICreateStudentDTO } from "../dtos/ICreateStudentDTO";
-import { CreateStudentService } from "../services/CreateStudentService";
+import { ICreateStudentDTO } from "../../dtos/ICreateStudentDTO";
+import { CreateStudentService } from "../../services/student/CreateStudentService";
 
 
 class CreateStudentController {

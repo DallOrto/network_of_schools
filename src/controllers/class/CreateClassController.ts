@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ICreateClassDTO } from "../dtos/ICreateClassDTO";
-import { CreateClassService } from "../services/CreateClassService";
+import { ICreateClassDTO } from "../../dtos/ICreateClassDTO";
+import { CreateClassService } from "../../services/class/CreateClassService";
 
 
 class CreateClassController {

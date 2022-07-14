@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { CreateStudentClassService } from "../services/CreateStudentClassService";
+import { CreateStudentClassService } from "../../services/studentClass/CreateStudentClassService";
+
 
 class CreateStudentClassController {
     async handle(request: Request, response: Response) {

@@ -1,12 +1,12 @@
-import { prismaDB } from "../database/prismaClient";
-import { ICreateTeacherClassDTO } from "../dtos/ICreateTeacherClassDTO";
-import { AppError } from "../error/AppError";
+import { prismaDB } from "../../database/prismaClient";
+import { ICreateTeacherClassDTO } from "../../dtos/ICreateTeacherClassDTO";
+import { AppError } from "../../error/AppError";
 
 
 class CreateTeacherClassService {
     async execute({ teacherId, classId }: ICreateTeacherClassDTO): Promise<void> {
 
-        const teacherExists = await prismaDB.teacher.findFirst({
+        const teacherExists = await prismaDB.teacher.findUnique({
             where: {
                 id: teacherId
             }
@@ -16,7 +16,7 @@ class CreateTeacherClassService {
             throw new AppError("Teacher does not exists!");
         }
 
-        const classExists = await prismaDB.class.findFirst({
+        const classExists = await prismaDB.class.findUnique({
             where: {
                 id: classId
             }

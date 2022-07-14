@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ICreateTeacherDTO } from "../dtos/ICreateTeacherDTO";
-import { CreateTeacherService } from "../services/CreateTeacherService";
+import { ICreateTeacherDTO } from "../../dtos/ICreateTeacherDTO";
+import { CreateTeacherService } from "../../services/teacher/CreateTeacherService";
 
 class CreateTeacherController {
     async handle(request: Request, response: Response) {

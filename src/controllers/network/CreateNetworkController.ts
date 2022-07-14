@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ICreateNetworkDTO } from "../dtos/ICreateNetworkDTO";
-import { CreateNetworkService } from "../services/CreateNetworkService";
+import { ICreateNetworkDTO } from "../../dtos/ICreateNetworkDTO";
+import { CreateNetworkService } from "../../services/network/CreateNetworkService";
 
 class CreateNetworkController {
     async handle(request: Request, response: Response) {

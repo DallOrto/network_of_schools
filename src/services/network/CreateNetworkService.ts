@@ -1,6 +1,6 @@
 import { Network } from ".prisma/client";
-import { prismaDB } from "../database/prismaClient";
-import { ICreateNetworkDTO } from "../dtos/ICreateNetworkDTO";
+import { prismaDB } from "../../database/prismaClient";
+import { ICreateNetworkDTO } from "../../dtos/ICreateNetworkDTO";
 
 class CreateNetworkService {
     async execute({ name }: ICreateNetworkDTO): Promise<Network>{
