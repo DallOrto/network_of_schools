@@ -78,11 +78,11 @@ model Class {
 }
 
 model StudentClass {
-  id         String  @id @default(uuid())
-  studentdId String
-  student    Student @relation(fields: [studentdId], references: [id])
-  classId    String
-  class      Class   @relation(fields: [classId], references: [id])
+  id        String  @id @default(uuid())
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+  classId   String
+  class     Class   @relation(fields: [classId], references: [id])
 
   @@map("StudentsClasses")
 }
