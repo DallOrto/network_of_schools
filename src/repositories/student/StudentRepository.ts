@@ -1,6 +1,6 @@
 import { Student, PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
-import { ICreateStudentDTO } from "../../dtos/ICreateStudentDTO";
+import { ICreateStudentDTO } from "../../domain/dtos/ICreateStudentDTO";
 import { IStudentRepository } from "../student/implementations/IStudentRepository";
 
 

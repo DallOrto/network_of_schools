@@ -1,41 +1,38 @@
-import { TeacherClass } from ".prisma/client";
-import { prismaDB } from "../../database/prismaClient";
-import { ICreateTeacherClassDTO } from "../../dtos/ICreateTeacherClassDTO";
+import { CreateTeacherClassRequest, CreateTeacherClassResponse } from "../../domain/dtos/teacherClass/TeacherClassDTO";
+import { ITeacherClassRepository } from "../../domain/interfaces/repositories/teacherClass/ITeacherClassRepository";
 import { AppError } from "../../error/AppError";
 
-
 class CreateTeacherClassService {
-    async execute({ teacherId, classId }: ICreateTeacherClassDTO): Promise<TeacherClass> {
+    private teacherClassRepository: ITeacherClassRepository;
 
-        const teacherExists = await prismaDB.teacher.findUnique({
-            where: {
-                id: teacherId
-            }
-        });
+    constructor(
+        teacherClassRepository: ITeacherClassRepository
+    ) {
+        this.teacherClassRepository = teacherClassRepository
+    }
 
-        if(!teacherExists) {
-            throw new AppError("Teacher does not exists!");
-        }
+    async execute({ teacherId, classId }: CreateTeacherClassRequest): Promise<CreateTeacherClassResponse> {
+        // const teacherExists = await prismaDB.teacher.findUnique({
+        //     where: {
+        //         id: teacherId
+        //     }
+        // });
 
-        const classExists = await prismaDB.class.findUnique({
-            where: {
-                id: classId
-            }
-        });
+        // if(!teacherExists) {
+        //     throw new AppError("Teacher does not exists!");
+        // }
 
-        if(!classExists) {
-            throw new AppError("Class does not exists!");
-        }
+        // const classExists = await prismaDB.class.findUnique({
+        //     where: {
+        //         id: classId
+        //     }
+        // });
 
-        const teacherClass = await prismaDB.teacherClass.create({
-            data: {
-                teacherId,
-                classId
-            }
-        });
+        // if(!classExists) {
+        //     throw new AppError("Class does not exists!");
+        // }
 
-        return teacherClass;
-
+        return this.teacherClassRepository.create({ teacherId, classId });
     }
 }
 

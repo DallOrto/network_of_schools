@@ -1,19 +1,17 @@
-import { Network } from ".prisma/client";
-import { prismaDB } from "../../database/prismaClient";
-import { ICreateNetworkDTO } from "../../dtos/ICreateNetworkDTO";
+import { CreateNetworkRequest, CreateNetworkResponse } from "../../domain/dtos/network/NetworkDTO";
+import { INetworkRepository } from "../../domain/interfaces/repositories/network/INetworkRepository";
 
 class CreateNetworkService {
-    async execute({ name }: ICreateNetworkDTO): Promise<Network>{
+    private networkRepository: INetworkRepository;
 
-        
+    constructor(
+         networkRepository: INetworkRepository
+     ) {
+        this.networkRepository = networkRepository;
+     }
 
-        const network = await prismaDB.network.create({
-            data: {
-                name
-            }
-        });
-
-        return network;
+    async execute({ name }: CreateNetworkRequest): Promise<CreateNetworkResponse>{
+        return this.networkRepository.create({ name });
     }
 }
 

@@ -1,26 +1,20 @@
 import { Request, Response } from "express";
-import { ICreateTeacherDTO } from "../../dtos/ICreateTeacherDTO";
+import { CreateTeacherRequest } from "../../domain/dtos/teacher/TeacherDTO";
+import { TeacherRepository } from "../../repositories/teacher/TeacherRepository";
 import { CreateTeacherService } from "../../services/teacher/CreateTeacherService";
 
 class CreateTeacherController {
     async handle(request: Request, response: Response) {
-        const { name, document, password, birthDate, schoolId }:ICreateTeacherDTO = request.body;
+        const { name, document, password, birthDate, schoolId }:CreateTeacherRequest = request.body;
 
-        const createTeacherService = new CreateTeacherService();
-
-        const teacher = await createTeacherService.execute(
-            {
-                name, 
-                document, 
-                password, 
-                birthDate, 
-                schoolId
-            }
+        const createTeacherService = new CreateTeacherService(
+            new TeacherRepository()
         );
 
-        return response.status(201).json(teacher);
+        const teacher = await createTeacherService.execute({ name, document, password, birthDate, schoolId });
 
+        return response.status(201).json(teacher);
     }
 }
 
-export { CreateTeacherController } 
+export { CreateTeacherController }

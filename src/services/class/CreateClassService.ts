@@ -1,21 +1,17 @@
-import { Class } from ".prisma/client";
-import { prismaDB } from "../../database/prismaClient";
-import { ICreateClassDTO } from "../../dtos/ICreateClassDTO";
-
+import { CreateClassRequest, CreateClassResponse } from "../../domain/dtos/class/ClassDTO";
+import { IClassRepository } from "../../domain/interfaces/repositories/class/IClassRepository";
 
 class CreateClassService {
-    async execute({name, classDay, time, schoolId}: ICreateClassDTO): Promise<Class> {
-        
-        const classRegister = await prismaDB.class.create({
-            data: {
-                name,
-                classDay,
-                time,
-                schoolId
-            }
-        });
+    private classRepository: IClassRepository;
 
-        return classRegister;
+    constructor(
+        classRepository: IClassRepository
+    ) {
+        this.classRepository = classRepository
+    }
+
+    async execute({name, classDay, time, schoolId}: CreateClassRequest): Promise<CreateClassResponse> {
+        return this.classRepository.create({ name, classDay, time, schoolId });
     }
 }
 

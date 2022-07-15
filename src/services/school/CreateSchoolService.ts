@@ -1,30 +1,19 @@
 import { School } from ".prisma/client";
 import { prismaDB } from "../../database/prismaClient";
-import { ICreateSchoolDTO } from "../../dtos/ICreateSchoolDTO";
-
+import { CreateSchoolRequest, CreateSchoolResponse } from "../../domain/dtos/school/SchoolDTO";
+import { ISchoolRepository } from "../../domain/interfaces/repositories/school/ISchoolRepository";
 
 class CreateSchoolService {
-    async execute({ name, address, networkId}: ICreateSchoolDTO ): Promise<School> {
+    private schoolRepository: ISchoolRepository;
 
-        // const schoolExists = await prismaDB.school.findUnique({
-        //     where: {
-        //         name,
-        //         networkId
-        //     }
-        // });
-        
-        const school = await prismaDB.school.create({
-            data:{
-                name,
-                address,
-                networkId
-            }
-        });
+    constructor(
+        schoolRepository: ISchoolRepository
+    ) {
+        this.schoolRepository = schoolRepository;
+    }
 
-
-
-        return school;
-
+    async execute({ name, address, networkId}: CreateSchoolRequest ): Promise<CreateSchoolResponse> {
+        return this.schoolRepository.create({name, address, networkId});
     }
 }
 

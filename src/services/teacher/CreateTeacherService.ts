@@ -1,22 +1,16 @@
-import { Teacher } from ".prisma/client";
-import { prismaDB } from "../../database/prismaClient";
-import { ICreateTeacherDTO } from "../../dtos/ICreateTeacherDTO";
-
+import { CreateTeacherRequest, CreateTeacherResponse } from "../../domain/dtos/teacher/TeacherDTO";
+import { ITeacherRepository } from "../../domain/interfaces/repositories/teacher/ITeacherRepository";
 
 class CreateTeacherService {
-    async execute({name, document, password, birthDate, schoolId}: ICreateTeacherDTO): Promise<Teacher>{
-        
-        const teacher = await prismaDB.teacher.create({
-            data:{
-                name, 
-                document, 
-                password, 
-                birthDate, 
-                schoolId
-            }
-        });
+    private teacherRepository: ITeacherRepository;
 
-        return teacher;
+    constructor(
+        teacherRepository: ITeacherRepository
+    ) {
+        this.teacherRepository = teacherRepository
+    }
+    async execute({name, document, password, birthDate, schoolId}: CreateTeacherRequest): Promise<CreateTeacherResponse>{
+        return this.teacherRepository.create({ name, document, password, birthDate, schoolId });
     }
 }
 

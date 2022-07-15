@@ -1,8 +1,7 @@
-import { Teacher, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
-import { ICreateTeacherDTO } from "../../dtos/ICreateTeacherDTO";
-import { ITeacherRepository } from "../teacher/implementations/ITeacherRepository";
-
+import { CreateTeacherRequest, CreateTeacherResponse } from "../../domain/dtos/teacher/TeacherDTO";
+import { ITeacherRepository } from "../../domain/interfaces/repositories/teacher/ITeacherRepository";
 
 class TeacherRepository implements ITeacherRepository {
     private prismaRepository: PrismaClient
@@ -11,19 +10,12 @@ class TeacherRepository implements ITeacherRepository {
         this.prismaRepository = prismaDB;
     }
 
-    async create({ name, document, password, birthDate, schoolId }:ICreateTeacherDTO ): Promise<Teacher> {
-        const teacher = this.prismaRepository.teacher.create({
+    async create({ name, document, password, birthDate, schoolId }: CreateTeacherRequest ): Promise<CreateTeacherResponse> {
+        return this.prismaRepository.teacher.create({
             data: {
-                name,
-                document, 
-                password, 
-                birthDate, 
-                schoolId
-                
+                name, document, password, birthDate, schoolId
             }
         });
-
-        return teacher;
     }
 }
 

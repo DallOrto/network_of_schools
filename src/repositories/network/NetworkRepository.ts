@@ -1,8 +1,7 @@
-import { Network, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
-import { ICreateNetworkDTO } from "../../dtos/ICreateNetworkDTO";
-import { INetworkRepository } from "../network/implementations/INetworkRepository";
-
+import { CreateNetworkRequest, CreateNetworkResponse } from "../../domain/dtos/network/NetworkDTO";
+import { INetworkRepository } from "../../domain/interfaces/repositories/network/INetworkRepository";
 
 class NetworkRepository implements INetworkRepository {
     private prismaRepository: PrismaClient
@@ -11,14 +10,12 @@ class NetworkRepository implements INetworkRepository {
         this.prismaRepository = prismaDB;
     }
 
-    async create({ name }:ICreateNetworkDTO ): Promise<Network> {
-        const network = this.prismaRepository.network.create({
+    async create({ name }:CreateNetworkRequest ): Promise<CreateNetworkResponse> {
+        return this.prismaRepository.network.create({
             data: {
                 name
             }
         });
-
-        return network;
     }
 }
 
