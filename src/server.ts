@@ -20,10 +20,28 @@ app.use((err: Error, request: Request, response: Response, next: NextFunction) =
         })
     }
 
+    return response.status(400).json({
+        status: "error",
+        message: `Bad Request - ${err.message}`
+    })
+
+    return response.status(401).json({
+        status: "error",
+        message: `Unauthorized - ${err.message}`
+    })
+
+    return response.status(404).json({
+        status: "error",
+        message: `Not Found - ${err.message}`
+    })
+
     return response.status(500).json({
         status: "error",
         message: `Internal server error - ${err.message}`
     })
+ 
+
+    
 })
 
 app.listen(4003, () => console.log("Server is running pn PORT 4003"));

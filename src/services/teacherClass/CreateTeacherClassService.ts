@@ -1,10 +1,11 @@
+import { TeacherClass } from ".prisma/client";
 import { prismaDB } from "../../database/prismaClient";
 import { ICreateTeacherClassDTO } from "../../dtos/ICreateTeacherClassDTO";
 import { AppError } from "../../error/AppError";
 
 
 class CreateTeacherClassService {
-    async execute({ teacherId, classId }: ICreateTeacherClassDTO): Promise<void> {
+    async execute({ teacherId, classId }: ICreateTeacherClassDTO): Promise<TeacherClass> {
 
         const teacherExists = await prismaDB.teacher.findUnique({
             where: {
@@ -32,6 +33,8 @@ class CreateTeacherClassService {
                 classId
             }
         });
+
+        return teacherClass;
 
     }
 }
