@@ -1,7 +1,8 @@
 import { Student, PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
-import { ICreateStudentDTO } from "../../domain/dtos/ICreateStudentDTO";
-import { IStudentRepository } from "../student/implementations/IStudentRepository";
+import { CreateStudentRequest } from "../../domain/dtos/student/StudentDTO";
+import { IStudentRepository } from "../../domain/interfaces/repositories/student/IStudentRepository";
+
 
 
 class StudentRepository implements IStudentRepository {
@@ -11,15 +12,14 @@ class StudentRepository implements IStudentRepository {
         this.prismaRepository = prismaDB;
     }
 
-    async create({ name, document, password, birthDate, schoolId }:ICreateStudentDTO ): Promise<Student> {
+    async create({ name, document, password, birthDate, schoolId }: CreateStudentRequest ): Promise<Student> {
         const student = this.prismaRepository.student.create({
             data: {
                 name,
-                document, 
-                password, 
-                birthDate, 
+                document,
+                password,
+                birthDate,
                 schoolId
-                
             }
         });
 

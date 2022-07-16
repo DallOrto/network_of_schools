@@ -1,17 +1,18 @@
 import { CreateStudentRequest, CreateStudentResponse } from "../../domain/dtos/student/StudentDTO";
-import { ITeacherRepository } from "../../domain/interfaces/repositories/teacher/ITeacherRepository";
+import { IStudentRepository } from "../../domain/interfaces/repositories/student/IStudentRepository";
+
 
 class CreateStudentService {
-    private teacherRepository: ITeacherRepository;
+    private studentRepository: IStudentRepository;
 
     constructor(
-        teacherRepository: ITeacherRepository
+        studentRepository: IStudentRepository
     ) {
-        this.teacherRepository = teacherRepository
+        this.studentRepository = studentRepository
     }
 
     async execute({ name, document, password, birthDate, schoolId }: CreateStudentRequest): Promise<CreateStudentResponse> {
-        return this.teacherRepository.create({ name, document, password, birthDate, schoolId });
+        return this.studentRepository.create({ name, document, password, birthDate, schoolId });
     }
 }
 

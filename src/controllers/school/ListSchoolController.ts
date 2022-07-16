@@ -1,4 +1,4 @@
-import { Request, Response } from "express-serve-static-core";
+import { Request, Response } from "express";
 import { ListSchoolFilter } from "../../domain/dtos/school/ListSchoolDTO";
 import { ListSchoolRepository } from "../../repositories/school/ListSchoolRepository";
 import { ListSchoolService } from "../../services/school/ListSchoolService";
@@ -14,7 +14,6 @@ class ListSchoolController {
         const schools = await listschoolService.execute({ networkId })
 
         return response.status(201).json(schools);
-
     }
 }
 
