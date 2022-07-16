@@ -1,11 +1,11 @@
 import { CreateClassRequest, CreateClassResponse } from "../../domain/dtos/class/ClassDTO";
-import { IClassRepository } from "../../domain/interfaces/repositories/class/IClassRepository";
+import { ICreateClassRepository } from "../../domain/interfaces/repositories/class/ICreateClassRepository";
 
 class CreateClassService {
-    private classRepository: IClassRepository;
+    private classRepository: ICreateClassRepository;
 
     constructor(
-        classRepository: IClassRepository
+        classRepository: ICreateClassRepository
     ) {
         this.classRepository = classRepository
     }

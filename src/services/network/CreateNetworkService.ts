@@ -1,11 +1,11 @@
 import { CreateNetworkRequest, CreateNetworkResponse } from "../../domain/dtos/network/NetworkDTO";
-import { INetworkRepository } from "../../domain/interfaces/repositories/network/INetworkRepository";
+import { ICreateNetworkRepository } from "../../domain/interfaces/repositories/network/ICreateNetworkRepository";
 
 class CreateNetworkService {
-    private networkRepository: INetworkRepository;
+    private networkRepository: ICreateNetworkRepository;
 
     constructor(
-         networkRepository: INetworkRepository
+         networkRepository: ICreateNetworkRepository
      ) {
         this.networkRepository = networkRepository;
      }

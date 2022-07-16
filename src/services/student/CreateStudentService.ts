@@ -1,12 +1,12 @@
 import { CreateStudentRequest, CreateStudentResponse } from "../../domain/dtos/student/StudentDTO";
-import { IStudentRepository } from "../../domain/interfaces/repositories/student/IStudentRepository";
+import { ICreateStudentRepository } from "../../domain/interfaces/repositories/student/ICreateStudentRepository";
 
 
 class CreateStudentService {
-    private studentRepository: IStudentRepository;
+    private studentRepository: ICreateStudentRepository;
 
     constructor(
-        studentRepository: IStudentRepository
+        studentRepository: ICreateStudentRepository
     ) {
         this.studentRepository = studentRepository
     }

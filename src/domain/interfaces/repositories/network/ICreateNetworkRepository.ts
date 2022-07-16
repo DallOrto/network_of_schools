@@ -1,7 +1,7 @@
 import { CreateNetworkRequest, CreateNetworkResponse } from "../../../dtos/network/NetworkDTO"
 
-interface INetworkRepository {
+interface ICreateNetworkRepository {
     create(data: CreateNetworkRequest): Promise<CreateNetworkResponse>
 }
 
-export { INetworkRepository }
+export { ICreateNetworkRepository }

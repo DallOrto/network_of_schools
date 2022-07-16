@@ -1,12 +1,12 @@
 import { CreateTeacherClassRequest, CreateTeacherClassResponse } from "../../domain/dtos/teacherClass/TeacherClassDTO";
-import { ITeacherClassRepository } from "../../domain/interfaces/repositories/teacherClass/ITeacherClassRepository";
+import { ICreateTeacherClassRepository } from "../../domain/interfaces/repositories/teacherClass/ICreateTeacherClassRepository";
 import { AppError } from "../../error/AppError";
 
 class CreateTeacherClassService {
-    private teacherClassRepository: ITeacherClassRepository;
+    private teacherClassRepository: ICreateTeacherClassRepository;
 
     constructor(
-        teacherClassRepository: ITeacherClassRepository
+        teacherClassRepository: ICreateTeacherClassRepository
     ) {
         this.teacherClassRepository = teacherClassRepository
     }

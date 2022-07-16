@@ -1,7 +1,7 @@
 import { CreateStudentRequest, CreateStudentResponse } from "../../../dtos/student/StudentDTO"
 
-interface IStudentRepository {
+interface ICreateStudentRepository {
     create(data: CreateStudentRequest): Promise<CreateStudentResponse>
 }
 
-export { IStudentRepository }
+export { ICreateStudentRepository }

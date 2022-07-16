@@ -1,11 +1,11 @@
 import { CreateTeacherRequest, CreateTeacherResponse } from "../../domain/dtos/teacher/TeacherDTO";
-import { ITeacherRepository } from "../../domain/interfaces/repositories/teacher/ITeacherRepository";
+import { ICreateTeacherRepository } from "../../domain/interfaces/repositories/teacher/ICreateTeacherRepository";
 
 class CreateTeacherService {
-    private teacherRepository: ITeacherRepository;
+    private teacherRepository: ICreateTeacherRepository;
 
     constructor(
-        teacherRepository: ITeacherRepository
+        teacherRepository: ICreateTeacherRepository
     ) {
         this.teacherRepository = teacherRepository
     }

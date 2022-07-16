@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
 import { CreateNetworkRequest, CreateNetworkResponse } from "../../domain/dtos/network/NetworkDTO";
-import { INetworkRepository } from "../../domain/interfaces/repositories/network/INetworkRepository";
+import { ICreateNetworkRepository } from "../../domain/interfaces/repositories/network/ICreateNetworkRepository";
 
-class NetworkRepository implements INetworkRepository {
+class NetworkRepository implements ICreateNetworkRepository {
     private prismaRepository: PrismaClient
 
     constructor() {

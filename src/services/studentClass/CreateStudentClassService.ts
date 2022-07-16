@@ -1,13 +1,13 @@
 
 import { CreateStudentClassRequest, CreateStudentClassResponse } from "../../domain/dtos/studentClass/StudentClassDTO";
-import { IStudentClassRepository } from "../../domain/interfaces/repositories/studentClass/IStudentClassRepository";
+import { ICreateStudentClassRepository } from "../../domain/interfaces/repositories/studentClass/ICreateStudentClassRepository";
 import { AppError } from "../../error/AppError";
 
 class CreateStudentClassService {
-    private studentClassRepository: IStudentClassRepository;
+    private studentClassRepository: ICreateStudentClassRepository;
 
     constructor(
-        studentClassRepository: IStudentClassRepository
+        studentClassRepository: ICreateStudentClassRepository
     ) {
         this.studentClassRepository = studentClassRepository
     }

@@ -1,7 +1,7 @@
 import { CreateClassRequest, CreateClassResponse} from "../../../dtos/class/ClassDTO"
 
-interface IClassRepository {
+interface ICreateClassRepository {
     create(data: CreateClassRequest): Promise<CreateClassResponse>
 }
 
-export { IClassRepository }
+export { ICreateClassRepository }

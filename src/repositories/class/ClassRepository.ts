@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
 import { CreateClassRequest, CreateClassResponse } from "../../domain/dtos/class/ClassDTO";
-import { IClassRepository } from "../../domain/interfaces/repositories/class/IClassRepository";
+import { ICreateClassRepository } from "../../domain/interfaces/repositories/class/ICreateClassRepository";
 
-class ClassRepository implements IClassRepository {
+class ClassRepository implements ICreateClassRepository {
     private prismaRepository: PrismaClient
 
     constructor() {

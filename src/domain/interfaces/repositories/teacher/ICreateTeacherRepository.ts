@@ -1,7 +1,7 @@
 import { CreateTeacherRequest, CreateTeacherResponse } from "../../../dtos/teacher/TeacherDTO"
 
-interface ITeacherRepository {
+interface ICreateTeacherRepository {
     create(data: CreateTeacherRequest): Promise<CreateTeacherResponse>
 }
 
-export { ITeacherRepository }
+export { ICreateTeacherRepository }
