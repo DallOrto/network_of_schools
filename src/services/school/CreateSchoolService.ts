@@ -1,13 +1,11 @@
-import { School } from ".prisma/client";
-import { prismaDB } from "../../database/prismaClient";
 import { CreateSchoolRequest, CreateSchoolResponse } from "../../domain/dtos/school/SchoolDTO";
-import { ISchoolRepository } from "../../domain/interfaces/repositories/school/ISchoolRepository";
+import { ICreateSchoolRepository } from "../../domain/interfaces/repositories/school/ICreateSchoolRepository";
 
 class CreateSchoolService {
-    private schoolRepository: ISchoolRepository;
+    private schoolRepository: ICreateSchoolRepository;
 
     constructor(
-        schoolRepository: ISchoolRepository
+        schoolRepository: ICreateSchoolRepository
     ) {
         this.schoolRepository = schoolRepository;
     }

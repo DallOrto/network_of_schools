@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { CreateSchoolRequest } from "../../domain/dtos/school/SchoolDTO";
-import { SchoolRepository } from "../../repositories/school/SchoolRepository";
+import { CreateSchoolRepository } from "../../repositories/school/CreateSchoolRepository";
 import { CreateSchoolService } from "../../services/school/CreateSchoolService";
 
 class CreateSchoolController {
@@ -8,7 +8,7 @@ class CreateSchoolController {
         const { name, address, networkId }: CreateSchoolRequest = request.body;
 
         const createSchoolService = new CreateSchoolService(
-            new SchoolRepository()
+            new CreateSchoolRepository()
         );
 
         const school = await createSchoolService.execute({ name, address, networkId });

@@ -1,12 +1,9 @@
-import { School, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
 import { CreateSchoolRequest, CreateSchoolResponse } from "../../domain/dtos/school/SchoolDTO";
-import { ISchoolRepository } from "../../domain/interfaces/repositories/school/ISchoolRepository";
+import { ICreateSchoolRepository } from "../../domain/interfaces/repositories/school/ICreateSchoolRepository";
 
-
-
-
-class SchoolRepository implements ISchoolRepository {
+class CreateSchoolRepository implements ICreateSchoolRepository {
     private prismaRepository: PrismaClient
 
     constructor() {
@@ -24,4 +21,4 @@ class SchoolRepository implements ISchoolRepository {
     }
 }
 
-export { SchoolRepository };
+export { CreateSchoolRepository };

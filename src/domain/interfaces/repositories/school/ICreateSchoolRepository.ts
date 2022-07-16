@@ -1,7 +1,7 @@
 import { CreateSchoolRequest, CreateSchoolResponse } from "../../../dtos/school/SchoolDTO"
 
-interface ISchoolRepository {
+interface ICreateSchoolRepository {
     create(data: CreateSchoolRequest): Promise<CreateSchoolResponse>
 }
 
-export { ISchoolRepository }
+export { ICreateSchoolRepository }
