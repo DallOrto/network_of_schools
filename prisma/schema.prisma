@@ -8,58 +8,91 @@ datasource db {
 }
 
 model Network {
-  id         String   @id @default(uuid())
-  name       String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
+  School School[]
   @@map("networks")
 }
 
 model School {
-  id         String   @id @default(uuid())
-  name       String
-  address    String
-  network_id String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  networkId String
+  network   Network  @relation(fields: [networkId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
+  Teacher Teacher[]
+  Student Student[]
+  Class   Class[]
   @@map("schools")
 }
 
 model Teacher {
-  id         String   @id @default(uuid())
-  name       String
-  document   String
-  password   String
-  birth_date String
-  school_id  String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  document  String
+  password  String
+  birthDate DateTime
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
+  TeacherClass TeacherClass[]
   @@map("teachers")
 }
 
 model Student {
-  id         String   @id @default(uuid())
-  name       String
-  document   String
-  password   String
-  birth_date String
-  school_id  String
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  document  String
+  password  String
+  birthDate DateTime
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
+  StudentClass StudentClass[]
   @@map("students")
 }
 
 model Class {
-  id         String   @id @default(uuid())
-  name       String
-  class_day  String
-  time       DateTime
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id        String   @id @default(uuid())
+  name      String
+  classDay  String
+  time      DateTime
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
+  StudentClass StudentClass[]
+  TeacherClass TeacherClass[]
   @@map("classes")
+}
+
+model StudentClass {
+  id        String  @id @default(uuid())
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+  classId   String
+  class     Class   @relation(fields: [classId], references: [id])
+
+  @@map("StudentsClasses")
+}
+
+model TeacherClass {
+  id        String  @id @default(uuid())
+  teacherId String
+  teacher   Teacher @relation(fields: [teacherId], references: [id])
+  classId   String
+  class     Class   @relation(fields: [classId], references: [id])
+
+  @@map("TeachersClasses")
 }
