@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { UpdateSchoolController } from "../controllers/network/UpdateSchoolController";
 import { CreateSchoolController } from "../controllers/school/CreateSchoolController";
 import { ListSchoolController } from "../controllers/school/ListSchoolController";
+import { UpdateSchoolController } from "../controllers/school/UpdateSchoolController";
 
 
 
