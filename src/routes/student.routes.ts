@@ -4,8 +4,6 @@ import { ListStudentController } from "../controllers/student/ListStudentControl
 import { ListStudentInNetworkController } from "../controllers/student/ListStudentInNetworkController";
 import { UpdateStudentController } from "../controllers/student/UpdateStudentController";
 
-
-
 const createStudentController = new CreateStudentController();
 const listStudentController = new ListStudentController();
 const listStudentInNetworkController = new ListStudentInNetworkController();

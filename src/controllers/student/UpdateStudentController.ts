@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { UpdateStudentRepository } from "../../repositories/student/UpdateStudentRepository";
 import { UpdateStudentService } from "../../services/student/UpdateStudentService";
 
-
 class UpdateStudentController {
     async handle(request: Request, response: Response){
         const { id } = request.params;
