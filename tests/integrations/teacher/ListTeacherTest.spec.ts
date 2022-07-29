@@ -1,8 +1,8 @@
-import { faker } from "@faker-js/faker";
 import { superAppRequest } from "../../setup";
+import { faker } from "@faker-js/faker";
 
-describe("Create Class Controller", () => {
-    it("should be able to create a Class", async () => {
+describe("List Teachers Controller", () => {
+    it("should be able to list teachers", async () => {
         const networkRequestBody = {
             name: faker.name.findName()
         }
@@ -20,19 +20,23 @@ describe("Create Class Controller", () => {
             .post("/schools")
             .send(schoolRequestBody);
 
-        const classRequestBody = {
+        const teacherRequestBody = {
                 name: faker.name.findName(),
-                classDay: faker.date.weekday(),
-                time: faker.date.past(),
+                document: faker.datatype.number().toString(),
+                password: faker.internet.password(),
+                birthDate:  faker.date.birthdate(),
                 schoolId: schoolResponse.body.id
             }
 
-            const classResponse = await superAppRequest
-            .post("/classes")
-            .send(classRequestBody);
+            await superAppRequest
+            .post("/teachers")
+            .send(teacherRequestBody);
 
-        expect(classResponse.status).toBe(201);
-        expect(classResponse.body.error).toBeFalsy();
+        const teacherListResponse = await superAppRequest
+        .get(`/teachers/list?schoolId=${schoolResponse.body.id}`)
+
+        expect(teacherListResponse.status).toBe(201);
+        expect(teacherListResponse.body.error).toBeFalsy();
     });
 
 });

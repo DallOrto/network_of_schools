@@ -1,8 +1,8 @@
-import { faker } from "@faker-js/faker";
 import { superAppRequest } from "../../setup";
+import { faker } from "@faker-js/faker";
 
-describe("Create Teacher Controller", () => {
-    it("should be able to create a Teacher", async () => {
+describe("List Student in Network Controller", () => {
+    it("should be able to list student in network", async () => {
         const networkRequestBody = {
             name: faker.name.findName()
         }
@@ -20,7 +20,7 @@ describe("Create Teacher Controller", () => {
             .post("/schools")
             .send(schoolRequestBody);
 
-        const teacherRequestBody = {
+        const studentRequestBody = {
                 name: faker.name.findName(),
                 document: faker.datatype.number().toString(),
                 password: faker.internet.password(),
@@ -28,12 +28,15 @@ describe("Create Teacher Controller", () => {
                 schoolId: schoolResponse.body.id
             }
 
-            const teacherResponse = await superAppRequest
-            .post("/teachers")
-            .send(teacherRequestBody);
+            await superAppRequest
+            .post("/students")
+            .send(studentRequestBody);
 
-        expect(teacherResponse.status).toBe(201);
-        expect(teacherResponse.body.error).toBeFalsy();
+        const studentListInNetWorkResponse = await superAppRequest
+        .get(`/students/listInNetwork?networkId=${networkResponse.body.id}`)
+
+        expect(studentListInNetWorkResponse.status).toBe(201);
+        expect(studentListInNetWorkResponse.body.error).toBeFalsy();
     });
 
 });
