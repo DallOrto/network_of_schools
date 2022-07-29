@@ -1,5 +1,5 @@
 
-import { UpdateStudentRequest, UpdateStudentResponse } from "../../domain/dtos/student/updateStudentDTO";
+import { UpdateStudentRequest, UpdateStudentResponse } from "../../domain/dtos/student/UpdateStudentDTO";
 import { IUpdateStudentRepository } from "../../domain/interfaces/repositories/student/IUpdateStudentRepository";
 import { AppError } from "../../error/AppError";
 

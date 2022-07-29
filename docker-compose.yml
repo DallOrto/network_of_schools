@@ -1,6 +1,6 @@
 version: "3.7"
 
-services: 
+services:
   database_prisma:
     image: postgres
     restart: always
