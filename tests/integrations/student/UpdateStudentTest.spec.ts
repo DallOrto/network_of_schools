@@ -1,51 +1,48 @@
-import { faker } from "@faker-js/faker";
+import {
+  createNetwork,
+  createSchool,
+  createStudent
+} from "../../helpers/helper";
+import {
+  mockINetworkRequest,
+  mockISchoolRequest,
+  mockIStudentRequest
+} from "../../helpers/mock";
 import { superAppRequest } from "../../setup";
 
 describe("Update Student Controller", () => {
-    it("should be able to update a Student", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to update a Student", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const schoolResponse = await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const studentRequestBody = {
-                name: faker.name.findName(),
-                document: faker.datatype.number().toString(),
-                password: faker.internet.password(),
-                birthDate:  faker.date.birthdate(),
-                schoolId: schoolResponse.body.id
-            }
+    const schoolResponse = await createSchool(schoolRequestBody);
 
-            const studentResponse = await superAppRequest
-            .post("/students")
-            .send(studentRequestBody);
+    const studentRequestBody = mockIStudentRequest(schoolResponse.id);
 
-        const studentUpdateRequestBody = {
-            name: faker.name.findName(),
-            document: faker.datatype.number().toString(),
-            password: faker.internet.password(),
-            birthDate:  faker.date.birthdate(),
-            schoolId: schoolResponse.body.id
-        }
+    const studentResponse = await createStudent(studentRequestBody);
 
-        const studentUpdateResponse = await superAppRequest
-            .put(`/students/${studentResponse.body.id}`)
-            .send(studentUpdateRequestBody);
+    const studentUpdateRequestBody = mockIStudentRequest(schoolResponse.id);
 
-        expect(studentUpdateResponse.status).toBe(201);
-        expect(studentUpdateResponse.body.error).toBeFalsy();
-    });
+    const studentUpdateResponse = await superAppRequest
+      .put(`/students/${studentResponse.id}`)
+      .send(studentUpdateRequestBody);
 
+    expect(studentUpdateResponse.status).toBe(201);
+    expect(studentUpdateResponse.body.error).toBeFalsy();
+    expect(studentUpdateResponse.body.name).toEqual(
+      studentUpdateRequestBody.name
+    );
+    expect(studentUpdateResponse.body.document).toEqual(
+      studentUpdateRequestBody.document
+    );
+    expect(studentUpdateResponse.body.password).toEqual(
+      studentUpdateRequestBody.password
+    );
+    expect(studentUpdateResponse.body.schoolId).toEqual(
+      studentUpdateRequestBody.schoolId
+    );
+  });
 });

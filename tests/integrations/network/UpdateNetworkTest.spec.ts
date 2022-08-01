@@ -1,26 +1,23 @@
 import { superAppRequest } from "../../setup";
-import { faker } from "@faker-js/faker";
+import { mockINetworkRequest } from "../../helpers/mock";
+import { createNetwork } from "../../helpers/helper";
 
 describe("Update Network Controller", () => {
-    it("should be able to update a Network", async () => {
-            const networkRequestBody = {
-                name: faker.name.findName()
-            }
+  it("should be able to update a Network", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-            const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const networkRequestUpdateBody = {
-                name: faker.name.findName()
-            }
+    const networkUpdateRequestBody = mockINetworkRequest();
 
-            const networkUpdateResponse = await superAppRequest
-            .put(`/networks/${networkResponse.body.id}`)
-            .send(networkRequestUpdateBody)
+    const networkUpdateResponse = await superAppRequest
+      .put(`/networks/${networkResponse.id}`)
+      .send(networkUpdateRequestBody);
 
-        expect(networkUpdateResponse.status).toBe(201);
-        expect(networkUpdateResponse.body.error).toBeFalsy();
-    });
-
+    expect(networkUpdateResponse.status).toBe(201);
+    expect(networkUpdateResponse.body.error).toBeFalsy();
+    expect(networkUpdateResponse.body.name).toEqual(
+      networkUpdateRequestBody.name
+    );
+  });
 });

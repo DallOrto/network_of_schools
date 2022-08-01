@@ -1,59 +1,47 @@
 import { faker } from "@faker-js/faker";
+import {
+  createClass,
+  createNetwork,
+  createSchool,
+  createTeacher
+} from "../../helpers/helper";
+import {
+  mockIClassRequest,
+  mockINetworkRequest,
+  mockISchoolRequest,
+  mockITeacherClassTest,
+  mockITeacherRequest
+} from "../../helpers/mock";
 import { superAppRequest } from "../../setup";
 
 describe("Create TeacherClass Controller", () => {
-    it("should be able to create a TeacherClass", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to create a TeacherClass", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const schoolResponse = await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const teacherRequestBody = {
-                name: faker.name.findName(),
-                document: faker.datatype.number().toString(),
-                password: faker.internet.password(),
-                birthDate:  faker.date.birthdate(),
-                schoolId: schoolResponse.body.id
-            }
+    const schoolResponse = await createSchool(schoolRequestBody);
 
-            const teacherResponse = await superAppRequest
-            .post("/teachers")
-            .send(teacherRequestBody);
+    const teacherRequestBody = mockITeacherRequest(schoolResponse.id);
 
-        const classRequestBody = {
-                name: faker.name.findName(),
-                classDay: faker.date.weekday(),
-                time: faker.date.past(),
-                schoolId: schoolResponse.body.id
-            }
+    const teacherResponse = await createTeacher(teacherRequestBody);
 
-            const classResponse = await superAppRequest
-            .post("/classes")
-            .send(classRequestBody);
+    const classRequestBody = mockIClassRequest(schoolResponse.id);
 
-        const teacherClassRequestBody = {
-                teacherId: teacherResponse.body.id,
-	            classId: classResponse.body.id
-            }
+    const classResponse = await createClass(classRequestBody);
 
-            const teacherClassResponse = await superAppRequest
-            .post("/classes/teacher")
-            .send(teacherClassRequestBody);
+    const teacherClassRequestBody = mockITeacherClassTest(
+      teacherResponse.id,
+      classResponse.id
+    );
 
-        expect(teacherClassResponse.status).toBe(201);
-        expect(teacherClassResponse.body.error).toBeFalsy();
-    });
+    const teacherClassResponse = await superAppRequest
+      .post("/classes/teacher")
+      .send(teacherClassRequestBody);
 
+    expect(teacherClassResponse.status).toBe(201);
+    expect(teacherClassResponse.body.error).toBeFalsy();
+  });
 });

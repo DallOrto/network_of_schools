@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
     "test": "dotenv -e .env.test npx prisma migrate dev && jest",
+    "test-unique": "dotenv -e .env.test npx prisma migrate dev && jest -t",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

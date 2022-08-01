@@ -1,42 +1,31 @@
+import { createNetwork, createSchool } from "../../helpers/helper";
+import {
+  mockINetworkRequest,
+  mockISchoolRequest,
+  mockIStudentRequest
+} from "../../helpers/mock";
 import { superAppRequest } from "../../setup";
-import { faker } from "@faker-js/faker";
 
 describe("List Student in Network Controller", () => {
-    it("should be able to list student in network", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to list student in network", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const schoolResponse = await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const studentRequestBody = {
-                name: faker.name.findName(),
-                document: faker.datatype.number().toString(),
-                password: faker.internet.password(),
-                birthDate:  faker.date.birthdate(),
-                schoolId: schoolResponse.body.id
-            }
+    const schoolResponse = await createSchool(schoolRequestBody);
 
-            await superAppRequest
-            .post("/students")
-            .send(studentRequestBody);
+    const studentRequestBody = mockIStudentRequest(schoolResponse.id);
 
-        const studentListInNetWorkResponse = await superAppRequest
-        .get(`/students/listInNetwork?networkId=${networkResponse.body.id}`)
+    await superAppRequest.post("/students").send(studentRequestBody);
 
-        expect(studentListInNetWorkResponse.status).toBe(201);
-        expect(studentListInNetWorkResponse.body.error).toBeFalsy();
-    });
+    const studentListInNetWorkResponse = await superAppRequest.get(
+      `/students/listInNetwork?networkId=${networkResponse.id}`
+    );
 
+    expect(studentListInNetWorkResponse.status).toBe(201);
+    expect(studentListInNetWorkResponse.body.error).toBeFalsy();
+    expect(studentListInNetWorkResponse.body.length).toBe(1);
+  });
 });

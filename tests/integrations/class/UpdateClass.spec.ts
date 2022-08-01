@@ -1,49 +1,40 @@
-import { faker } from "@faker-js/faker";
+import { createClass, createNetwork, createSchool } from "../../helpers/helper";
+import {
+  mockIClassRequest,
+  mockINetworkRequest,
+  mockISchoolRequest
+} from "../../helpers/mock";
+
 import { superAppRequest } from "../../setup";
 
 describe("Create Class Controller", () => {
-    it("should be able to create a Class", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to create a Class", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const schoolResponse = await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const classRequestBody = {
-                name: faker.name.findName(),
-                classDay: faker.date.weekday(),
-                time: faker.date.past(),
-                schoolId: schoolResponse.body.id
-            }
+    const schoolResponse = await createSchool(schoolRequestBody);
 
-            const classResponse = await superAppRequest
-            .post("/classes")
-            .send(classRequestBody);
+    const classRequestBody = mockIClassRequest(schoolResponse.id);
 
-        const classUpdateRequestBody = {
-            name: faker.name.findName(),
-            classDay: faker.date.weekday(),
-            time: faker.date.past(),
-            schoolId: schoolResponse.body.id
-        }
+    const classResponse = await createClass(classRequestBody);
 
-            const classUpdateResponse = await superAppRequest
-            .put(`/classes/${classResponse.body.id}`)
-            .send(classUpdateRequestBody)
+    const classUpdateRequestBody = mockIClassRequest(schoolResponse.id);
 
-        expect(classUpdateResponse.status).toBe(201);
-        expect(classUpdateResponse.body.error).toBeFalsy();
-    });
+    const classUpdateResponse = await superAppRequest
+      .put(`/classes/${classResponse.id}`)
+      .send(classUpdateRequestBody);
 
+    expect(classUpdateResponse.status).toBe(201);
+    expect(classUpdateResponse.body.error).toBeFalsy();
+    expect(classUpdateResponse.body.name).toEqual(classUpdateRequestBody.name);
+    expect(classUpdateResponse.body.classDay).toEqual(
+      classUpdateRequestBody.classDay
+    );
+    expect(classUpdateResponse.body.schoolId).toEqual(
+      classUpdateRequestBody.schoolId
+    );
+  });
 });

@@ -1,30 +1,23 @@
 import { superAppRequest } from "../../setup";
-import { faker } from "@faker-js/faker";
+import { mockINetworkRequest, mockISchoolRequest } from "../../helpers/mock";
+import { createNetwork } from "../../helpers/helper";
 
 describe("List School Controller", () => {
-    it("should be able to list Schools", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to list Schools", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const schoolListResponse = await superAppRequest
-        .get(`/schools/list?networkId=${networkResponse.body.id}`)
+    await superAppRequest.post("/schools").send(schoolRequestBody);
 
-        expect(schoolListResponse.status).toBe(201);
-        expect(schoolListResponse.body.error).toBeFalsy();
-    });
+    const schoolListResponse = await superAppRequest.get(
+      `/schools/list?networkId=${networkResponse.id}`
+    );
 
+    expect(schoolListResponse.status).toBe(201);
+    expect(schoolListResponse.body.error).toBeFalsy();
+    expect(schoolListResponse.body.length).toBe(1);
+  });
 });

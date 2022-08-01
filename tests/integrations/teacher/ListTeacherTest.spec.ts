@@ -1,42 +1,31 @@
+import { createNetwork, createSchool } from "../../helpers/helper";
+import {
+  mockINetworkRequest,
+  mockISchoolRequest,
+  mockITeacherRequest
+} from "../../helpers/mock";
 import { superAppRequest } from "../../setup";
-import { faker } from "@faker-js/faker";
 
 describe("List Teachers Controller", () => {
-    it("should be able to list teachers", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to list teachers", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const schoolResponse = await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const teacherRequestBody = {
-                name: faker.name.findName(),
-                document: faker.datatype.number().toString(),
-                password: faker.internet.password(),
-                birthDate:  faker.date.birthdate(),
-                schoolId: schoolResponse.body.id
-            }
+    const schoolResponse = await createSchool(schoolRequestBody);
 
-            await superAppRequest
-            .post("/teachers")
-            .send(teacherRequestBody);
+    const teacherRequestBody = mockITeacherRequest(schoolResponse.id);
 
-        const teacherListResponse = await superAppRequest
-        .get(`/teachers/list?schoolId=${schoolResponse.body.id}`)
+    await superAppRequest.post("/teachers").send(teacherRequestBody);
 
-        expect(teacherListResponse.status).toBe(201);
-        expect(teacherListResponse.body.error).toBeFalsy();
-    });
+    const teacherListResponse = await superAppRequest.get(
+      `/teachers/list?schoolId=${schoolResponse.id}`
+    );
 
+    expect(teacherListResponse.status).toBe(201);
+    expect(teacherListResponse.body.error).toBeFalsy();
+    expect(teacherListResponse.body.length).toBe(1);
+  });
 });

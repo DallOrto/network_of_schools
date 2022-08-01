@@ -1,39 +1,28 @@
-import { faker } from "@faker-js/faker";
+import { createNetwork, createSchool } from "../../helpers/helper";
+import {
+  mockINetworkRequest,
+  mockISchoolRequest,
+  mockIStudentRequest
+} from "../../helpers/mock";
 import { superAppRequest } from "../../setup";
 
 describe("Create Student Controller", () => {
-    it("should be able to create a Student", async () => {
-        const networkRequestBody = {
-            name: faker.name.findName()
-        }
-        const networkResponse = await superAppRequest
-            .post("/networks")
-            .send(networkRequestBody);
+  it("should be able to create a Student", async () => {
+    const networkRequestBody = mockINetworkRequest();
 
-        const schoolRequestBody = {
-                name: faker.name.findName(),
-                address: faker.address.streetAddress(),
-                networkId: networkResponse.body.id
-            }
+    const networkResponse = await createNetwork(networkRequestBody);
 
-            const schoolResponse = await superAppRequest
-            .post("/schools")
-            .send(schoolRequestBody);
+    const schoolRequestBody = mockISchoolRequest(networkResponse.id);
 
-        const studentRequestBody = {
-                name: faker.name.findName(),
-                document: faker.datatype.number().toString(),
-                password: faker.internet.password(),
-                birthDate:  faker.date.birthdate(),
-                schoolId: schoolResponse.body.id
-            }
+    const schoolResponse = await createSchool(schoolRequestBody);
 
-            const studentResponse = await superAppRequest
-            .post("/students")
-            .send(studentRequestBody);
+    const studentRequestBody = mockIStudentRequest(schoolResponse.id);
 
-        expect(studentResponse.status).toBe(201);
-        expect(studentResponse.body.error).toBeFalsy();
-    });
+    const studentResponse = await superAppRequest
+      .post("/students")
+      .send(studentRequestBody);
 
+    expect(studentResponse.status).toBe(201);
+    expect(studentResponse.body.error).toBeFalsy();
+  });
 });
