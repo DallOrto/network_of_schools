@@ -32,5 +32,6 @@ describe("Create School Controller", () => {
       .send(schoolRequestBody);
 
     expect(schoolResponse.status).toBe(400);
+    expect(schoolResponse.body).toHaveProperty("message");
   });
 });

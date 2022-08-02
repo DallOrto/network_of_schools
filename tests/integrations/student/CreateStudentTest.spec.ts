@@ -41,5 +41,6 @@ describe("Create Student Controller", () => {
       .send(studentRequestBody);
 
     expect(studentResponse.status).toBe(400);
+    expect(studentResponse.body).toHaveProperty("message");
   });
 });

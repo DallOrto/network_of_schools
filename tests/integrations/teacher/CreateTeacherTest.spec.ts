@@ -41,5 +41,6 @@ describe("Create Teacher Controller", () => {
       .send(teacherRequestBody);
 
     expect(teacherResponse.status).toBe(400);
+    expect(teacherResponse.body).toHaveProperty("message");
   });
 });

@@ -55,5 +55,6 @@ describe("Create StudentClass Controller", () => {
       .send(studentClassRequestBody);
 
     expect(studentClassResponse.status).toBe(400);
+    expect(studentClassResponse.body).toHaveProperty("message");
   });
 });
