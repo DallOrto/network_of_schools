@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { createClass, createNetwork, createSchool } from "../../helpers/helper";
 import {
   mockIClassRequest,
@@ -36,5 +37,20 @@ describe("Create Class Controller", () => {
     expect(classUpdateResponse.body.schoolId).toEqual(
       classUpdateRequestBody.schoolId
     );
+  });
+
+  it("should not be able to update a Class with invalid schoolId", async () => {
+    const classRequestBody = {
+      name: faker.name.findName(),
+      classDay: faker.date.weekday(),
+      time: faker.date.past(),
+      schoolId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa"
+    };
+
+    const classResponse = await superAppRequest
+      .post("/classes")
+      .send(classRequestBody);
+
+    expect(classResponse.status).toBe(400);
   });
 });

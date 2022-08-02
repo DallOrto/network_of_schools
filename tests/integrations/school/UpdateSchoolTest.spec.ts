@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { createNetwork, createSchool } from "../../helpers/helper";
 import { mockINetworkRequest, mockISchoolRequest } from "../../helpers/mock";
 import { superAppRequest } from "../../setup";
@@ -29,5 +30,19 @@ describe("Update School Controller", () => {
     expect(schoolUpdateResponse.body.networkId).toEqual(
       schoolUpdateRequestBody.networkId
     );
+  });
+
+  it("should not be able to update a School with invalid networkId", async () => {
+    const schoolRequestBody = {
+      name: faker.name.findName(),
+      address: faker.address.streetAddress(),
+      networkId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa"
+    };
+
+    const schoolResponse = await superAppRequest
+      .post("/schools")
+      .send(schoolRequestBody);
+
+    expect(schoolResponse.status).toBe(400);
   });
 });

@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/23</span>
+                <span class='fraction'>32/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.3% </span>
+                <span class="strong">88.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/23</span>
+                <span class='fraction'>32/36</span>
             </div>
         
             
@@ -85,7 +85,28 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -106,37 +127,58 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { UpdateSchoolRequest, UpdateSchoolResponse } from "../../domain/dtos/school/UpdateSchoolDTO";
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {
+  UpdateSchoolRequest,
+  UpdateSchoolResponse
+} from "../../domain/dtos/school/UpdateSchoolDTO";
+import { ICreateNetworkRepository } from "../../domain/interfaces/repositories/network/ICreateNetworkRepository";
 import { IUpdateSchoolRepository } from "../../domain/interfaces/repositories/school/IUpdateSchoolRepository";
 import { AppError } from "../../error/AppError";
 &nbsp;
 class UpdateSchoolService {
-    private updateSchoolRepository: IUpdateSchoolRepository;
+  private updateSchoolRepository: IUpdateSchoolRepository;
+  private networkRepository: ICreateNetworkRepository;
 &nbsp;
-    constructor(
-        updateSchoolRepository: IUpdateSchoolRepository
-    ) {
-        this.updateSchoolRepository = updateSchoolRepository
-    }
+  constructor(
+    updateSchoolRepository: IUpdateSchoolRepository,
+    networkRepository: ICreateNetworkRepository
+  ) {
+    this.updateSchoolRepository = updateSchoolRepository;
+    this.networkRepository = networkRepository;
+  }
 &nbsp;
-    async execute(data:UpdateSchoolRequest): Promise&lt;UpdateSchoolResponse&gt; {
-        if(!data.id) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >            throw new AppError("School does not exists!")</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
+  async execute(data: UpdateSchoolRequest): Promise&lt;UpdateSchoolResponse&gt; {
+    if (!data.id) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      throw new AppError("School does not exists!");</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-        return this.updateSchoolRepository.updateSchool( data )
-    }
+    const networkExists = await this.networkRepository.findOne(data.networkId);
+&nbsp;
+    if (!networkExists) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >      throw new AppError("Network does not exist!");</span>
+<span class="cstat-no" title="statement not covered" >    }</span>
+&nbsp;
+    return this.updateSchoolRepository.updateSchool(data);
+  }
 }
 &nbsp;
-export { UpdateSchoolService }</pre></td></tr></table></pre>
+export { UpdateSchoolService };
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-08-01T20:15:04.605Z
+                at 2022-08-02T22:26:42.907Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

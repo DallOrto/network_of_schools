@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1659384904647" clover="3.2.0">
-  <project timestamp="1659384904647" name="All files">
-    <metrics statements="1404" coveredstatements="1363" conditionals="99" coveredconditionals="94" methods="93" coveredmethods="92" elements="1596" coveredelements="1549" complexity="0" loc="1404" ncloc="1404" packages="27" files="60" classes="60"/>
+<coverage generated="1659479202968" clover="3.2.0">
+  <project timestamp="1659479202968" name="All files">
+    <metrics statements="1708" coveredstatements="1665" conditionals="130" coveredconditionals="116" methods="98" coveredmethods="98" elements="1936" coveredelements="1879" complexity="0" loc="1708" ncloc="1708" packages="27" files="60" classes="60"/>
     <package name="src">
-      <metrics statements="41" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="41" coveredstatements="24" conditionals="4" coveredconditionals="3" methods="0" coveredmethods="0"/>
       <file name="app.ts" path="/home/dallorto/Projetos/network_of_schools/src/app.ts">
-        <metrics statements="41" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="41" coveredstatements="24" conditionals="4" coveredconditionals="3" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -18,19 +18,19 @@
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="9" type="cond" truecount="1" falsecount="0"/>
+        <line num="15" count="7" type="stmt"/>
+        <line num="16" count="7" type="stmt"/>
+        <line num="17" count="7" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="7" type="stmt"/>
+        <line num="20" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="1"/>
         <line num="26" count="0" type="stmt"/>
         <line num="27" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
@@ -50,9 +50,39 @@
       </file>
     </package>
     <package name="src.controllers.class">
-      <metrics statements="40" coveredstatements="40" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <metrics statements="55" coveredstatements="55" conditionals="3" coveredconditionals="3" methods="2" coveredmethods="2"/>
       <file name="CreateClassController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/class/CreateClassController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="27" coveredstatements="27" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="8" type="stmt"/>
+        <line num="10" count="8" type="stmt"/>
+        <line num="11" count="8" type="stmt"/>
+        <line num="12" count="8" type="stmt"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="19" count="8" type="stmt"/>
+        <line num="20" count="8" type="stmt"/>
+        <line num="21" count="8" type="stmt"/>
+        <line num="22" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="23" count="4" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+      </file>
+      <file name="UpdateClassController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/class/UpdateClassController.ts">
+        <metrics statements="28" coveredstatements="28" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -60,29 +90,6 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="13" count="4" type="stmt"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-      </file>
-      <file name="UpdateClassController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/class/UpdateClassController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
@@ -96,12 +103,20 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.controllers.network">
-      <metrics statements="42" coveredstatements="42" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <metrics statements="41" coveredstatements="41" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
       <file name="CreateNetworkController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/network/CreateNetworkController.ts">
-        <metrics statements="21" coveredstatements="21" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -119,10 +134,9 @@
         <line num="15" count="11" type="stmt"/>
         <line num="16" count="11" type="stmt"/>
         <line num="17" count="11" type="stmt"/>
-        <line num="18" count="11" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
       </file>
       <file name="UpdateNetworkController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/network/UpdateNetworkController.ts">
         <metrics statements="21" coveredstatements="21" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
@@ -150,29 +164,35 @@
       </file>
     </package>
     <package name="src.controllers.school">
-      <metrics statements="60" coveredstatements="60" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
+      <metrics statements="73" coveredstatements="73" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
       <file name="CreateSchoolController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/school/CreateSchoolController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="26" coveredstatements="26" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="11" type="stmt"/>
-        <line num="9" count="11" type="stmt"/>
-        <line num="10" count="11" type="stmt"/>
-        <line num="11" count="11" type="stmt"/>
-        <line num="12" count="11" type="stmt"/>
-        <line num="13" count="11" type="stmt"/>
-        <line num="14" count="11" type="stmt"/>
-        <line num="15" count="11" type="stmt"/>
-        <line num="16" count="11" type="stmt"/>
-        <line num="17" count="11" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="13" type="stmt"/>
+        <line num="10" count="13" type="stmt"/>
+        <line num="11" count="13" type="stmt"/>
+        <line num="12" count="13" type="stmt"/>
+        <line num="13" count="13" type="stmt"/>
+        <line num="14" count="13" type="stmt"/>
+        <line num="15" count="13" type="stmt"/>
+        <line num="16" count="13" type="stmt"/>
+        <line num="17" count="13" type="stmt"/>
+        <line num="18" count="13" type="stmt"/>
+        <line num="19" count="13" type="stmt"/>
+        <line num="20" count="13" type="stmt"/>
+        <line num="21" count="11" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="11" type="stmt"/>
+        <line num="23" count="11" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
       </file>
       <file name="ListSchoolController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/school/ListSchoolController.ts">
         <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
@@ -198,14 +218,14 @@
         <line num="20" count="1" type="stmt"/>
       </file>
       <file name="UpdateSchoolController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/school/UpdateSchoolController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="27" coveredstatements="27" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="7" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
@@ -219,32 +239,53 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.controllers.student">
-      <metrics statements="80" coveredstatements="80" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+      <metrics statements="103" coveredstatements="103" conditionals="5" coveredconditionals="5" methods="4" coveredmethods="4"/>
       <file name="CreateStudentController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/student/CreateStudentController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="34" coveredstatements="34" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="5" type="stmt"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="10" count="5" type="stmt"/>
-        <line num="11" count="5" type="stmt"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="13" count="5" type="stmt"/>
-        <line num="14" count="5" type="stmt"/>
-        <line num="15" count="5" type="stmt"/>
-        <line num="16" count="5" type="stmt"/>
-        <line num="17" count="5" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="10" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
+        <line num="12" count="7" type="stmt"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="7" type="stmt"/>
+        <line num="16" count="7" type="stmt"/>
+        <line num="17" count="7" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="7" type="stmt"/>
+        <line num="20" count="7" type="stmt"/>
+        <line num="21" count="7" type="stmt"/>
+        <line num="22" count="7" type="stmt"/>
+        <line num="23" count="7" type="stmt"/>
+        <line num="24" count="7" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="29" count="5" type="cond" truecount="1" falsecount="0"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
       </file>
       <file name="ListStudentController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/student/ListStudentController.ts">
         <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
@@ -293,14 +334,14 @@
         <line num="20" count="1" type="stmt"/>
       </file>
       <file name="UpdateStudentController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/student/UpdateStudentController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="29" coveredstatements="29" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="7" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
@@ -314,21 +355,30 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.controllers.studentClass">
-      <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <metrics statements="24" coveredstatements="24" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
       <file name="CreateStudentClassController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/studentClass/CreateStudentClassController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="24" coveredstatements="24" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
+        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
@@ -340,32 +390,50 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.controllers.teacher">
-      <metrics statements="60" coveredstatements="60" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
+      <metrics statements="83" coveredstatements="83" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
       <file name="CreateTeacherController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/teacher/CreateTeacherController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="34" coveredstatements="34" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="13" count="4" type="stmt"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="6" type="stmt"/>
+        <line num="10" count="6" type="stmt"/>
+        <line num="11" count="6" type="stmt"/>
+        <line num="12" count="6" type="stmt"/>
+        <line num="13" count="6" type="stmt"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+        <line num="17" count="6" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="19" count="6" type="stmt"/>
+        <line num="20" count="6" type="stmt"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="22" count="6" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
+        <line num="25" count="6" type="stmt"/>
+        <line num="26" count="6" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="28" count="6" type="stmt"/>
+        <line num="29" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
       </file>
       <file name="ListTeacherController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/teacher/ListTeacherController.ts">
         <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
@@ -391,33 +459,7 @@
         <line num="20" count="1" type="stmt"/>
       </file>
       <file name="UpdateTeacherController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/teacher/UpdateTeacherController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-      </file>
-    </package>
-    <package name="src.controllers.teacherClass">
-      <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
-      <file name="CreateTeacherClassController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/teacherClass/CreateTeacherClassController.ts">
-        <metrics statements="20" coveredstatements="20" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <metrics statements="29" coveredstatements="29" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -438,6 +480,45 @@
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.controllers.teacherClass">
+      <metrics statements="24" coveredstatements="24" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+      <file name="CreateTeacherClassController.ts" path="/home/dallorto/Projetos/network_of_schools/src/controllers/teacherClass/CreateTeacherClassController.ts">
+        <metrics statements="24" coveredstatements="24" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.database">
@@ -452,9 +533,9 @@
       </file>
     </package>
     <package name="src.error">
-      <metrics statements="14" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <metrics statements="14" coveredstatements="14" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
       <file name="AppError.ts" path="/home/dallorto/Projetos/network_of_schools/src/error/AppError.ts">
-        <metrics statements="14" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <metrics statements="14" coveredstatements="14" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -462,19 +543,19 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="11" count="0" type="stmt"/>
+        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="7" type="stmt"/>
+        <line num="10" count="7" type="stmt"/>
+        <line num="11" count="7" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
         <line num="14" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.repositories.class">
-      <metrics statements="53" coveredstatements="53" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+      <metrics statements="68" coveredstatements="68" conditionals="5" coveredconditionals="5" methods="5" coveredmethods="5"/>
       <file name="ClassRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/class/ClassRepository.ts">
-        <metrics statements="25" coveredstatements="25" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="40" coveredstatements="40" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -483,23 +564,38 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
-        <line num="18" count="4" type="stmt"/>
-        <line num="19" count="4" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
-        <line num="21" count="4" type="stmt"/>
-        <line num="22" count="4" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="13" count="10" type="stmt"/>
+        <line num="14" count="10" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="17" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
       </file>
       <file name="UpdateClassRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/class/UpdateClassRepository.ts">
         <metrics statements="28" coveredstatements="28" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -534,9 +630,9 @@
       </file>
     </package>
     <package name="src.repositories.network">
-      <metrics statements="47" coveredstatements="47" conditionals="4" coveredconditionals="4" methods="4" coveredmethods="4"/>
+      <metrics statements="57" coveredstatements="57" conditionals="5" coveredconditionals="5" methods="5" coveredmethods="5"/>
       <file name="NetworkRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/network/NetworkRepository.ts">
-        <metrics statements="22" coveredstatements="22" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="32" coveredstatements="32" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -545,20 +641,30 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="10" count="11" type="stmt"/>
-        <line num="11" count="11" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="11" type="stmt"/>
-        <line num="15" count="11" type="stmt"/>
-        <line num="16" count="11" type="stmt"/>
-        <line num="17" count="11" type="stmt"/>
-        <line num="18" count="11" type="stmt"/>
-        <line num="19" count="11" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="13" count="24" type="stmt"/>
+        <line num="14" count="24" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="14" type="stmt"/>
+        <line num="17" count="14" type="stmt"/>
+        <line num="18" count="14" type="stmt"/>
+        <line num="19" count="14" type="stmt"/>
+        <line num="20" count="14" type="stmt"/>
+        <line num="21" count="14" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="11" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
+        <line num="26" count="11" type="stmt"/>
+        <line num="27" count="11" type="stmt"/>
+        <line num="28" count="11" type="stmt"/>
+        <line num="29" count="11" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
       </file>
       <file name="UpdateNetworkRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/network/UpdateNetworkRepository.ts">
         <metrics statements="25" coveredstatements="25" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -590,9 +696,9 @@
       </file>
     </package>
     <package name="src.repositories.school">
-      <metrics statements="73" coveredstatements="73" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+      <metrics statements="87" coveredstatements="87" conditionals="7" coveredconditionals="7" methods="7" coveredmethods="7"/>
       <file name="CreateSchoolRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/school/CreateSchoolRepository.ts">
-        <metrics statements="24" coveredstatements="24" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="38" coveredstatements="38" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -601,22 +707,36 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="10" count="11" type="stmt"/>
-        <line num="11" count="11" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="11" type="stmt"/>
-        <line num="15" count="11" type="stmt"/>
-        <line num="16" count="11" type="stmt"/>
-        <line num="17" count="11" type="stmt"/>
-        <line num="18" count="11" type="stmt"/>
-        <line num="19" count="11" type="stmt"/>
-        <line num="20" count="11" type="stmt"/>
-        <line num="21" count="11" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="13" count="32" type="stmt"/>
+        <line num="14" count="32" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="23" type="stmt"/>
+        <line num="17" count="23" type="stmt"/>
+        <line num="18" count="23" type="stmt"/>
+        <line num="19" count="23" type="stmt"/>
+        <line num="20" count="23" type="stmt"/>
+        <line num="21" count="23" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="11" type="stmt"/>
+        <line num="25" count="11" type="stmt"/>
+        <line num="26" count="11" type="stmt"/>
+        <line num="27" count="11" type="stmt"/>
+        <line num="28" count="11" type="stmt"/>
+        <line num="29" count="11" type="stmt"/>
+        <line num="30" count="11" type="stmt"/>
+        <line num="31" count="11" type="stmt"/>
+        <line num="32" count="11" type="stmt"/>
+        <line num="33" count="11" type="stmt"/>
+        <line num="34" count="11" type="stmt"/>
+        <line num="35" count="11" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="38" count="1" type="stmt"/>
       </file>
       <file name="ListSchoolRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/school/ListSchoolRepository.ts">
         <metrics statements="22" coveredstatements="22" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -675,7 +795,7 @@
       </file>
     </package>
     <package name="src.repositories.student">
-      <metrics statements="111" coveredstatements="111" conditionals="8" coveredconditionals="8" methods="8" coveredmethods="8"/>
+      <metrics statements="125" coveredstatements="125" conditionals="9" coveredconditionals="9" methods="9" coveredmethods="9"/>
       <file name="ListStudentInNetworkRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/student/ListStudentInNetworkRepository.ts">
         <metrics statements="26" coveredstatements="26" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
@@ -731,7 +851,7 @@
         <line num="22" count="1" type="stmt"/>
       </file>
       <file name="StudentRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/student/StudentRepository.ts">
-        <metrics statements="30" coveredstatements="30" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="44" coveredstatements="44" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -742,26 +862,40 @@
         <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="13" count="5" type="stmt"/>
-        <line num="14" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="13" count="8" type="stmt"/>
+        <line num="14" count="8" type="stmt"/>
         <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="16" count="5" type="stmt"/>
-        <line num="17" count="5" type="stmt"/>
-        <line num="18" count="5" type="stmt"/>
-        <line num="19" count="5" type="stmt"/>
-        <line num="20" count="5" type="stmt"/>
-        <line num="21" count="5" type="stmt"/>
-        <line num="22" count="5" type="stmt"/>
-        <line num="23" count="5" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="24" count="5" type="stmt"/>
         <line num="25" count="5" type="stmt"/>
         <line num="26" count="5" type="stmt"/>
         <line num="27" count="5" type="stmt"/>
-        <line num="28" count="1" type="stmt"/>
-        <line num="29" count="1" type="stmt"/>
-        <line num="30" count="1" type="stmt"/>
+        <line num="28" count="5" type="stmt"/>
+        <line num="29" count="5" type="stmt"/>
+        <line num="30" count="5" type="stmt"/>
+        <line num="31" count="5" type="stmt"/>
+        <line num="32" count="5" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="39" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="41" count="5" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
       </file>
       <file name="UpdateStudentRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/student/UpdateStudentRepository.ts">
         <metrics statements="33" coveredstatements="33" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -830,7 +964,7 @@
       </file>
     </package>
     <package name="src.repositories.teacher">
-      <metrics statements="73" coveredstatements="73" conditionals="6" coveredconditionals="6" methods="6" coveredmethods="6"/>
+      <metrics statements="93" coveredstatements="93" conditionals="7" coveredconditionals="7" methods="7" coveredmethods="7"/>
       <file name="ListTeacherRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/teacher/ListTeacherRepository.ts">
         <metrics statements="22" coveredstatements="22" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
@@ -857,7 +991,7 @@
         <line num="22" count="1" type="stmt"/>
       </file>
       <file name="TeacherRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/teacher/TeacherRepository.ts">
-        <metrics statements="22" coveredstatements="22" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="42" coveredstatements="42" conditionals="3" coveredconditionals="3" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -866,20 +1000,40 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
-        <line num="18" count="4" type="stmt"/>
-        <line num="19" count="4" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="13" count="7" type="stmt"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
         <line num="21" count="1" type="stmt"/>
         <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="4" type="stmt"/>
+        <line num="25" count="4" type="stmt"/>
+        <line num="26" count="4" type="stmt"/>
+        <line num="27" count="4" type="stmt"/>
+        <line num="28" count="4" type="stmt"/>
+        <line num="29" count="4" type="stmt"/>
+        <line num="30" count="4" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="38" count="4" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
       </file>
       <file name="UpdateTeacherRepository.ts" path="/home/dallorto/Projetos/network_of_schools/src/repositories/teacher/UpdateTeacherRepository.ts">
         <metrics statements="29" coveredstatements="29" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -1070,30 +1224,9 @@
       </file>
     </package>
     <package name="src.services.class">
-      <metrics statements="41" coveredstatements="39" conditionals="5" coveredconditionals="4" methods="4" coveredmethods="4"/>
+      <metrics statements="73" coveredstatements="69" conditionals="9" coveredconditionals="7" methods="4" coveredmethods="4"/>
       <file name="CreateClassService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/class/CreateClassService.ts">
-        <metrics statements="18" coveredstatements="18" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="1" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-      </file>
-      <file name="UpdateClassService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/class/UpdateClassService.ts">
-        <metrics statements="23" coveredstatements="21" conditionals="3" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="37" coveredstatements="37" conditionals="5" coveredconditionals="5" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1101,22 +1234,75 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="8" type="stmt"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="16" count="8" type="stmt"/>
+        <line num="17" count="8" type="stmt"/>
+        <line num="18" count="8" type="stmt"/>
+        <line num="19" count="8" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="8" type="stmt"/>
+        <line num="23" count="8" type="stmt"/>
+        <line num="24" count="8" type="stmt"/>
+        <line num="25" count="8" type="stmt"/>
+        <line num="26" count="8" type="stmt"/>
+        <line num="27" count="8" type="stmt"/>
+        <line num="28" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="29" count="6" type="cond" truecount="1" falsecount="0"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+      </file>
+      <file name="UpdateClassService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/class/UpdateClassService.ts">
+        <metrics statements="36" coveredstatements="32" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.services.network">
@@ -1171,27 +1357,45 @@
       </file>
     </package>
     <package name="src.services.school">
-      <metrics statements="60" coveredstatements="58" conditionals="7" coveredconditionals="6" methods="6" coveredmethods="6"/>
+      <metrics statements="91" coveredstatements="87" conditionals="10" coveredconditionals="8" methods="6" coveredmethods="6"/>
       <file name="CreateSchoolService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/school/CreateSchoolService.ts">
-        <metrics statements="18" coveredstatements="18" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="36" coveredstatements="36" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="11" type="stmt"/>
-        <line num="9" count="11" type="stmt"/>
-        <line num="10" count="11" type="stmt"/>
-        <line num="11" count="11" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="14" count="11" type="stmt"/>
-        <line num="15" count="11" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
+        <line num="14" count="13" type="stmt"/>
+        <line num="15" count="13" type="stmt"/>
+        <line num="16" count="13" type="stmt"/>
+        <line num="17" count="13" type="stmt"/>
+        <line num="18" count="13" type="stmt"/>
+        <line num="19" count="13" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="13" type="stmt"/>
+        <line num="23" count="13" type="stmt"/>
+        <line num="24" count="13" type="stmt"/>
+        <line num="25" count="13" type="stmt"/>
+        <line num="26" count="13" type="stmt"/>
+        <line num="27" count="13" type="stmt"/>
+        <line num="28" count="13" type="cond" truecount="2" falsecount="0"/>
+        <line num="29" count="2" type="stmt"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="11" type="stmt"/>
+        <line num="32" count="11" type="stmt"/>
+        <line num="33" count="11" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
       </file>
       <file name="ListSchoolService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/school/ListSchoolService.ts">
         <metrics statements="19" coveredstatements="19" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -1216,7 +1420,7 @@
         <line num="19" count="1" type="stmt"/>
       </file>
       <file name="UpdateSchoolService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/school/UpdateSchoolService.ts">
-        <metrics statements="23" coveredstatements="21" conditionals="3" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="36" coveredstatements="32" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1224,28 +1428,41 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.services.student">
-      <metrics statements="79" coveredstatements="77" conditionals="9" coveredconditionals="8" methods="8" coveredmethods="8"/>
+      <metrics statements="116" coveredstatements="112" conditionals="12" coveredconditionals="10" methods="8" coveredmethods="8"/>
       <file name="CreateStudentService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/student/CreateStudentService.ts">
-        <metrics statements="19" coveredstatements="19" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="44" coveredstatements="44" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1253,18 +1470,43 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="9" count="5" type="stmt"/>
-        <line num="10" count="5" type="stmt"/>
-        <line num="11" count="5" type="stmt"/>
-        <line num="12" count="5" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="5" type="stmt"/>
-        <line num="16" count="5" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
-        <line num="18" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="7" type="stmt"/>
+        <line num="15" count="7" type="stmt"/>
+        <line num="16" count="7" type="stmt"/>
+        <line num="17" count="7" type="stmt"/>
+        <line num="18" count="7" type="stmt"/>
+        <line num="19" count="7" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="7" type="stmt"/>
+        <line num="23" count="7" type="stmt"/>
+        <line num="24" count="7" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+        <line num="26" count="7" type="stmt"/>
+        <line num="27" count="7" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="29" count="7" type="stmt"/>
+        <line num="30" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="5" type="stmt"/>
+        <line num="34" count="5" type="stmt"/>
+        <line num="35" count="5" type="stmt"/>
+        <line num="36" count="5" type="stmt"/>
+        <line num="37" count="5" type="stmt"/>
+        <line num="38" count="5" type="stmt"/>
+        <line num="39" count="5" type="stmt"/>
+        <line num="40" count="5" type="stmt"/>
+        <line num="41" count="5" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
       </file>
       <file name="ListStudentInNetworkService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/student/ListStudentInNetworkService.ts">
         <metrics statements="18" coveredstatements="18" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -1309,7 +1551,7 @@
         <line num="18" count="1" type="stmt"/>
       </file>
       <file name="UpdateStudentService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/student/UpdateStudentService.ts">
-        <metrics statements="24" coveredstatements="22" conditionals="3" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="36" coveredstatements="32" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1318,28 +1560,40 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="14" count="1" type="stmt"/>
-        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="16" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
-        <line num="24" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.services.studentClass">
-      <metrics statements="40" coveredstatements="40" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <metrics statements="45" coveredstatements="41" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
       <file name="CreateStudentClassService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/studentClass/CreateStudentClassService.ts">
-        <metrics statements="40" coveredstatements="40" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="45" coveredstatements="41" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1348,7 +1602,7 @@
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
         <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
@@ -1364,45 +1618,76 @@
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="25" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="26" count="1" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
+        <line num="31" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="37" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
         <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.services.teacher">
-      <metrics statements="58" coveredstatements="56" conditionals="7" coveredconditionals="6" methods="6" coveredmethods="6"/>
+      <metrics statements="97" coveredstatements="93" conditionals="10" coveredconditionals="8" methods="6" coveredmethods="6"/>
       <file name="CreateTeacherService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/teacher/CreateTeacherService.ts">
-        <metrics statements="17" coveredstatements="17" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="43" coveredstatements="43" conditionals="4" coveredconditionals="4" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="8" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
-        <line num="12" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="13" count="4" type="stmt"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="17" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="6" type="stmt"/>
+        <line num="15" count="6" type="stmt"/>
+        <line num="16" count="6" type="stmt"/>
+        <line num="17" count="6" type="stmt"/>
+        <line num="18" count="6" type="stmt"/>
+        <line num="19" count="6" type="stmt"/>
+        <line num="20" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="21" count="6" type="stmt"/>
+        <line num="22" count="6" type="stmt"/>
+        <line num="23" count="6" type="stmt"/>
+        <line num="24" count="6" type="stmt"/>
+        <line num="25" count="6" type="stmt"/>
+        <line num="26" count="6" type="stmt"/>
+        <line num="27" count="6" type="stmt"/>
+        <line num="28" count="6" type="stmt"/>
+        <line num="29" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="30" count="2" type="stmt"/>
+        <line num="31" count="2" type="stmt"/>
+        <line num="32" count="4" type="stmt"/>
+        <line num="33" count="4" type="stmt"/>
+        <line num="34" count="4" type="stmt"/>
+        <line num="35" count="4" type="stmt"/>
+        <line num="36" count="4" type="stmt"/>
+        <line num="37" count="4" type="stmt"/>
+        <line num="38" count="4" type="stmt"/>
+        <line num="39" count="4" type="stmt"/>
+        <line num="40" count="4" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
       </file>
       <file name="ListTeacherService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/teacher/ListTeacherService.ts">
         <metrics statements="18" coveredstatements="18" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
@@ -1426,7 +1711,7 @@
         <line num="18" count="1" type="stmt"/>
       </file>
       <file name="UpdateTeacherService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/teacher/UpdateTeacherService.ts">
-        <metrics statements="23" coveredstatements="21" conditionals="3" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="36" coveredstatements="32" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1434,28 +1719,41 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="1" type="cond" truecount="0" falsecount="1"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
+        <line num="13" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
         <line num="19" count="1" type="stmt"/>
         <line num="20" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
-        <line num="22" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
       </file>
     </package>
     <package name="src.services.teacherClass">
-      <metrics statements="39" coveredstatements="39" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <metrics statements="45" coveredstatements="41" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
       <file name="CreateTeacherClassService.ts" path="/home/dallorto/Projetos/network_of_schools/src/services/teacherClass/CreateTeacherClassService.ts">
-        <metrics statements="39" coveredstatements="39" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <metrics statements="45" coveredstatements="41" conditionals="4" coveredconditionals="2" methods="2" coveredmethods="2"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -1463,14 +1761,14 @@
         <line num="5" count="1" type="stmt"/>
         <line num="6" count="1" type="stmt"/>
         <line num="7" count="1" type="stmt"/>
-        <line num="8" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="8" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="1" type="stmt"/>
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
         <line num="13" count="1" type="stmt"/>
-        <line num="14" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="15" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="16" count="1" type="stmt"/>
         <line num="17" count="1" type="stmt"/>
         <line num="18" count="1" type="stmt"/>
@@ -1480,21 +1778,27 @@
         <line num="22" count="1" type="stmt"/>
         <line num="23" count="1" type="stmt"/>
         <line num="24" count="1" type="stmt"/>
-        <line num="25" count="1" type="stmt"/>
+        <line num="25" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="26" count="1" type="stmt"/>
         <line num="27" count="1" type="stmt"/>
         <line num="28" count="1" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="1" type="stmt"/>
+        <line num="31" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="32" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
         <line num="34" count="1" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
         <line num="36" count="1" type="stmt"/>
-        <line num="37" count="1" type="stmt"/>
-        <line num="38" count="1" type="stmt"/>
-        <line num="39" count="1" type="stmt"/>
+        <line num="37" count="1" type="cond" truecount="0" falsecount="1"/>
+        <line num="38" count="0" type="stmt"/>
+        <line num="39" count="0" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="1" type="stmt"/>
       </file>
     </package>
     <package name="tests">
@@ -1564,13 +1868,13 @@
         <line num="29" count="11" type="stmt"/>
         <line num="30" count="11" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
-        <line num="32" count="9" type="cond" truecount="1" falsecount="0"/>
-        <line num="33" count="9" type="stmt"/>
-        <line num="34" count="9" type="stmt"/>
-        <line num="35" count="9" type="stmt"/>
-        <line num="36" count="9" type="stmt"/>
-        <line num="37" count="9" type="stmt"/>
-        <line num="38" count="9" type="stmt"/>
+        <line num="32" count="10" type="cond" truecount="1" falsecount="0"/>
+        <line num="33" count="10" type="stmt"/>
+        <line num="34" count="10" type="stmt"/>
+        <line num="35" count="10" type="stmt"/>
+        <line num="36" count="10" type="stmt"/>
+        <line num="37" count="10" type="stmt"/>
+        <line num="38" count="10" type="stmt"/>
         <line num="39" count="1" type="stmt"/>
         <line num="40" count="2" type="cond" truecount="1" falsecount="0"/>
         <line num="41" count="2" type="stmt"/>

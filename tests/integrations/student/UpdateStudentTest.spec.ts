@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import {
   createNetwork,
   createSchool,
@@ -44,5 +45,21 @@ describe("Update Student Controller", () => {
     expect(studentUpdateResponse.body.schoolId).toEqual(
       studentUpdateRequestBody.schoolId
     );
+  });
+
+  it("should not be able to update a Student with invalid schoolId", async () => {
+    const studentRequestBody = {
+      name: faker.name.findName(),
+      document: faker.datatype.number().toString(),
+      password: faker.internet.password(),
+      birthDate: faker.date.birthdate(),
+      schoolId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa"
+    };
+
+    const studentResponse = await superAppRequest
+      .post("/students")
+      .send(studentRequestBody);
+
+    expect(studentResponse.status).toBe(400);
   });
 });

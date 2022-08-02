@@ -44,4 +44,17 @@ describe("Create TeacherClass Controller", () => {
     expect(teacherClassResponse.status).toBe(201);
     expect(teacherClassResponse.body.error).toBeFalsy();
   });
+
+  it("should not be able to create a teacherClass with invalid teacherId and classId", async () => {
+    const teacherClassRequestBody = {
+      studentId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa",
+      classId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa"
+    };
+
+    const teacherClassResponse = await superAppRequest
+      .post("/classes")
+      .send(teacherClassRequestBody);
+
+    expect(teacherClassResponse.status).toBe(400);
+  });
 });

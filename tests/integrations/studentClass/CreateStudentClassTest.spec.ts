@@ -43,4 +43,17 @@ describe("Create StudentClass Controller", () => {
     expect(studentClassResponse.status).toBe(201);
     expect(studentClassResponse.body.error).toBeFalsy();
   });
+
+  it("should not be able to create a studentClass with invalid studentId and classId", async () => {
+    const studentClassRequestBody = {
+      studentId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa",
+      classId: "xxxxxxxx-yyyy-zzzz-aaaa-xxxyyyzzzaaa"
+    };
+
+    const studentClassResponse = await superAppRequest
+      .post("/classes")
+      .send(studentClassRequestBody);
+
+    expect(studentClassResponse.status).toBe(400);
+  });
 });
