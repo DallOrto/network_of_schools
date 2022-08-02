@@ -1,40 +1,45 @@
-
-import { CreateStudentClassRequest, CreateStudentClassResponse } from "../../domain/dtos/studentClass/StudentClassDTO";
+import {
+  CreateStudentClassRequest,
+  CreateStudentClassResponse
+} from "../../domain/dtos/studentClass/StudentClassDTO";
+import { ICreateClassRepository } from "../../domain/interfaces/repositories/class/ICreateClassRepository";
+import { ICreateStudentRepository } from "../../domain/interfaces/repositories/student/ICreateStudentRepository";
 import { ICreateStudentClassRepository } from "../../domain/interfaces/repositories/studentClass/ICreateStudentClassRepository";
 import { AppError } from "../../error/AppError";
 
 class CreateStudentClassService {
-    private studentClassRepository: ICreateStudentClassRepository;
+  private studentClassRepository: ICreateStudentClassRepository;
+  private studentRepository: ICreateStudentRepository;
+  private classRepository: ICreateClassRepository;
 
-    constructor(
-        studentClassRepository: ICreateStudentClassRepository
-    ) {
-        this.studentClassRepository = studentClassRepository
+  constructor(
+    studentClassRepository: ICreateStudentClassRepository,
+    studentRepository: ICreateStudentRepository,
+    classRepository: ICreateClassRepository
+  ) {
+    this.studentClassRepository = studentClassRepository;
+    this.studentRepository = studentRepository;
+    this.classRepository = classRepository;
+  }
+
+  async execute({
+    studentId,
+    classId
+  }: CreateStudentClassRequest): Promise<CreateStudentClassResponse> {
+    const studentExists = await this.studentRepository.findOne(studentId);
+
+    if (!studentExists) {
+      throw new AppError("Student does not exist!");
     }
 
-    async execute({ studentId, classId }: CreateStudentClassRequest): Promise<CreateStudentClassResponse> {
+    const classExists = await this.classRepository.findOne(classId);
 
-        // const studentExists = await prismaDB.student.findUnique({
-        //     where: {
-        //         id: studentId
-        //     }
-        // });
-
-        // if(!studentExists) {
-        //     throw new AppError("Student does not exists!");
-        // }
-
-        // const classExists = await prismaDB.class.findUnique({
-        //     where: {
-        //         id: classId
-        //     }
-        // });
-
-        // if(!classExists) {
-        //     throw new AppError("Class does not exists!");
-        // }
-        return this.studentClassRepository.create({ studentId, classId });
+    if (!classExists) {
+      throw new AppError("Class does not exist!");
     }
+
+    return this.studentClassRepository.create({ studentId, classId });
+  }
 }
 
-export { CreateStudentClassService }
+export { CreateStudentClassService };
