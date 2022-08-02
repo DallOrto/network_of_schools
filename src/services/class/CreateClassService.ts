@@ -29,6 +29,7 @@ class CreateClassService {
     if (!schoolExists) {
       throw new AppError("School does not exist!");
     }
+
     return this.classRepository.create({ name, classDay, time, schoolId });
   }
 }
