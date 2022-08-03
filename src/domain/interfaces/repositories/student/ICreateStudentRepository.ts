@@ -1,7 +1,11 @@
-import { CreateStudentRequest, CreateStudentResponse } from "../../../dtos/student/StudentDTO"
+import {
+  CreateStudentRequest,
+  CreateStudentResponse
+} from "../../../dtos/student/StudentDTO";
 
 interface ICreateStudentRepository {
-    create(data: CreateStudentRequest): Promise<CreateStudentResponse>
+  create(data: CreateStudentRequest): Promise<CreateStudentResponse>;
+  findOne(id: string): Promise<CreateStudentResponse | null>;
 }
 
-export { ICreateStudentRepository }
+export { ICreateStudentRepository };
