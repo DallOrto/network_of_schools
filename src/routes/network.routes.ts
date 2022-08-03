@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CreateNetworkController } from "../controllers/CreateNetworkController";
+import { CreateNetworkController } from "../controllers/network/CreateNetworkController";
 
 
 
