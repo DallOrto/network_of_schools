@@ -1,7 +1,12 @@
-import { ListStudentInNetworkFilter, ListStudentInNetworkResponse } from "../../../dtos/student/ListStudentDTO";
+import {
+  ListStudentInNetworkFilter,
+  ListStudentInNetworkResponse
+} from "../../../dtos/student/ListStudentDTO";
 
 interface IListStudentInNetworkRepository {
-    listStudentInNetwork(filter: ListStudentInNetworkFilter): Promise<ListStudentInNetworkResponse[]>
+  listStudentInNetwork(
+    filter: ListStudentInNetworkFilter
+  ): Promise<ListStudentInNetworkResponse[]>;
 }
 
-export { IListStudentInNetworkRepository }
+export { IListStudentInNetworkRepository };
