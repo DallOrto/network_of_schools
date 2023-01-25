@@ -43,3 +43,7 @@ class CreateStudentClassService {
 }
 
 export { CreateStudentClassService };
+
+function timeClassValidator(startTime: string, endTime: string) {
+  startTime <= endTime || endTime >= startTime;
+}

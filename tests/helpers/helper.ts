@@ -15,9 +15,17 @@ import {
   CreateStudentResponse
 } from "../../src/domain/dtos/student/StudentDTO";
 import {
+  CreateStudentClassRequest,
+  CreateStudentClassResponse
+} from "../../src/domain/dtos/studentClass/StudentClassDTO";
+import {
   CreateTeacherRequest,
   CreateTeacherResponse
 } from "../../src/domain/dtos/teacher/TeacherDTO";
+import {
+  CreateTeacherClassRequest,
+  CreateTeacherClassResponse
+} from "../../src/domain/dtos/teacherClass/TeacherClassDTO";
 import { superAppRequest } from "../setup";
 
 export async function createNetwork(body: CreateNetworkRequest) {
@@ -61,4 +69,26 @@ export async function createClass(body: CreateClassRequest) {
   const createClassResponseBody = classResponse.body as CreateClassResponse;
 
   return createClassResponseBody;
+}
+
+export async function createStudentClass(body: CreateStudentClassRequest) {
+  const studentClassResponse = await superAppRequest
+    .post("/classes/student")
+    .send(body);
+
+  const createStudentClassResponseBody =
+    studentClassResponse.body as CreateStudentClassResponse;
+
+  return createStudentClassResponseBody;
+}
+
+export async function createTeacherClass(body: CreateTeacherClassRequest) {
+  const teacherClassResponse = await superAppRequest
+    .post("/classes/teacher")
+    .send(body);
+
+  const createTeacherClassResponseBody =
+    teacherClassResponse.body as CreateTeacherClassResponse;
+
+  return createTeacherClassResponseBody;
 }

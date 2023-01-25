@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "classes" ALTER COLUMN "endTime" SET DATA TYPE TIME,
+ALTER COLUMN "startTime" SET DATA TYPE TIME;

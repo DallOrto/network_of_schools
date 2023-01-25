@@ -14,6 +14,7 @@ model Network {
   updatedAt DateTime @default(now())
 
   School School[]
+
   @@map("networks")
 }
 
@@ -29,6 +30,7 @@ model School {
   Teacher Teacher[]
   Student Student[]
   Class   Class[]
+
   @@map("schools")
 }
 
@@ -44,6 +46,7 @@ model Teacher {
   updatedAt DateTime @default(now())
 
   TeacherClass TeacherClass[]
+
   @@map("teachers")
 }
 
@@ -59,14 +62,16 @@ model Student {
   updatedAt DateTime @default(now())
 
   StudentClass StudentClass[]
+
   @@map("students")
 }
 
 model Class {
   id        String   @id @default(uuid())
   name      String
-  classDay  String
-  time      DateTime
+  classDay  WeekDays
+  startTime String
+  endTime   String
   schoolId  String
   school    School   @relation(fields: [schoolId], references: [id])
   createdAt DateTime @default(now())
@@ -74,7 +79,18 @@ model Class {
 
   StudentClass StudentClass[]
   TeacherClass TeacherClass[]
+
   @@map("classes")
+}
+
+enum WeekDays {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
 }
 
 model StudentClass {
