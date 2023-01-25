@@ -21,16 +21,34 @@ class CreateClassService {
   async execute({
     name,
     classDay,
-    time,
+    startTime,
+    endTime,
     schoolId
   }: CreateClassRequest): Promise<CreateClassResponse> {
+    const classExist = await this.classRepository.findOneClass(
+      name,
+      classDay,
+      startTime,
+      endTime
+    );
+
+    if (classExist) {
+      throw new AppError("Class already registered");
+    }
+
     const schoolExists = await this.schoolRepository.findOne(schoolId);
 
     if (!schoolExists) {
       throw new AppError("School does not exist!");
     }
 
-    return this.classRepository.create({ name, classDay, time, schoolId });
+    return this.classRepository.create({
+      name,
+      classDay,
+      startTime,
+      endTime,
+      schoolId
+    });
   }
 }
 

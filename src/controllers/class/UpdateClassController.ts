@@ -6,7 +6,7 @@ import { UpdateClassService } from "../../services/class/UpdateClassService";
 class UpdateClassController {
   async handle(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, classDay, time, schoolId } = request.body;
+    const { name, classDay, startTime, endTime, schoolId } = request.body;
 
     const updateClassService = new UpdateClassService(
       new UpdateClassRepository(),
@@ -17,7 +17,8 @@ class UpdateClassController {
       id,
       name,
       classDay,
-      time,
+      startTime,
+      endTime,
       schoolId
     });
 

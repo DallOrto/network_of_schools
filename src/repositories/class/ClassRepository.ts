@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, WeekDays } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
 import {
   CreateClassRequest,
@@ -12,6 +12,22 @@ class ClassRepository implements ICreateClassRepository {
   constructor() {
     this.prismaRepository = prismaDB;
   }
+  findOneClass(
+    name: string,
+    classDay: WeekDays,
+    startTime: string,
+    endTime: string
+  ): Promise<CreateClassResponse | null> {
+    return this.prismaRepository.class.findFirst({
+      where: {
+        name,
+        classDay,
+        startTime,
+        endTime
+      }
+    });
+  }
+
   async findOne(id: string): Promise<CreateClassResponse | null> {
     return this.prismaRepository.class.findUnique({
       where: {
@@ -23,14 +39,16 @@ class ClassRepository implements ICreateClassRepository {
   async create({
     name,
     classDay,
-    time,
+    startTime,
+    endTime,
     schoolId
   }: CreateClassRequest): Promise<CreateClassResponse> {
     return this.prismaRepository.class.create({
       data: {
         name,
         classDay,
-        time,
+        startTime,
+        endTime,
         schoolId
       }
     });

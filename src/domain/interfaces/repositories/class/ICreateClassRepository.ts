@@ -1,3 +1,4 @@
+import { WeekDays } from ".prisma/client";
 import {
   CreateClassRequest,
   CreateClassResponse
@@ -6,6 +7,12 @@ import {
 interface ICreateClassRepository {
   create(data: CreateClassRequest): Promise<CreateClassResponse>;
   findOne(id: string): Promise<CreateClassResponse | null>;
+  findOneClass(
+    name: string,
+    classDay: WeekDays,
+    startTime: string,
+    endTime: string
+  ): Promise<CreateClassResponse | null>;
 }
 
 export { ICreateClassRepository };
