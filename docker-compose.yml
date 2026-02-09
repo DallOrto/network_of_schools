@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   database_prisma:
-    image: postgres
+    image: postgres:15
     restart: always
     ports:
       - 5432:5432
@@ -11,5 +11,7 @@ services:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=class
     volumes:
-      - pgdata/data/postgres
-    network_mode: host
+      - pgdata:/data/postgres
+
+volumes:
+  pgdata:

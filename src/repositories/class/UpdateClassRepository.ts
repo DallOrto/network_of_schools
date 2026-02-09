@@ -23,7 +23,8 @@ class UpdateClassRepository implements IUpdateClassRepository {
         classDay: data.classDay,
         startTime: data.startTime,
         endTime: data.endTime,
-        schoolId: data.schoolId
+        schoolId: data.schoolId,
+        maxStudents: data.maxStudents
       }
     });
   }

@@ -29,6 +29,10 @@ class UpdateClassService {
       throw new AppError("School does not exist!");
     }
 
+    if (data.maxStudents <= 0) {
+      throw new AppError("Maximum students must be greater than 0!");
+    }
+
     return this.updateClassRepository.updateClass(data);
   }
 }

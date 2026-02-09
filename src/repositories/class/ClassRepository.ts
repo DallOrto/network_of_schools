@@ -41,7 +41,8 @@ class ClassRepository implements ICreateClassRepository {
     classDay,
     startTime,
     endTime,
-    schoolId
+    schoolId,
+    maxStudents
   }: CreateClassRequest): Promise<CreateClassResponse> {
     return this.prismaRepository.class.create({
       data: {
@@ -49,7 +50,8 @@ class ClassRepository implements ICreateClassRepository {
         classDay,
         startTime,
         endTime,
-        schoolId
+        schoolId,
+        maxStudents
       }
     });
   }

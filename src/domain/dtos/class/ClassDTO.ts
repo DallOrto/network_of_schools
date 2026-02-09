@@ -7,6 +7,7 @@ export interface CreateClassRequest {
   startTime: string;
   endTime: string;
   schoolId: string;
+  maxStudents: number;
 }
 
 export interface CreateClassResponse extends BaseModel {
@@ -15,4 +16,5 @@ export interface CreateClassResponse extends BaseModel {
   startTime: string;
   endTime: string;
   schoolId: string;
+  maxStudents: number;
 }

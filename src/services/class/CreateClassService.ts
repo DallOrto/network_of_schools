@@ -23,7 +23,8 @@ class CreateClassService {
     classDay,
     startTime,
     endTime,
-    schoolId
+    schoolId,
+    maxStudents 
   }: CreateClassRequest): Promise<CreateClassResponse> {
     const classExist = await this.classRepository.findOneClass(
       name,
@@ -42,12 +43,17 @@ class CreateClassService {
       throw new AppError("School does not exist!");
     }
 
+    if (maxStudents <= 0) {
+      throw new AppError("Maximum students must be greater than 0!");
+    }
+
     return this.classRepository.create({
       name,
       classDay,
       startTime,
       endTime,
-      schoolId
+      schoolId,
+      maxStudents
     });
   }
 }

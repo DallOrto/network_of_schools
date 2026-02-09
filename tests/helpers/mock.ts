@@ -1,4 +1,5 @@
 import { faker } from "@faker-js/faker";
+import { WeekDays } from "@prisma/client";
 
 export function mockINetworkRequest() {
   const networkRequestBody = {
@@ -39,11 +40,22 @@ export function mockITeacherRequest(schoolId: string) {
 }
 
 export function mockIClassRequest(schoolId: string) {
+  const weekDays: WeekDays[] = [
+    WeekDays.Monday,
+    WeekDays.Tuesday,
+    WeekDays.Wednesday,
+    WeekDays.Thursday,
+    WeekDays.Friday,
+    WeekDays.Saturday,
+    WeekDays.Sunday
+  ];
   const classRequestBody = {
     name: faker.name.findName(),
-    classDay: faker.date.weekday(),
-    time: faker.date.past(),
-    schoolId
+    classDay: weekDays[Math.floor(Math.random() * weekDays.length)],
+    startTime: "08:00",
+    endTime: "10:00",
+    schoolId,
+    maxStudents: 30
   };
   return classRequestBody;
 }

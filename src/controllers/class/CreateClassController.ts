@@ -6,8 +6,8 @@ import { CreateClassService } from "../../services/class/CreateClassService";
 
 class CreateClassController {
   async handle(request: Request, response: Response) {
-    const { name, classDay, startTime, endTime, schoolId }: CreateClassRequest =
-      request.body;
+    const { name, classDay, startTime, endTime, schoolId, maxStudents: maxStudentsRaw } = request.body;
+    const maxStudents = Number(maxStudentsRaw);
 
     const createClassService = new CreateClassService(
       new ClassRepository(),
@@ -19,7 +19,8 @@ class CreateClassController {
       classDay,
       startTime,
       endTime,
-      schoolId
+      schoolId,
+      maxStudents
     });
 
     return response.status(201).json(classRegister);
