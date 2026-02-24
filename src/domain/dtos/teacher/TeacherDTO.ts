@@ -14,5 +14,5 @@ export interface CreateTeacherResponse extends BaseModel {
     password: string;
     birthDate: Date;
     schoolId: string;
-    deletedAt?: Date | null;
+    deletedAt: Date | null;
 }

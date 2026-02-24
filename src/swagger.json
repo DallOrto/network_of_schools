@@ -1,0 +1,703 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Network of Schools API",
+    "description": "API REST para gerenciamento de redes de escolas, professores, alunos e turmas.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4003",
+      "description": "Servidor local"
+    }
+  ],
+  "tags": [
+    { "name": "Networks", "description": "Gerenciamento de redes" },
+    { "name": "Schools", "description": "Gerenciamento de escolas" },
+    { "name": "Teachers", "description": "Gerenciamento de professores" },
+    { "name": "Students", "description": "Gerenciamento de alunos" },
+    { "name": "Classes", "description": "Gerenciamento de turmas, matrículas e atribuições" }
+  ],
+  "paths": {
+    "/networks": {
+      "post": {
+        "tags": ["Networks"],
+        "summary": "Criar rede",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateNetworkRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rede criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NetworkResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/networks/{id}": {
+      "put": {
+        "tags": ["Networks"],
+        "summary": "Atualizar rede",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateNetworkRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rede atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NetworkResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/schools": {
+      "post": {
+        "tags": ["Schools"],
+        "summary": "Criar escola",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateSchoolRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Escola criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SchoolResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/schools/list": {
+      "get": {
+        "tags": ["Schools"],
+        "summary": "Listar escolas",
+        "parameters": [
+          {
+            "name": "networkId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de escolas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/SchoolResponse" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/{id}": {
+      "put": {
+        "tags": ["Schools"],
+        "summary": "Atualizar escola",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateSchoolRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Escola atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SchoolResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/teachers": {
+      "post": {
+        "tags": ["Teachers"],
+        "summary": "Criar professor",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreatePersonRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Professor criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PersonResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/teachers/list": {
+      "get": {
+        "tags": ["Teachers"],
+        "summary": "Listar professores",
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de professores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/PersonResponse" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/teachers/{id}": {
+      "put": {
+        "tags": ["Teachers"],
+        "summary": "Atualizar professor",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreatePersonRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Professor atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PersonResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      },
+      "delete": {
+        "tags": ["Teachers"],
+        "summary": "Desativar professor (soft delete)",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "204": { "description": "Professor desativado com sucesso" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/students": {
+      "post": {
+        "tags": ["Students"],
+        "summary": "Criar aluno",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreatePersonRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Aluno criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PersonResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/students/list": {
+      "get": {
+        "tags": ["Students"],
+        "summary": "Listar alunos por escola",
+        "parameters": [
+          {
+            "name": "schoolId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de alunos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/PersonResponse" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/students/listInNetwork": {
+      "get": {
+        "tags": ["Students"],
+        "summary": "Listar alunos por rede",
+        "parameters": [
+          {
+            "name": "networkId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de alunos da rede",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/PersonResponse" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/students/{id}": {
+      "put": {
+        "tags": ["Students"],
+        "summary": "Atualizar aluno",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreatePersonRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Aluno atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PersonResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      },
+      "delete": {
+        "tags": ["Students"],
+        "summary": "Desativar aluno (soft delete)",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "204": { "description": "Aluno desativado com sucesso" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/classes": {
+      "post": {
+        "tags": ["Classes"],
+        "summary": "Criar turma",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateClassRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Turma criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ClassResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/classes/student": {
+      "post": {
+        "tags": ["Classes"],
+        "summary": "Matricular aluno em turma",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateStudentClassRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Aluno matriculado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CreateStudentClassRequest" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/classes/teacher": {
+      "post": {
+        "tags": ["Classes"],
+        "summary": "Atribuir professor a turma",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateTeacherClassRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Professor atribuído com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/CreateTeacherClassRequest" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      }
+    },
+    "/classes/listStudents": {
+      "get": {
+        "tags": ["Classes"],
+        "summary": "Listar turmas de um aluno",
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de turmas do aluno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/CreateStudentClassRequest" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/classes/listTeachers": {
+      "get": {
+        "tags": ["Classes"],
+        "summary": "Listar turmas de um professor com seus alunos",
+        "parameters": [
+          {
+            "name": "teacherId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "studentId",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Lista de turmas do professor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/CreateTeacherClassRequest" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/classes/{id}": {
+      "put": {
+        "tags": ["Classes"],
+        "summary": "Atualizar turma",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateClassRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Turma atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ClassResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" }
+        }
+      },
+      "delete": {
+        "tags": ["Classes"],
+        "summary": "Desativar turma (soft delete)",
+        "parameters": [
+          { "$ref": "#/components/parameters/IdParam" }
+        ],
+        "responses": {
+          "204": { "description": "Turma desativada com sucesso" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "IdParam": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": { "type": "string", "format": "uuid" }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Dados inválidos ou regra de negócio violada",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Recurso não encontrado",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string", "example": "error" },
+          "message": { "type": "string", "example": "Descrição do erro" }
+        }
+      },
+      "BaseModel": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "CreateNetworkRequest": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string", "example": "Rede Estadual SP" }
+        }
+      },
+      "NetworkResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/BaseModel" },
+          {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "Rede Estadual SP" }
+            }
+          }
+        ]
+      },
+      "CreateSchoolRequest": {
+        "type": "object",
+        "required": ["name", "address", "networkId"],
+        "properties": {
+          "name": { "type": "string", "example": "Escola Central" },
+          "address": { "type": "string", "example": "Rua das Flores, 100" },
+          "networkId": { "type": "string", "format": "uuid" }
+        }
+      },
+      "SchoolResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/BaseModel" },
+          {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "Escola Central" },
+              "address": { "type": "string", "example": "Rua das Flores, 100" },
+              "networkId": { "type": "string", "format": "uuid" }
+            }
+          }
+        ]
+      },
+      "CreatePersonRequest": {
+        "type": "object",
+        "required": ["name", "document", "password", "birthDate", "schoolId"],
+        "properties": {
+          "name": { "type": "string", "example": "João Silva" },
+          "document": { "type": "string", "example": "123.456.789-00" },
+          "password": { "type": "string", "example": "senha123" },
+          "birthDate": { "type": "string", "format": "date-time", "example": "1990-05-20T00:00:00.000Z" },
+          "schoolId": { "type": "string", "format": "uuid" }
+        }
+      },
+      "PersonResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/BaseModel" },
+          {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "João Silva" },
+              "document": { "type": "string", "example": "123.456.789-00" },
+              "password": { "type": "string", "example": "senha123" },
+              "birthDate": { "type": "string", "format": "date-time" },
+              "schoolId": { "type": "string", "format": "uuid" },
+              "deletedAt": { "type": "string", "format": "date-time", "nullable": true }
+            }
+          }
+        ]
+      },
+      "CreateClassRequest": {
+        "type": "object",
+        "required": ["name", "classDay", "startTime", "endTime", "schoolId", "maxStudents"],
+        "properties": {
+          "name": { "type": "string", "example": "Turma A" },
+          "classDay": {
+            "type": "string",
+            "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "example": "Monday"
+          },
+          "startTime": { "type": "string", "example": "08:00" },
+          "endTime": { "type": "string", "example": "10:00" },
+          "schoolId": { "type": "string", "format": "uuid" },
+          "maxStudents": { "type": "integer", "minimum": 1, "example": 30 }
+        }
+      },
+      "ClassResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/BaseModel" },
+          {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "Turma A" },
+              "classDay": {
+                "type": "string",
+                "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+              },
+              "startTime": { "type": "string", "example": "08:00" },
+              "endTime": { "type": "string", "example": "10:00" },
+              "schoolId": { "type": "string", "format": "uuid" },
+              "maxStudents": { "type": "integer", "example": 30 },
+              "deletedAt": { "type": "string", "format": "date-time", "nullable": true }
+            }
+          }
+        ]
+      },
+      "CreateStudentClassRequest": {
+        "type": "object",
+        "required": ["studentId", "classId"],
+        "properties": {
+          "studentId": { "type": "string", "format": "uuid" },
+          "classId": { "type": "string", "format": "uuid" }
+        }
+      },
+      "CreateTeacherClassRequest": {
+        "type": "object",
+        "required": ["teacherId", "classId"],
+        "properties": {
+          "teacherId": { "type": "string", "format": "uuid" },
+          "classId": { "type": "string", "format": "uuid" }
+        }
+      }
+    }
+  }
+}

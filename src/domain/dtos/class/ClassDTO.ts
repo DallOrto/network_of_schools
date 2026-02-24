@@ -17,5 +17,5 @@ export interface CreateClassResponse extends BaseModel {
   endTime: string;
   schoolId: string;
   maxStudents: number;
-  deletedAt?: Date | null;
+  deletedAt: Date | null;
 }
