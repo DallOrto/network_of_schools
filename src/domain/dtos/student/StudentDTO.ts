@@ -13,5 +13,6 @@ export interface CreateStudentResponse extends BaseModel {
     document: string;
     password: string;
     birthDate: Date;
-    schoolId: string
+    schoolId: string;
+    deletedAt?: Date | null;
 }

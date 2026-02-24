@@ -13,10 +13,18 @@ class StudentRepository implements ICreateStudentRepository {
     this.prismaRepository = prismaDB;
   }
   async findOne(id: string): Promise<CreateStudentResponse | null> {
-    return this.prismaRepository.student.findUnique({
+    return this.prismaRepository.student.findFirst({
       where: {
-        id
+        id,
+        deletedAt: null
       }
+    });
+  }
+
+  async softDelete(id: string): Promise<void> {
+    await this.prismaRepository.student.update({
+      where: { id },
+      data: { deletedAt: new Date() }
     });
   }
 

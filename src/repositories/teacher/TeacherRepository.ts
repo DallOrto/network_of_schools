@@ -13,10 +13,18 @@ class TeacherRepository implements ICreateTeacherRepository {
     this.prismaRepository = prismaDB;
   }
   async findOne(id: string): Promise<CreateTeacherResponse | null> {
-    return this.prismaRepository.teacher.findUnique({
+    return this.prismaRepository.teacher.findFirst({
       where: {
-        id
+        id,
+        deletedAt: null
       }
+    });
+  }
+
+  async softDelete(id: string): Promise<void> {
+    await this.prismaRepository.teacher.update({
+      where: { id },
+      data: { deletedAt: new Date() }
     });
   }
 

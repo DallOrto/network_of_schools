@@ -12,6 +12,7 @@ class ClassRepository implements ICreateClassRepository {
   constructor() {
     this.prismaRepository = prismaDB;
   }
+
   findOneClass(
     name: string,
     classDay: WeekDays,
@@ -23,15 +24,17 @@ class ClassRepository implements ICreateClassRepository {
         name,
         classDay,
         startTime,
-        endTime
+        endTime,
+        deletedAt: null            
       }
     });
   }
 
   async findOne(id: string): Promise<CreateClassResponse | null> {
-    return this.prismaRepository.class.findUnique({
+    return this.prismaRepository.class.findFirst({
       where: {
-        id
+        id,
+        deletedAt: null             
       }
     });
   }
@@ -53,6 +56,14 @@ class ClassRepository implements ICreateClassRepository {
         schoolId,
         maxStudents
       }
+    });
+  }
+
+  // MÉTODO NOVO: realiza o soft delete
+  async softDelete(id: string): Promise<void> {
+    await this.prismaRepository.class.update({
+      where: { id },
+      data: { deletedAt: new Date() }
     });
   }
 }

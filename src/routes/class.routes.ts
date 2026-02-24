@@ -3,6 +3,7 @@ import { CreateClassController } from "../controllers/class/CreateClassControlle
 import { CreateTeacherClassController } from "../controllers/teacherClass/CreateTeacherClassController";
 import { CreateStudentClassController } from "../controllers/studentClass/CreateStudentClassController";
 import { UpdateClassController } from "../controllers/class/UpdateClassController";
+import { DeleteClassController } from "../controllers/class/DeleteClassController";
 import { ListClassStudentController } from "../controllers/class/ListClassStudentController";
 import { ListClassTeacherWithStudentController } from "../controllers/class/ListClassTeacherWithStudentController";
 
@@ -10,6 +11,7 @@ const createClassController = new CreateClassController();
 const createTeacherClassController = new CreateTeacherClassController();
 const createStudentClassController = new CreateStudentClassController();
 const updateClassController = new UpdateClassController();
+const deleteClassController = new DeleteClassController();
 const listClassStudentController = new ListClassStudentController();
 const listClassTeacherWithStudentController =
   new ListClassTeacherWithStudentController();
@@ -20,6 +22,7 @@ classRoutes.post("/", createClassController.handle);
 classRoutes.post("/teacher", createTeacherClassController.handle);
 classRoutes.post("/student", createStudentClassController.handle);
 classRoutes.put("/:id", updateClassController.handle);
+classRoutes.delete("/:id", deleteClassController.handle);
 classRoutes.get("/listStudents", listClassStudentController.handle);
 classRoutes.get("/listTeachers", listClassTeacherWithStudentController.handle);
 

@@ -13,6 +13,7 @@ interface ICreateClassRepository {
     startTime: string,
     endTime: string
   ): Promise<CreateClassResponse | null>;
+  softDelete(id: string): Promise<void>;
 }
 
 export { ICreateClassRepository };
