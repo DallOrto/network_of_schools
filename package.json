@@ -15,19 +15,23 @@
   "dependencies": {
     "@faker-js/faker": "^7.3.0",
     "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^16.0.1",
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "faker": "^6.6.6",
+    "jsonwebtoken": "^9.0.3",
+    "prisma": "^5.22.0",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^1.1.8",
-    "typescript": "^4.5.4",
-    "prisma": "^5.22.0"
+    "typescript": "^4.5.4"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^17.0.24",
     "@types/pg": "^8.6.5",
     "@types/supertest": "^2.0.12",

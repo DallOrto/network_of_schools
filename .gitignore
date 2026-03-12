@@ -2,5 +2,5 @@ node_modules
 coverage
 .env
 dist
-deploy.md
 yarn.lock
+*.md

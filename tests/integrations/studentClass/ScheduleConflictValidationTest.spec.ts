@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import {
   createClass,
   createNetwork,
@@ -19,9 +20,8 @@ describe("Schedule Conflict Validation", () => {
     const schoolResponse = await createSchool(mockISchoolRequest(networkResponse.id));
     const studentResponse = await createStudent(mockIStudentRequest(schoolResponse.id));
 
-    // Turma 1: Segunda 08:00-10:00
     const class1Response = await createClass({
-      name: "Turma 1",
+      name: faker.datatype.uuid(),
       classDay: WeekDays.Monday,
       startTime: "08:00",
       endTime: "10:00",
@@ -29,9 +29,8 @@ describe("Schedule Conflict Validation", () => {
       maxStudents: 30
     });
 
-    // Turma 2: Segunda 10:00-12:00 (horário adjacente, não conflita)
     const class2Response = await createClass({
-      name: "Turma 2",
+      name: faker.datatype.uuid(),
       classDay: WeekDays.Monday,
       startTime: "10:00",
       endTime: "12:00",
@@ -39,13 +38,11 @@ describe("Schedule Conflict Validation", () => {
       maxStudents: 30
     });
 
-    // Matricular na turma 1
     await createStudentClass({
       studentId: studentResponse.id,
       classId: class1Response.id
     });
 
-    // Deve permitir matricular na turma 2 (horário adjacente)
     const response = await superAppRequest
       .post("/classes/student")
       .send({
@@ -61,9 +58,8 @@ describe("Schedule Conflict Validation", () => {
     const schoolResponse = await createSchool(mockISchoolRequest(networkResponse.id));
     const studentResponse = await createStudent(mockIStudentRequest(schoolResponse.id));
 
-    // Turma 1: Segunda 08:00-10:00
     const class1Response = await createClass({
-      name: "Turma 1",
+      name: faker.datatype.uuid(),
       classDay: WeekDays.Monday,
       startTime: "08:00",
       endTime: "10:00",
@@ -71,9 +67,8 @@ describe("Schedule Conflict Validation", () => {
       maxStudents: 30
     });
 
-    // Turma 2: Segunda 09:00-11:00 (conflita com turma 1)
     const class2Response = await createClass({
-      name: "Turma 2",
+      name: faker.datatype.uuid(),
       classDay: WeekDays.Monday,
       startTime: "09:00",
       endTime: "11:00",
@@ -81,13 +76,11 @@ describe("Schedule Conflict Validation", () => {
       maxStudents: 30
     });
 
-    // Matricular na turma 1
     await createStudentClass({
       studentId: studentResponse.id,
       classId: class1Response.id
     });
 
-    // Deve rejeitar matrícula na turma 2 (conflito de horário)
     const response = await superAppRequest
       .post("/classes/student")
       .send({
@@ -104,9 +97,8 @@ describe("Schedule Conflict Validation", () => {
     const schoolResponse = await createSchool(mockISchoolRequest(networkResponse.id));
     const studentResponse = await createStudent(mockIStudentRequest(schoolResponse.id));
 
-    // Turma 1: Segunda 08:00-10:00
     const class1Response = await createClass({
-      name: "Turma 1",
+      name: faker.datatype.uuid(),
       classDay: WeekDays.Monday,
       startTime: "08:00",
       endTime: "10:00",
@@ -114,9 +106,8 @@ describe("Schedule Conflict Validation", () => {
       maxStudents: 30
     });
 
-    // Turma 2: Terça 08:00-10:00 (mesmo horário, dia diferente)
     const class2Response = await createClass({
-      name: "Turma 2",
+      name: faker.datatype.uuid(),
       classDay: WeekDays.Tuesday,
       startTime: "08:00",
       endTime: "10:00",
@@ -124,13 +115,11 @@ describe("Schedule Conflict Validation", () => {
       maxStudents: 30
     });
 
-    // Matricular na turma 1
     await createStudentClass({
       studentId: studentResponse.id,
       classId: class1Response.id
     });
 
-    // Deve permitir matricular na turma 2 (dia diferente)
     const response = await superAppRequest
       .post("/classes/student")
       .send({

@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import {
   CreateTeacherRequest,
   CreateTeacherResponse
@@ -30,10 +31,12 @@ class CreateTeacherService {
       throw new AppError("School does not exist!");
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     return this.teacherRepository.create({
       name,
       document,
-      password,
+      password: hashedPassword,
       birthDate,
       schoolId
     });

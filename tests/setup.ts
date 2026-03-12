@@ -1,5 +1,6 @@
 import request from "supertest";
 import dotenv from 'dotenv';
+import jwt from "jsonwebtoken";
 import { PrismaClient } from '.prisma/client';
 import { app } from "../src/app";
 
@@ -23,4 +24,21 @@ afterAll(()=> {
   return
 })
 
-export const superAppRequest = request(app)
+const testJwtSecret = process.env.JWT_SECRET ?? "test-jwt-secret";
+
+export const authToken = jwt.sign(
+  { id: "test-user-id", document: "00000000", role: "teacher" as const },
+  testJwtSecret,
+  { expiresIn: "1d" }
+);
+
+const _request = request(app);
+
+export const superAppRequest = {
+  post: (url: string) => _request.post(url).set("Authorization", `Bearer ${authToken}`),
+  get: (url: string) => _request.get(url).set("Authorization", `Bearer ${authToken}`),
+  put: (url: string) => _request.put(url).set("Authorization", `Bearer ${authToken}`),
+  delete: (url: string) => _request.delete(url).set("Authorization", `Bearer ${authToken}`),
+};
+
+export const unauthRequest = _request;

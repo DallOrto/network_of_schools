@@ -1,6 +1,5 @@
-import request from "supertest";
-import { app } from "../../../src/app";
 import { prismaDB } from "../../../src/database/prismaClient";
+import { superAppRequest } from "../../setup";
 
 describe("Max Students Validation", () => {
   let networkId: string;
@@ -36,11 +35,11 @@ describe("Max Students Validation", () => {
   });
 
   afterAll(async () => {
-    await prismaDB.studentClass.deleteMany({});
-    await prismaDB.student.deleteMany({});
-    await prismaDB.class.deleteMany({});
-    await prismaDB.school.deleteMany({});
-    await prismaDB.network.deleteMany({});
+    await prismaDB.studentClass.deleteMany({ where: { classId } });
+    await prismaDB.student.deleteMany({ where: { schoolId } });
+    await prismaDB.class.deleteMany({ where: { id: classId } });
+    await prismaDB.school.deleteMany({ where: { id: schoolId } });
+    await prismaDB.network.deleteMany({ where: { id: networkId } });
     await prismaDB.$disconnect();
   });
 
@@ -55,7 +54,7 @@ describe("Max Students Validation", () => {
       }
     });
 
-    const response = await request(app)
+    const response = await superAppRequest
       .post("/classes/student")
       .send({
         studentId: student1.id,
@@ -76,7 +75,7 @@ describe("Max Students Validation", () => {
       }
     });
 
-    const response = await request(app)
+    const response = await superAppRequest
       .post("/classes/student")
       .send({
         studentId: student2.id,
@@ -97,7 +96,7 @@ describe("Max Students Validation", () => {
       }
     });
 
-    const response = await request(app)
+    const response = await superAppRequest
       .post("/classes/student")
       .send({
         studentId: student3.id,
