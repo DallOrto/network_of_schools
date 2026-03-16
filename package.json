@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && tsc && npx prisma db seed",
     "start": "node dist/server.js",
     "test": "dotenv -e .env.test npx prisma migrate dev && jest --coverage true",
     "test-unique": "dotenv -e .env.test npx prisma migrate dev && jest -t",
