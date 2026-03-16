@@ -42,10 +42,20 @@ class StudentRepository implements ICreateStudentRepository {
         password,
         birthDate,
         schoolId
+      },
+      select: {
+        id: true,
+        name: true,
+        document: true,
+        birthDate: true,
+        schoolId: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true,
       }
     });
 
-    return student;
+    return student as unknown as Student;
   }
 }
 
