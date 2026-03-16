@@ -7,18 +7,59 @@
   },
   "servers": [
     {
+      "url": "https://network-of-schools-api.onrender.com",
+      "description": "Produção"
+    },
+    {
       "url": "http://localhost:4003",
       "description": "Servidor local"
     }
   ],
   "tags": [
+    { "name": "Auth", "description": "Autenticação" },
     { "name": "Networks", "description": "Gerenciamento de redes" },
     { "name": "Schools", "description": "Gerenciamento de escolas" },
     { "name": "Teachers", "description": "Gerenciamento de professores" },
     { "name": "Students", "description": "Gerenciamento de alunos" },
     { "name": "Classes", "description": "Gerenciamento de turmas, matrículas e atribuições" }
   ],
+  "security": [
+    { "bearerAuth": [] }
+  ],
   "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Autenticar usuário",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/LoginResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inválidas",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/networks": {
       "post": {
         "tags": ["Networks"],
@@ -537,6 +578,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "parameters": {
       "IdParam": {
         "name": "id",
@@ -564,6 +612,21 @@
       }
     },
     "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": ["document", "password", "role"],
+        "properties": {
+          "document": { "type": "string", "example": "123.456.789-00" },
+          "password": { "type": "string", "example": "senha123" },
+          "role": { "type": "string", "enum": ["teacher", "student"], "example": "teacher" }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": { "type": "string", "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+        }
+      },
       "ErrorResponse": {
         "type": "object",
         "properties": {
