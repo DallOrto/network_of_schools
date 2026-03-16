@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CreateStudentRequest } from "../../domain/dtos/student/StudentDTO";
 import { CreateSchoolRepository } from "../../repositories/school/CreateSchoolRepository";
 import { StudentRepository } from "../../repositories/student/StudentRepository";
+import { ComplianceService } from "../../services/compliance/ComplianceService";
 import { CreateStudentService } from "../../services/student/CreateStudentService";
 
 class CreateStudentController {
@@ -16,7 +17,8 @@ class CreateStudentController {
 
     const createStudentService = new CreateStudentService(
       new StudentRepository(),
-      new CreateSchoolRepository()
+      new CreateSchoolRepository(),
+      new ComplianceService()
     );
 
     const student = await createStudentService.execute({

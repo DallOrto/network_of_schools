@@ -1,6 +1,7 @@
 import request from "supertest";
 import dotenv from 'dotenv';
 import jwt from "jsonwebtoken";
+import nock from "nock";
 import { PrismaClient } from '.prisma/client';
 import { app } from "../src/app";
 
@@ -13,6 +14,14 @@ const dbPort = process.env.DATABASE_PORT;
 const dbName = process.env.DATABASE_NAME;
 
 process.env.DATABASE_URL = `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}?schema=public`;
+
+const complianceApiUrl = process.env.COMPLIANCE_API_URL || "https://compliance-student.onrender.com";
+const complianceApiOrigin = new URL(complianceApiUrl).origin;
+
+nock(complianceApiOrigin)
+  .post("/student")
+  .reply(200, { approved: true })
+  .persist();
 
 const prismaClient = new PrismaClient();
 

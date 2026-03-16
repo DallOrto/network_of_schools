@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { CreateStudentService } from "../../../../src/services/student/CreateStudentService";
 import { ICreateStudentRepository } from "../../../../src/domain/interfaces/repositories/student/ICreateStudentRepository";
 import { ICreateSchoolRepository } from "../../../../src/domain/interfaces/repositories/school/ICreateSchoolRepository";
+import { IComplianceService } from "../../../../src/domain/interfaces/services/IComplianceService";
 import { AppError } from "../../../../src/error/AppError";
 
 jest.mock("bcryptjs");
@@ -15,6 +16,10 @@ const mockStudentRepository: jest.Mocked<ICreateStudentRepository> = {
 const mockSchoolRepository: jest.Mocked<ICreateSchoolRepository> = {
   create: jest.fn(),
   findOne: jest.fn()
+};
+
+const mockComplianceService: jest.Mocked<IComplianceService> = {
+  check: jest.fn().mockResolvedValue({ approved: true })
 };
 
 const fakeSchool = { id: "school-id", name: "School", address: "Addr", networkId: "net-id", createdAt: new Date(), updatedAt: new Date() };
@@ -35,7 +40,7 @@ describe("CreateStudentService", () => {
     (bcrypt.hash as jest.Mock).mockResolvedValue("hashed-password");
     mockStudentRepository.create.mockResolvedValue(fakeStudentResponse);
 
-    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository);
+    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository, mockComplianceService);
     const result = await service.execute(fakeStudentRequest);
 
     expect(mockSchoolRepository.findOne).toHaveBeenCalledWith("school-id");
@@ -50,7 +55,7 @@ describe("CreateStudentService", () => {
   it("should throw AppError when school does not exist", async () => {
     mockSchoolRepository.findOne.mockResolvedValue(null);
 
-    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository);
+    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository, mockComplianceService);
     await expect(service.execute(fakeStudentRequest)).rejects.toMatchObject({
       message: "School does not exist!"
     });

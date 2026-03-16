@@ -1,0 +1,36 @@
+import axios from "axios";
+import { AppError } from "../../error/AppError";
+import {
+  ComplianceCheckRequest,
+  ComplianceCheckResponse,
+  IComplianceService
+} from "../../domain/interfaces/services/IComplianceService";
+
+class ComplianceService implements IComplianceService {
+  private baseUrl: string;
+
+  constructor() {
+    this.baseUrl = process.env.COMPLIANCE_API_URL!;
+  }
+
+  async check(data: ComplianceCheckRequest): Promise<ComplianceCheckResponse> {
+    try {
+      const response = await axios.post<ComplianceCheckResponse>(
+        `${this.baseUrl}/student`,
+        data,
+        { timeout: 5000 }
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        throw new AppError(
+          error.response.data?.message || "Compliance check failed",
+          error.response.status
+        );
+      }
+      throw new AppError("Compliance service unavailable", 503);
+    }
+  }
+}
+
+export { ComplianceService };
