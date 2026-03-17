@@ -18,7 +18,10 @@ class ComplianceService implements IComplianceService {
       const response = await axios.post<ComplianceCheckResponse>(
         `${this.baseUrl}/students/compliance`,
         data,
-        { timeout: 5000 }
+        {
+          headers: { "x-api-key": process.env.INTERNAL_API_KEY },
+          timeout: 5000,
+        }
       );
       return response.data;
     } catch (error) {
