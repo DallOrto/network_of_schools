@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Network of Schools API",
-    "description": "API REST para gerenciamento de redes de escolas, professores, alunos e turmas.",
+    "description": "API REST para gerenciamento de redes de escolas, professores, alunos e turmas.\n\n## Autenticação\nTodos os endpoints (exceto `/auth/login`) exigem um token JWT no header `Authorization: Bearer <token>`.\n\n## Roles e RBAC\n\nO sistema possui 5 papéis (roles):\n\n| Role | Descrição |\n|------|----------|\n| `super_admin` | Acesso total a todos os recursos e redes |\n| `network_admin` | Administra sua própria rede (networkId no JWT) |\n| `school_admin` | Administra sua própria escola (schoolId no JWT) |\n| `teacher` | Professor — pode atualizar apenas seus próprios dados |\n| `student` | Aluno — pode atualizar apenas seus próprios dados |\n\n## Middlewares de Escopo\n\n- **requireSameNetwork**: `network_admin` só pode editar a rede à qual pertence (validado pelo `networkId` no JWT).\n- **requireSameSchool**: `school_admin` só pode criar recursos na sua própria escola (valida `body.schoolId` contra `schoolId` do JWT). `super_admin` e `network_admin` ignoram esta restrição.\n- **requireSelf**: `teacher` e `student` só podem atualizar seus próprios dados (`params.id` deve coincidir com o `id` do JWT). `super_admin` ignora esta restrição.",
     "version": "1.0.0"
   },
   "servers": [
@@ -31,6 +31,7 @@
       "post": {
         "tags": ["Auth"],
         "summary": "Autenticar usuário",
+        "description": "Retorna um JWT com `id`, `document`, `role` e (quando aplicável) `schoolId` e/ou `networkId` no payload.",
         "security": [],
         "requestBody": {
           "required": true,
@@ -50,7 +51,7 @@
             }
           },
           "401": {
-            "description": "Credenciais inválidas",
+            "description": "Credenciais inválidas (usuário não encontrado, senha incorreta ou role não confere)",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/ErrorResponse" }
@@ -64,6 +65,7 @@
       "post": {
         "tags": ["Networks"],
         "summary": "Criar rede",
+        "description": "**Roles permitidas:** `super_admin`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -81,7 +83,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -89,6 +93,7 @@
       "get": {
         "tags": ["Networks"],
         "summary": "Listar redes com escolas, professores e alunos",
+        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
         "parameters": [
           {
             "name": "networkId",
@@ -118,6 +123,7 @@
       "put": {
         "tags": ["Networks"],
         "summary": "Atualizar rede",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.\n\n**Escopo:** `network_admin` só pode atualizar a rede à qual pertence (`requireSameNetwork`).",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
@@ -138,7 +144,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -146,6 +154,7 @@
       "post": {
         "tags": ["Schools"],
         "summary": "Criar escola",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -163,7 +172,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -171,6 +182,7 @@
       "get": {
         "tags": ["Schools"],
         "summary": "Listar escolas",
+        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
         "parameters": [
           {
             "name": "networkId",
@@ -190,7 +202,8 @@
                 }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     },
@@ -198,6 +211,7 @@
       "put": {
         "tags": ["Schools"],
         "summary": "Atualizar escola",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
@@ -218,7 +232,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -226,6 +242,7 @@
       "post": {
         "tags": ["Teachers"],
         "summary": "Criar professor",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**Escopo:** `school_admin` só pode criar professores na sua própria escola (`requireSameSchool` — valida `body.schoolId`).",
         "requestBody": {
           "required": true,
           "content": {
@@ -243,7 +260,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -251,6 +270,7 @@
       "get": {
         "tags": ["Teachers"],
         "summary": "Listar professores",
+        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
         "parameters": [
           {
             "name": "schoolId",
@@ -270,7 +290,8 @@
                 }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     },
@@ -278,6 +299,7 @@
       "put": {
         "tags": ["Teachers"],
         "summary": "Atualizar professor",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`, `teacher`.\n\n**Escopo:** `teacher` só pode atualizar seus próprios dados (`requireSelf` — `params.id` deve ser igual ao `id` do JWT).",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
@@ -298,17 +320,22 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       },
       "delete": {
         "tags": ["Teachers"],
         "summary": "Desativar professor (soft delete)",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
         "responses": {
           "204": { "description": "Professor desativado com sucesso" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
@@ -317,6 +344,7 @@
       "post": {
         "tags": ["Students"],
         "summary": "Criar aluno",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**Escopo:** `school_admin` só pode criar alunos na sua própria escola (`requireSameSchool` — valida `body.schoolId`).\n\nApós a criação, a API envia os dados do aluno para o serviço externo de conformidade (`POST /students/compliance`). A criação é rejeitada caso o aluno não seja aprovado pela análise de conformidade.",
         "requestBody": {
           "required": true,
           "content": {
@@ -334,7 +362,17 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "503": {
+            "description": "Serviço de conformidade indisponível",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+              }
+            }
+          }
         }
       }
     },
@@ -342,6 +380,7 @@
       "get": {
         "tags": ["Students"],
         "summary": "Listar alunos por escola",
+        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
         "parameters": [
           {
             "name": "schoolId",
@@ -361,7 +400,8 @@
                 }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     },
@@ -369,6 +409,7 @@
       "get": {
         "tags": ["Students"],
         "summary": "Listar alunos por rede",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "parameters": [
           {
             "name": "networkId",
@@ -388,7 +429,9 @@
                 }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -396,6 +439,7 @@
       "put": {
         "tags": ["Students"],
         "summary": "Atualizar aluno",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`, `student`.\n\n**Escopo:** `student` só pode atualizar seus próprios dados (`requireSelf` — `params.id` deve ser igual ao `id` do JWT).",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
@@ -416,17 +460,22 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       },
       "delete": {
         "tags": ["Students"],
         "summary": "Desativar aluno (soft delete)",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
         "responses": {
           "204": { "description": "Aluno desativado com sucesso" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
@@ -435,6 +484,7 @@
       "post": {
         "tags": ["Classes"],
         "summary": "Criar turma",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**Escopo:** `school_admin` só pode criar turmas na sua própria escola (`requireSameSchool` — valida `body.schoolId`).",
         "requestBody": {
           "required": true,
           "content": {
@@ -452,7 +502,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -460,6 +512,7 @@
       "post": {
         "tags": ["Classes"],
         "summary": "Matricular aluno em turma",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -477,7 +530,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -485,6 +540,7 @@
       "post": {
         "tags": ["Classes"],
         "summary": "Atribuir professor a turma",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -502,7 +558,9 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       }
     },
@@ -510,6 +568,7 @@
       "get": {
         "tags": ["Classes"],
         "summary": "Listar turmas de um aluno",
+        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
         "parameters": [
           {
             "name": "studentId",
@@ -529,7 +588,8 @@
                 }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     },
@@ -537,6 +597,7 @@
       "get": {
         "tags": ["Classes"],
         "summary": "Listar turmas de um professor com seus alunos",
+        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
         "parameters": [
           {
             "name": "teacherId",
@@ -562,7 +623,8 @@
                 }
               }
             }
-          }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
         }
       }
     },
@@ -570,6 +632,7 @@
       "put": {
         "tags": ["Classes"],
         "summary": "Atualizar turma",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
@@ -590,17 +653,22 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/BadRequest" }
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
         }
       },
       "delete": {
         "tags": ["Classes"],
         "summary": "Desativar turma (soft delete)",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
         "parameters": [
           { "$ref": "#/components/parameters/IdParam" }
         ],
         "responses": {
           "204": { "description": "Turma desativada com sucesso" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
@@ -640,7 +708,15 @@
         }
       },
       "Unauthorized": {
-        "description": "Token inválido ou ausente",
+        "description": "Token JWT ausente ou inválido",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/ErrorResponse" }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Acesso negado — role insuficiente ou violação de escopo (requireSelf / requireSameSchool / requireSameNetwork)",
         "content": {
           "application/json": {
             "schema": { "$ref": "#/components/schemas/ErrorResponse" }
@@ -655,7 +731,11 @@
         "properties": {
           "document": { "type": "string", "example": "123.456.789-00" },
           "password": { "type": "string", "example": "senha123" },
-          "role": { "type": "string", "enum": ["teacher", "student"], "example": "teacher" }
+          "role": {
+            "type": "string",
+            "enum": ["super_admin", "network_admin", "school_admin", "teacher", "student"],
+            "example": "teacher"
+          }
         }
       },
       "LoginResponse": {
@@ -738,7 +818,6 @@
             "properties": {
               "name": { "type": "string", "example": "João Silva" },
               "document": { "type": "string", "example": "123.456.789-00" },
-              "password": { "type": "string", "example": "senha123" },
               "birthDate": { "type": "string", "format": "date-time" },
               "schoolId": { "type": "string", "format": "uuid" },
               "deletedAt": { "type": "string", "format": "date-time", "nullable": true }
