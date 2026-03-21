@@ -4,6 +4,8 @@ import { ListStudentController } from "../controllers/student/ListStudentControl
 import { ListStudentInNetworkController } from "../controllers/student/ListStudentInNetworkController";
 import { UpdateStudentController } from "../controllers/student/UpdateStudentController";
 import { DeleteStudentController } from "../controllers/student/DeleteStudentController";
+import { authorize } from "../middlewares/rbacMiddleware";
+import { requireSelf, requireSameSchool } from "../middlewares/scopeMiddleware";
 
 const createStudentController = new CreateStudentController();
 const listStudentController = new ListStudentController();
@@ -13,10 +15,10 @@ const deleteStudentController = new DeleteStudentController();
 
 const studentRoutes = Router();
 
-studentRoutes.post("/", createStudentController.handle);
-studentRoutes.get("/list", listStudentController.handle);
-studentRoutes.get("/listInNetwork", listStudentInNetworkController.handle);
-studentRoutes.put("/:id", updateStudentController.handle);
-studentRoutes.delete("/:id", deleteStudentController.handle);
+studentRoutes.post("/", authorize("super_admin", "network_admin", "school_admin"), requireSameSchool, createStudentController.handle);
+studentRoutes.get("/list", authorize("super_admin", "network_admin", "school_admin", "teacher", "student"), listStudentController.handle);
+studentRoutes.get("/listInNetwork", authorize("super_admin", "network_admin"), listStudentInNetworkController.handle);
+studentRoutes.put("/:id", authorize("super_admin", "network_admin", "school_admin", "student"), requireSelf, updateStudentController.handle);
+studentRoutes.delete("/:id", authorize("super_admin", "network_admin", "school_admin"), deleteStudentController.handle);
 
 export { studentRoutes };

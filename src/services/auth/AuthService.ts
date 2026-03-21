@@ -1,17 +1,27 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { LoginRequest, LoginResponse } from "../../domain/dtos/auth/AuthDTO";
-import { IAuthRepository } from "../../domain/interfaces/repositories/auth/IAuthRepository";
+import { AuthUser, IAuthRepository } from "../../domain/interfaces/repositories/auth/IAuthRepository";
 import { AppError } from "../../error/AppError";
+
+const ADMIN_ROLES = ["super_admin", "network_admin", "school_admin"] as const;
 
 class AuthService {
   constructor(private authRepository: IAuthRepository) {}
 
   async execute({ document, password, role }: LoginRequest): Promise<LoginResponse> {
-    const user =
-      role === "teacher"
-        ? await this.authRepository.findTeacherByDocument(document)
-        : await this.authRepository.findStudentByDocument(document);
+    let user: AuthUser | null = null;
+
+    if (role === "teacher") {
+      user = await this.authRepository.findTeacherByDocument(document);
+    } else if (role === "student") {
+      user = await this.authRepository.findStudentByDocument(document);
+    } else if ((ADMIN_ROLES as readonly string[]).includes(role)) {
+      user = await this.authRepository.findAdminByDocument(document);
+      if (user && user.role !== role) {
+        user = null;
+      }
+    }
 
     if (!user) {
       throw new AppError("Invalid credentials", 401);
@@ -29,11 +39,16 @@ class AuthService {
       throw new AppError("JWT secret not configured", 500);
     }
 
-    const token = jwt.sign(
-      { id: user.id, document: user.document, role },
-      secret,
-      { expiresIn: "1d" }
-    );
+    const payload: Record<string, unknown> = {
+      id: user.id,
+      document: user.document,
+      role,
+    };
+
+    if (user.schoolId) payload.schoolId = user.schoolId;
+    if (user.networkId) payload.networkId = user.networkId;
+
+    const token = jwt.sign(payload, secret, { expiresIn: "1d" });
 
     return { token };
   }

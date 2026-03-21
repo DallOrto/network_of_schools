@@ -21,7 +21,8 @@
     { "name": "Schools", "description": "Gerenciamento de escolas" },
     { "name": "Teachers", "description": "Gerenciamento de professores" },
     { "name": "Students", "description": "Gerenciamento de alunos" },
-    { "name": "Classes", "description": "Gerenciamento de turmas, matrículas e atribuições" }
+    { "name": "Classes", "description": "Gerenciamento de turmas, matrículas e atribuições" },
+    { "name": "Admins", "description": "Criação de administradores (network_admin e school_admin)" }
   ],
   "security": [
     { "bearerAuth": [] }
@@ -58,6 +59,35 @@
               }
             }
           }
+        }
+      }
+    },
+    "/admins": {
+      "post": {
+        "tags": ["Admins"],
+        "summary": "Criar administrador (network_admin ou school_admin)",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.\n\n**Regras:**\n- `super_admin` pode criar `network_admin` (exige `networkId`) ou `school_admin` (exige `schoolId`).\n- `network_admin` só pode criar `school_admin` em escolas da sua própria rede.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateAdminRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Administrador criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AdminResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
     },
@@ -909,6 +939,45 @@
                 "type": "array",
                 "items": { "$ref": "#/components/schemas/SchoolDetailResponse" }
               }
+            }
+          }
+        ]
+      },
+      "CreateAdminRequest": {
+        "type": "object",
+        "required": ["name", "document", "password", "role"],
+        "properties": {
+          "name": { "type": "string", "example": "Ana Lima" },
+          "document": { "type": "string", "example": "55566677788" },
+          "password": { "type": "string", "example": "senha123" },
+          "role": {
+            "type": "string",
+            "enum": ["network_admin", "school_admin"],
+            "example": "school_admin"
+          },
+          "networkId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Obrigatório quando role = network_admin"
+          },
+          "schoolId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Obrigatório quando role = school_admin"
+          }
+        }
+      },
+      "AdminResponse": {
+        "allOf": [
+          { "$ref": "#/components/schemas/BaseModel" },
+          {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "example": "Ana Lima" },
+              "document": { "type": "string", "example": "55566677788" },
+              "role": { "type": "string", "example": "school_admin" },
+              "networkId": { "type": "string", "format": "uuid", "nullable": true },
+              "schoolId": { "type": "string", "format": "uuid", "nullable": true }
             }
           }
         ]

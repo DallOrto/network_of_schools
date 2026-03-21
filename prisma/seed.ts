@@ -39,14 +39,27 @@ async function main() {
     },
   });
 
+  const superAdmin = await prisma.admin.upsert({
+    where: { document: "99999999999" },
+    update: {},
+    create: {
+      id: "seed-super-admin-id",
+      name: "Super Admin",
+      document: "99999999999",
+      password: hashedPassword,
+      role: "super_admin",
+    },
+  });
+
   console.log("Seed concluído:");
-  console.log(`  Rede:      ${network.name} (id: ${network.id})`);
-  console.log(`  Escola:    ${school.name}  (id: ${school.id})`);
-  console.log(`  Professor: ${teacher.name} (document: ${teacher.document})`);
-  console.log("\nCredenciais de login:");
-  console.log('  document: "00000000000"');
+  console.log(`  Rede:        ${network.name} (id: ${network.id})`);
+  console.log(`  Escola:      ${school.name}  (id: ${school.id})`);
+  console.log(`  Professor:   ${teacher.name} (document: ${teacher.document})`);
+  console.log(`  Super Admin: ${superAdmin.name} (document: ${superAdmin.document})`);
+  console.log("\nCredenciais do Super Admin:");
+  console.log('  document: "99999999999"');
   console.log('  password: "admin123"');
-  console.log('  role:     "teacher"');
+  console.log('  role:     "super_admin"');
 }
 
 main()

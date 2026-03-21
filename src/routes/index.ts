@@ -6,6 +6,7 @@ import { schoolRoutes } from "./school.routes";
 import { teacherRoutes } from "./teacher.routes";
 import { studentRoutes } from "./student.routes";
 import { classRoutes } from "./class.routes";
+import { adminRoutes } from "./admin.routes";
 
 const routes = Router();
 
@@ -18,5 +19,6 @@ routes.use("/schools", schoolRoutes);
 routes.use("/teachers", teacherRoutes);
 routes.use("/students", studentRoutes);
 routes.use("/classes", classRoutes);
+routes.use("/admins", adminRoutes);
 
 export { routes };

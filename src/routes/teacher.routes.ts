@@ -3,6 +3,8 @@ import { CreateTeacherController } from "../controllers/teacher/CreateTeacherCon
 import { ListTeacherController } from "../controllers/teacher/ListTeacherController";
 import { UpdateTeacherController } from "../controllers/teacher/UpdateTeacherController";
 import { DeleteTeacherController } from "../controllers/teacher/DeleteTeacherController";
+import { authorize } from "../middlewares/rbacMiddleware";
+import { requireSelf, requireSameSchool } from "../middlewares/scopeMiddleware";
 
 const createTeacherController = new CreateTeacherController();
 const listTeacherController = new ListTeacherController();
@@ -11,9 +13,9 @@ const deleteTeacherController = new DeleteTeacherController();
 
 const teacherRoutes = Router();
 
-teacherRoutes.post("/", createTeacherController.handle);
-teacherRoutes.get("/list", listTeacherController.handle);
-teacherRoutes.put("/:id", updateTeacherController.handle);
-teacherRoutes.delete("/:id", deleteTeacherController.handle);
+teacherRoutes.post("/", authorize("super_admin", "network_admin", "school_admin"), requireSameSchool, createTeacherController.handle);
+teacherRoutes.get("/list", authorize("super_admin", "network_admin", "school_admin", "teacher", "student"), listTeacherController.handle);
+teacherRoutes.put("/:id", authorize("super_admin", "network_admin", "school_admin", "teacher"), requireSelf, updateTeacherController.handle);
+teacherRoutes.delete("/:id", authorize("super_admin", "network_admin", "school_admin"), deleteTeacherController.handle);
 
 export { teacherRoutes };

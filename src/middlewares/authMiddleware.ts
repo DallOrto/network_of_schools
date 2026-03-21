@@ -5,7 +5,9 @@ import { AppError } from "../error/AppError";
 interface TokenPayload {
   id: string;
   document: string;
-  role: "teacher" | "student";
+  role: "super_admin" | "network_admin" | "school_admin" | "teacher" | "student";
+  networkId?: string;
+  schoolId?: string;
 }
 
 export function authMiddleware(request: Request, response: Response, next: NextFunction): void {
@@ -24,7 +26,13 @@ export function authMiddleware(request: Request, response: Response, next: NextF
 
   try {
     const decoded = jwt.verify(token, secret) as TokenPayload;
-    request.user = decoded;
+    request.user = {
+      id: decoded.id,
+      document: decoded.document,
+      role: decoded.role,
+      networkId: decoded.networkId,
+      schoolId: decoded.schoolId,
+    };
     next();
   } catch {
     next(new AppError("Invalid token", 401));

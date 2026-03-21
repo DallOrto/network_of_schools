@@ -3,7 +3,9 @@ declare namespace Express {
     user?: {
       id: string;
       document: string;
-      role: "teacher" | "student";
+      role: "super_admin" | "network_admin" | "school_admin" | "teacher" | "student";
+      networkId?: string;
+      schoolId?: string;
     };
   }
 }

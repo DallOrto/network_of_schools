@@ -75,3 +75,23 @@ export function mockITeacherClassTest(teacherId: string, classId: string) {
   };
   return teacherClassRequestBody;
 }
+
+export function mockINetworkAdminRequest(networkId: string) {
+  return {
+    name: faker.name.findName(),
+    document: faker.datatype.number().toString(),
+    password: faker.internet.password(),
+    role: "network_admin",
+    networkId,
+  };
+}
+
+export function mockISchoolAdminRequest(schoolId: string) {
+  return {
+    name: faker.name.findName(),
+    document: faker.datatype.number().toString(),
+    password: faker.internet.password(),
+    role: "school_admin",
+    schoolId,
+  };
+}

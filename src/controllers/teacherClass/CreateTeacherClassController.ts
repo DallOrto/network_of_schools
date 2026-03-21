@@ -3,7 +3,9 @@ import { CreateTeacherClassRequest } from "../../domain/dtos/teacherClass/Teache
 import { ClassRepository } from "../../repositories/class/ClassRepository";
 import { TeacherRepository } from "../../repositories/teacher/TeacherRepository";
 import { TeacherClassRepository } from "../../repositories/teacherClass/TeacherClassRepository";
+import { AuditLogRepository } from "../../repositories/auditLog/AuditLogRepository";
 import { CreateTeacherClassService } from "../../services/teacherClass/CreateTeacherClassService";
+import { AuditLogService } from "../../services/auditLog/AuditLogService";
 
 class CreateTeacherClassController {
   async handle(request: Request, response: Response) {
@@ -16,6 +18,15 @@ class CreateTeacherClassController {
     );
 
     await createTeacherClassService.execute({ teacherId, classId });
+
+    await new AuditLogService(new AuditLogRepository()).log({
+      actorId: request.user!.id,
+      actorRole: request.user!.role,
+      action: "CREATE",
+      entity: "CLASS_TEACHER",
+      entityId: classId,
+      metadata: { teacherId },
+    });
 
     return response.status(201).send();
   }

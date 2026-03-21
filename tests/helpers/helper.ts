@@ -26,6 +26,7 @@ import {
   CreateTeacherClassRequest,
   CreateTeacherClassResponse
 } from "../../src/domain/dtos/teacherClass/TeacherClassDTO";
+import { CreateAdminRequest, CreateAdminResponse } from "../../src/domain/dtos/admin/AdminDTO";
 import { superAppRequest } from "../setup";
 
 export async function createNetwork(body: CreateNetworkRequest) {
@@ -91,4 +92,9 @@ export async function createTeacherClass(body: CreateTeacherClassRequest) {
     teacherClassResponse.body as CreateTeacherClassResponse;
 
   return createTeacherClassResponseBody;
+}
+
+export async function createAdmin(body: CreateAdminRequest) {
+  const adminResponse = await superAppRequest.post("/admins").send(body);
+  return adminResponse.body as CreateAdminResponse;
 }
