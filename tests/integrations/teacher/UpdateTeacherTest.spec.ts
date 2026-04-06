@@ -39,9 +39,6 @@ describe("Create Teacher Controller", () => {
     expect(teacherUpdateResponse.body.document).toEqual(
       teacherUpdateRequestBody.document
     );
-    expect(teacherUpdateResponse.body.password).toEqual(
-      teacherUpdateRequestBody.password
-    );
     expect(teacherUpdateResponse.body.schoolId).toEqual(
       teacherUpdateRequestBody.schoolId
     );

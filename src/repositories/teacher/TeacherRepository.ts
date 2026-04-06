@@ -12,19 +12,31 @@ class TeacherRepository implements ICreateTeacherRepository {
   constructor() {
     this.prismaRepository = prismaDB;
   }
+
   async findOne(id: string): Promise<CreateTeacherResponse | null> {
-    return this.prismaRepository.teacher.findFirst({
-      where: {
-        id,
-        deletedAt: null
-      }
+    const teacher = await this.prismaRepository.teacher.findFirst({
+      where: { id, user: { deletedAt: null } },
+      include: { user: { select: { document: true, deletedAt: true } } },
     });
+
+    if (!teacher) return null;
+
+    return {
+      id: teacher.id,
+      name: teacher.name,
+      document: teacher.user.document,
+      birthDate: teacher.birthDate,
+      schoolId: teacher.schoolId,
+      createdAt: teacher.createdAt,
+      updatedAt: teacher.updatedAt,
+      deletedAt: teacher.user.deletedAt,
+    };
   }
 
   async softDelete(id: string): Promise<void> {
     await this.prismaRepository.teacher.update({
       where: { id },
-      data: { deletedAt: new Date() }
+      data: { user: { update: { deletedAt: new Date() } } },
     });
   }
 
@@ -33,17 +45,29 @@ class TeacherRepository implements ICreateTeacherRepository {
     document,
     password,
     birthDate,
-    schoolId
+    schoolId,
   }: CreateTeacherRequest): Promise<CreateTeacherResponse> {
-    return this.prismaRepository.teacher.create({
-      data: {
-        name,
-        document,
-        password,
-        birthDate,
-        schoolId
-      }
+    const teacher = await this.prismaRepository.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: { document, password, role: "teacher" },
+      });
+
+      return tx.teacher.create({
+        data: { userId: user.id, name, birthDate, schoolId },
+        include: { user: { select: { document: true, deletedAt: true } } },
+      });
     });
+
+    return {
+      id: teacher.id,
+      name: teacher.name,
+      document: teacher.user.document,
+      birthDate: teacher.birthDate,
+      schoolId: teacher.schoolId,
+      createdAt: teacher.createdAt,
+      updatedAt: teacher.updatedAt,
+      deletedAt: teacher.user.deletedAt,
+    };
   }
 }
 

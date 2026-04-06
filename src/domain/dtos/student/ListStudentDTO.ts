@@ -10,7 +10,6 @@ export interface ListStudentResponse {
     id: string;
     name: string;
     document: string;
-    password: string;
     birthDate: Date;
     schoolId: string;
     createdAt: Date;
@@ -21,7 +20,6 @@ export interface ListStudentInNetworkResponse {
     id: string;
     name: string;
     document: string;
-    password: string;
     birthDate: Date;
     schoolId: string;
     createdAt: Date;

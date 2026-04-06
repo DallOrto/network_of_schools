@@ -32,7 +32,7 @@
       "post": {
         "tags": ["Auth"],
         "summary": "Autenticar usuário",
-        "description": "Retorna um JWT com `id`, `document`, `role` e (quando aplicável) `schoolId` e/ou `networkId` no payload.",
+        "description": "Autentica qualquer usuário do sistema (super_admin, network_admin, school_admin, teacher ou student) usando apenas `document` e `password`. O `role` é identificado automaticamente pelo backend. Retorna um JWT com `id`, `document`, `role` e (quando aplicável) `schoolId` e/ou `networkId` no payload.",
         "security": [],
         "requestBody": {
           "required": true,
@@ -52,7 +52,7 @@
             }
           },
           "401": {
-            "description": "Credenciais inválidas (usuário não encontrado, senha incorreta ou role não confere)",
+            "description": "Credenciais inválidas (usuário não encontrado ou senha incorreta)",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/ErrorResponse" }
@@ -123,7 +123,7 @@
       "get": {
         "tags": ["Networks"],
         "summary": "Listar redes com escolas, professores e alunos",
-        "description": "**Roles permitidas:** todas (`super_admin`, `network_admin`, `school_admin`, `teacher`, `student`).",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.",
         "parameters": [
           {
             "name": "networkId",
@@ -439,7 +439,7 @@
       "get": {
         "tags": ["Students"],
         "summary": "Listar alunos por rede",
-        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.",
         "parameters": [
           {
             "name": "networkId",
@@ -757,15 +757,10 @@
     "schemas": {
       "LoginRequest": {
         "type": "object",
-        "required": ["document", "password", "role"],
+        "required": ["document", "password"],
         "properties": {
           "document": { "type": "string", "example": "123.456.789-00" },
-          "password": { "type": "string", "example": "senha123" },
-          "role": {
-            "type": "string",
-            "enum": ["super_admin", "network_admin", "school_admin", "teacher", "student"],
-            "example": "teacher"
-          }
+          "password": { "type": "string", "example": "senha123" }
         }
       },
       "LoginResponse": {

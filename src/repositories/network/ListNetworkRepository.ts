@@ -11,39 +11,60 @@ class ListNetworkRepository implements IListNetworkRepository {
     }
 
     async listNetwork(filter: ListNetworkFilter): Promise<ListNetworkResponse[]> {
-        return this.prismaRepository.network.findMany({
+        const networks = await this.prismaRepository.network.findMany({
             where: filter.networkId ? { id: filter.networkId } : undefined,
             include: {
                 School: {
                     include: {
                         Teacher: {
-                            where: { deletedAt: null },
-                            select: {
-                                id: true,
-                                name: true,
-                                document: true,
-                                birthDate: true,
-                                schoolId: true,
-                                createdAt: true,
-                                updatedAt: true,
+                            where: { user: { deletedAt: null } },
+                            include: {
+                                user: { select: { document: true } },
                             },
                         },
                         Student: {
-                            where: { deletedAt: null },
-                            select: {
-                                id: true,
-                                name: true,
-                                document: true,
-                                birthDate: true,
-                                schoolId: true,
-                                createdAt: true,
-                                updatedAt: true,
+                            where: { user: { deletedAt: null } },
+                            include: {
+                                user: { select: { document: true } },
                             },
                         },
                     },
                 },
             },
-        }) as unknown as ListNetworkResponse[];
+        });
+
+        return networks.map((network) => ({
+            id: network.id,
+            name: network.name,
+            createdAt: network.createdAt,
+            updatedAt: network.updatedAt,
+            School: network.School.map((school) => ({
+                id: school.id,
+                name: school.name,
+                address: school.address,
+                networkId: school.networkId,
+                createdAt: school.createdAt,
+                updatedAt: school.updatedAt,
+                Teacher: school.Teacher.map((t) => ({
+                    id: t.id,
+                    name: t.name,
+                    document: t.user.document,
+                    birthDate: t.birthDate,
+                    schoolId: t.schoolId,
+                    createdAt: t.createdAt,
+                    updatedAt: t.updatedAt,
+                })),
+                Student: school.Student.map((s) => ({
+                    id: s.id,
+                    name: s.name,
+                    document: s.user.document,
+                    birthDate: s.birthDate,
+                    schoolId: s.schoolId,
+                    createdAt: s.createdAt,
+                    updatedAt: s.updatedAt,
+                })),
+            })),
+        }));
     }
 }
 

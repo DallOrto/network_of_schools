@@ -20,7 +20,7 @@ export function mockISchoolRequest(networkId: string) {
 export function mockIStudentRequest(schoolId: string) {
   const studentRequestBody = {
     name: faker.name.findName(),
-    document: faker.datatype.number().toString(),
+    document: faker.datatype.uuid(),
     password: faker.internet.password(),
     birthDate: faker.date.birthdate(),
     schoolId
@@ -31,7 +31,7 @@ export function mockIStudentRequest(schoolId: string) {
 export function mockITeacherRequest(schoolId: string) {
   const teacherRequestBody = {
     name: faker.name.findName(),
-    document: faker.datatype.number().toString(),
+    document: faker.datatype.uuid(),
     password: faker.internet.password(),
     birthDate: faker.date.birthdate(),
     schoolId
@@ -79,7 +79,7 @@ export function mockITeacherClassTest(teacherId: string, classId: string) {
 export function mockINetworkAdminRequest(networkId: string) {
   return {
     name: faker.name.findName(),
-    document: faker.datatype.number().toString(),
+    document: faker.datatype.uuid(),
     password: faker.internet.password(),
     role: "network_admin",
     networkId,
@@ -89,7 +89,7 @@ export function mockINetworkAdminRequest(networkId: string) {
 export function mockISchoolAdminRequest(schoolId: string) {
   return {
     name: faker.name.findName(),
-    document: faker.datatype.number().toString(),
+    document: faker.datatype.uuid(),
     password: faker.internet.password(),
     role: "school_admin",
     schoolId,

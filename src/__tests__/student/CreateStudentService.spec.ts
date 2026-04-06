@@ -17,7 +17,6 @@ const mockStudent = {
   id: "student-id",
   name: "João Silva",
   document: "12345678900",
-  password: "hashed",
   birthDate: new Date("2000-01-01"),
   schoolId: "school-id",
   deletedAt: null,

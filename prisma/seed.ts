@@ -26,40 +26,58 @@ async function main() {
 
   const hashedPassword = await bcrypt.hash("admin123", 10);
 
+  const teacherUser = await prisma.user.upsert({
+    where: { document: "00000000000" },
+    update: {},
+    create: {
+      id: "seed-teacher-user-id",
+      document: "00000000000",
+      password: hashedPassword,
+      role: "teacher",
+    },
+  });
+
   const teacher = await prisma.teacher.upsert({
     where: { id: "seed-teacher-id" },
     update: {},
     create: {
       id: "seed-teacher-id",
-      name: "Admin",
-      document: "00000000000",
-      password: hashedPassword,
+      userId: teacherUser.id,
+      name: "Professor Bootstrap",
       birthDate: new Date("1990-01-01"),
       schoolId: school.id,
     },
   });
 
-  const superAdmin = await prisma.admin.upsert({
+  const superAdminUser = await prisma.user.upsert({
     where: { document: "99999999999" },
     update: {},
     create: {
-      id: "seed-super-admin-id",
-      name: "Super Admin",
+      id: "seed-super-admin-user-id",
       document: "99999999999",
       password: hashedPassword,
       role: "super_admin",
     },
   });
 
+  const superAdmin = await prisma.admin.upsert({
+    where: { id: "seed-super-admin-id" },
+    update: {},
+    create: {
+      id: "seed-super-admin-id",
+      userId: superAdminUser.id,
+      name: "Super Admin",
+    },
+  });
+
   console.log("Seed concluído:");
   console.log(`  Rede:        ${network.name} (id: ${network.id})`);
   console.log(`  Escola:      ${school.name}  (id: ${school.id})`);
-  console.log(`  Professor:   ${teacher.name} (document: ${teacher.document})`);
-  console.log(`  Super Admin: ${superAdmin.name} (document: ${superAdmin.document})`);
+  console.log(`  Professor:   ${teacher.name} (document: ${teacherUser.document})`);
+  console.log(`  Super Admin: ${superAdmin.name} (document: ${superAdminUser.document})`);
   console.log("\nCredenciais do Super Admin:");
   console.log('  document: "99999999999"');
   console.log('  password: "admin123"');
-  console.log('  role:     "super_admin"');
 }
 
 main()

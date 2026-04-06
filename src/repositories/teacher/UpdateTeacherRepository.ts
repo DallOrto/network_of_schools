@@ -4,26 +4,40 @@ import { UpdateTeacherRequest, UpdateTeacherResponse } from "../../domain/dtos/t
 import { IUpdateTeacherRepository } from "../../domain/interfaces/repositories/teacher/IUpdateTeacherRepository";
 
 class UpdateTeacherRepository implements IUpdateTeacherRepository {
-    private updateTeacherRepository: PrismaClient;
+  private prismaRepository: PrismaClient;
 
-    constructor() {
-        this.updateTeacherRepository = prismaDB;
-    }
+  constructor() {
+    this.prismaRepository = prismaDB;
+  }
 
-    async updateTeacher(data: UpdateTeacherRequest): Promise<UpdateTeacherResponse>{
-        return this.updateTeacherRepository.teacher.update({
-            where: {
-                id: data.id
-            },
-            data: {
-                name: data.name,
-                document: data.document,
-                password: data.password,
-                birthDate: data.birthDate,
-                schoolId: data.schoolId
-            }
-        })
-    }
+  async updateTeacher(data: UpdateTeacherRequest): Promise<UpdateTeacherResponse> {
+    const teacher = await this.prismaRepository.teacher.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        birthDate: data.birthDate,
+        school: { connect: { id: data.schoolId } },
+        user: {
+          update: {
+            document: data.document,
+            password: data.password,
+          },
+        },
+      },
+      include: { user: { select: { document: true, deletedAt: true } } },
+    });
+
+    return {
+      id: teacher.id,
+      name: teacher.name,
+      document: teacher.user.document,
+      birthDate: teacher.birthDate,
+      schoolId: teacher.schoolId,
+      createdAt: teacher.createdAt,
+      updatedAt: teacher.updatedAt,
+      deletedAt: teacher.user.deletedAt,
+    };
+  }
 }
 
-export { UpdateTeacherRepository }
+export { UpdateTeacherRepository };

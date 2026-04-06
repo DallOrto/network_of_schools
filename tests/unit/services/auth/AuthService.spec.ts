@@ -7,13 +7,11 @@ jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
 
 const mockAuthRepository: jest.Mocked<IAuthRepository> = {
-  findTeacherByDocument: jest.fn(),
-  findStudentByDocument: jest.fn(),
-  findAdminByDocument: jest.fn(),
+  findByDocument: jest.fn(),
 };
 
-const fakeUser = { id: "user-id", document: "12345678", password: "hashed-password" };
-const fakeUserWithSchool = { id: "user-id", document: "12345678", password: "hashed-password", schoolId: "school-123" };
+const fakeTeacher = { id: "user-id", document: "12345678", password: "hashed-password", role: "teacher" };
+const fakeTeacherWithSchool = { id: "user-id", document: "12345678", password: "hashed-password", role: "teacher", schoolId: "school-123" };
 
 beforeEach(() => {
   process.env.JWT_SECRET = "test-secret";
@@ -27,7 +25,7 @@ afterEach(() => {
 describe("AuthService", () => {
   describe("teacher login", () => {
     it("should return a token when credentials are valid", async () => {
-      mockAuthRepository.findTeacherByDocument.mockResolvedValue(fakeUser);
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeTeacher);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       (jwt.sign as jest.Mock).mockReturnValue("jwt-token");
 
@@ -35,78 +33,65 @@ describe("AuthService", () => {
       const result = await service.execute({
         document: "12345678",
         password: "correct-password",
-        role: "teacher"
       });
 
       expect(result).toEqual({ token: "jwt-token" });
-      expect(mockAuthRepository.findTeacherByDocument).toHaveBeenCalledWith("12345678");
+      expect(mockAuthRepository.findByDocument).toHaveBeenCalledWith("12345678");
       expect(bcrypt.compare).toHaveBeenCalledWith("correct-password", "hashed-password");
       expect(jwt.sign).toHaveBeenCalledWith(
-        { id: fakeUser.id, document: fakeUser.document, role: "teacher" },
+        { id: fakeTeacher.id, document: fakeTeacher.document, role: "teacher" },
         "test-secret",
         { expiresIn: "1d" }
       );
     });
 
     it("should include schoolId in JWT payload when teacher has schoolId", async () => {
-      mockAuthRepository.findTeacherByDocument.mockResolvedValue(fakeUserWithSchool);
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeTeacherWithSchool);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       (jwt.sign as jest.Mock).mockReturnValue("jwt-token");
 
       const service = new AuthService(mockAuthRepository);
-      await service.execute({ document: "12345678", password: "correct-password", role: "teacher" });
+      await service.execute({ document: "12345678", password: "correct-password" });
 
       expect(jwt.sign).toHaveBeenCalledWith(
-        { id: fakeUserWithSchool.id, document: fakeUserWithSchool.document, role: "teacher", schoolId: "school-123" },
+        { id: fakeTeacherWithSchool.id, document: fakeTeacherWithSchool.document, role: "teacher", schoolId: "school-123" },
         "test-secret",
         { expiresIn: "1d" }
       );
     });
 
-    it("should throw 401 when teacher is not found", async () => {
-      mockAuthRepository.findTeacherByDocument.mockResolvedValue(null);
+    it("should throw 401 when user is not found", async () => {
+      mockAuthRepository.findByDocument.mockResolvedValue(null);
 
       const service = new AuthService(mockAuthRepository);
       await expect(
-        service.execute({ document: "00000000", password: "any", role: "teacher" })
+        service.execute({ document: "00000000", password: "any" })
       ).rejects.toMatchObject({ message: "Invalid credentials", statusCode: 401 });
     });
 
     it("should throw 401 when password does not match", async () => {
-      mockAuthRepository.findTeacherByDocument.mockResolvedValue(fakeUser);
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeTeacher);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       const service = new AuthService(mockAuthRepository);
       await expect(
-        service.execute({ document: "12345678", password: "wrong-password", role: "teacher" })
+        service.execute({ document: "12345678", password: "wrong-password" })
       ).rejects.toMatchObject({ message: "Invalid credentials", statusCode: 401 });
     });
   });
 
   describe("student login", () => {
     it("should return a token when credentials are valid", async () => {
-      mockAuthRepository.findStudentByDocument.mockResolvedValue(fakeUser);
+      const fakeStudent = { id: "user-id", document: "12345678", password: "hashed-password", role: "student", schoolId: "school-123" };
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeStudent);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       (jwt.sign as jest.Mock).mockReturnValue("jwt-token");
 
       const service = new AuthService(mockAuthRepository);
-      const result = await service.execute({
-        document: "12345678",
-        password: "correct-password",
-        role: "student"
-      });
+      const result = await service.execute({ document: "12345678", password: "correct-password" });
 
       expect(result).toEqual({ token: "jwt-token" });
-      expect(mockAuthRepository.findStudentByDocument).toHaveBeenCalledWith("12345678");
-    });
-
-    it("should throw 401 when student is not found", async () => {
-      mockAuthRepository.findStudentByDocument.mockResolvedValue(null);
-
-      const service = new AuthService(mockAuthRepository);
-      await expect(
-        service.execute({ document: "00000000", password: "any", role: "student" })
-      ).rejects.toMatchObject({ message: "Invalid credentials", statusCode: 401 });
+      expect(mockAuthRepository.findByDocument).toHaveBeenCalledWith("12345678");
     });
   });
 
@@ -120,19 +105,15 @@ describe("AuthService", () => {
         schoolId: "school-123",
         networkId: "net-456",
       };
-      mockAuthRepository.findAdminByDocument.mockResolvedValue(fakeAdmin);
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeAdmin);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       (jwt.sign as jest.Mock).mockReturnValue("jwt-token");
 
       const service = new AuthService(mockAuthRepository);
-      const result = await service.execute({
-        document: "admin-doc",
-        password: "correct-password",
-        role: "school_admin"
-      });
+      const result = await service.execute({ document: "admin-doc", password: "correct-password" });
 
       expect(result).toEqual({ token: "jwt-token" });
-      expect(mockAuthRepository.findAdminByDocument).toHaveBeenCalledWith("admin-doc");
+      expect(mockAuthRepository.findByDocument).toHaveBeenCalledWith("admin-doc");
       expect(jwt.sign).toHaveBeenCalledWith(
         { id: "admin-id", document: "admin-doc", role: "school_admin", schoolId: "school-123", networkId: "net-456" },
         "test-secret",
@@ -148,12 +129,12 @@ describe("AuthService", () => {
         role: "network_admin",
         networkId: "net-456",
       };
-      mockAuthRepository.findAdminByDocument.mockResolvedValue(fakeNetworkAdmin);
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeNetworkAdmin);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       (jwt.sign as jest.Mock).mockReturnValue("jwt-token");
 
       const service = new AuthService(mockAuthRepository);
-      await service.execute({ document: "netadmin-doc", password: "password", role: "network_admin" });
+      await service.execute({ document: "netadmin-doc", password: "password" });
 
       expect(jwt.sign).toHaveBeenCalledWith(
         { id: "netadmin-id", document: "netadmin-doc", role: "network_admin", networkId: "net-456" },
@@ -161,42 +142,17 @@ describe("AuthService", () => {
         { expiresIn: "1d" }
       );
     });
-
-    it("should throw 401 when admin role in DB does not match requested role", async () => {
-      const fakeAdmin = {
-        id: "admin-id",
-        document: "admin-doc",
-        password: "hashed-password",
-        role: "network_admin", // role real no banco
-      };
-      mockAuthRepository.findAdminByDocument.mockResolvedValue(fakeAdmin);
-
-      const service = new AuthService(mockAuthRepository);
-      // Tenta logar como super_admin, mas o banco diz que é network_admin
-      await expect(
-        service.execute({ document: "admin-doc", password: "any", role: "super_admin" })
-      ).rejects.toMatchObject({ message: "Invalid credentials", statusCode: 401 });
-    });
-
-    it("should throw 401 when admin is not found", async () => {
-      mockAuthRepository.findAdminByDocument.mockResolvedValue(null);
-
-      const service = new AuthService(mockAuthRepository);
-      await expect(
-        service.execute({ document: "nonexistent", password: "any", role: "super_admin" })
-      ).rejects.toMatchObject({ message: "Invalid credentials", statusCode: 401 });
-    });
   });
 
   describe("JWT_SECRET", () => {
     it("should throw 500 when JWT_SECRET is not set", async () => {
       delete process.env.JWT_SECRET;
-      mockAuthRepository.findTeacherByDocument.mockResolvedValue(fakeUser);
+      mockAuthRepository.findByDocument.mockResolvedValue(fakeTeacher);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
       const service = new AuthService(mockAuthRepository);
       await expect(
-        service.execute({ document: "12345678", password: "password", role: "teacher" })
+        service.execute({ document: "12345678", password: "password" })
       ).rejects.toMatchObject({ message: "JWT secret not configured", statusCode: 500 });
     });
   });

@@ -39,9 +39,6 @@ describe("Update Student Controller", () => {
     expect(studentUpdateResponse.body.document).toEqual(
       studentUpdateRequestBody.document
     );
-    expect(studentUpdateResponse.body.password).toEqual(
-      studentUpdateRequestBody.password
-    );
     expect(studentUpdateResponse.body.schoolId).toEqual(
       studentUpdateRequestBody.schoolId
     );

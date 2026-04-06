@@ -7,6 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  super_admin
+  network_admin
+  school_admin
+  teacher
+  student
+}
+
+model User {
+  id        String    @id @default(uuid())
+  document  String    @unique
+  password  String
+  role      UserRole
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+
+  teacher Teacher?
+  student Student?
+  admin   Admin?
+
+  @@map("users")
+}
+
 model Network {
   id        String   @id @default(uuid())
   name      String
@@ -36,23 +60,15 @@ model School {
   @@map("schools")
 }
 
-enum AdminRole {
-  super_admin
-  network_admin
-  school_admin
-}
-
 model Admin {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
   name      String
-  document  String    @unique
-  password  String
-  role      AdminRole
   networkId String?
   schoolId  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   network Network? @relation(fields: [networkId], references: [id])
   school  School?  @relation(fields: [schoolId], references: [id])
@@ -61,16 +77,15 @@ model Admin {
 }
 
 model Teacher {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
   name      String
-  document  String
-  password  String
   birthDate DateTime
   schoolId  String
-  school    School    @relation(fields: [schoolId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   TeacherClass TeacherClass[]
 
@@ -78,16 +93,15 @@ model Teacher {
 }
 
 model Student {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
   name      String
-  document  String
-  password  String
   birthDate DateTime
   schoolId  String
-  school    School    @relation(fields: [schoolId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
-  deletedAt DateTime?
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
   StudentClass StudentClass[]
 
@@ -105,7 +119,7 @@ model Class {
   school      School    @relation(fields: [schoolId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now())
-  deletedAt   DateTime?                   
+  deletedAt   DateTime?
 
   StudentClass StudentClass[]
   TeacherClass TeacherClass[]

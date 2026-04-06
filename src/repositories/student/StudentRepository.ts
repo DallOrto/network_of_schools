@@ -1,4 +1,4 @@
-import { Student, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import { prismaDB } from "../../database/prismaClient";
 import {
   CreateStudentRequest,
@@ -12,19 +12,31 @@ class StudentRepository implements ICreateStudentRepository {
   constructor() {
     this.prismaRepository = prismaDB;
   }
+
   async findOne(id: string): Promise<CreateStudentResponse | null> {
-    return this.prismaRepository.student.findFirst({
-      where: {
-        id,
-        deletedAt: null
-      }
+    const student = await this.prismaRepository.student.findFirst({
+      where: { id, user: { deletedAt: null } },
+      include: { user: { select: { document: true, deletedAt: true } } },
     });
+
+    if (!student) return null;
+
+    return {
+      id: student.id,
+      name: student.name,
+      document: student.user.document,
+      birthDate: student.birthDate,
+      schoolId: student.schoolId,
+      createdAt: student.createdAt,
+      updatedAt: student.updatedAt,
+      deletedAt: student.user.deletedAt,
+    };
   }
 
   async softDelete(id: string): Promise<void> {
     await this.prismaRepository.student.update({
       where: { id },
-      data: { deletedAt: new Date() }
+      data: { user: { update: { deletedAt: new Date() } } },
     });
   }
 
@@ -33,29 +45,29 @@ class StudentRepository implements ICreateStudentRepository {
     document,
     password,
     birthDate,
-    schoolId
-  }: CreateStudentRequest): Promise<Student> {
-    const student = this.prismaRepository.student.create({
-      data: {
-        name,
-        document,
-        password,
-        birthDate,
-        schoolId
-      },
-      select: {
-        id: true,
-        name: true,
-        document: true,
-        birthDate: true,
-        schoolId: true,
-        createdAt: true,
-        updatedAt: true,
-        deletedAt: true,
-      }
+    schoolId,
+  }: CreateStudentRequest): Promise<CreateStudentResponse> {
+    const student = await this.prismaRepository.$transaction(async (tx) => {
+      const user = await tx.user.create({
+        data: { document, password, role: "student" },
+      });
+
+      return tx.student.create({
+        data: { userId: user.id, name, birthDate, schoolId },
+        include: { user: { select: { document: true, deletedAt: true } } },
+      });
     });
 
-    return student as unknown as Student;
+    return {
+      id: student.id,
+      name: student.name,
+      document: student.user.document,
+      birthDate: student.birthDate,
+      schoolId: student.schoolId,
+      createdAt: student.createdAt,
+      updatedAt: student.updatedAt,
+      deletedAt: student.user.deletedAt,
+    };
   }
 }
 

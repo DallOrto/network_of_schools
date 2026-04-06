@@ -11,7 +11,6 @@ export interface CreateTeacherRequest {
 export interface CreateTeacherResponse extends BaseModel {
     name: string;
     document: string;
-    password: string;
     birthDate: Date;
     schoolId: string;
     deletedAt: Date | null;
