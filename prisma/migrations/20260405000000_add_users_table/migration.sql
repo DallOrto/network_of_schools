@@ -20,32 +20,69 @@ ALTER TABLE "admins" ADD COLUMN "userId" TEXT;
 ALTER TABLE "teachers" ADD COLUMN "userId" TEXT;
 ALTER TABLE "students" ADD COLUMN "userId" TEXT;
 
--- Migra admins existentes: cria registro em users e vincula
+-- Migra admins existentes: ON CONFLICT DO NOTHING evita falha em documents duplicados
 INSERT INTO "users" ("id", "document", "password", "role", "deletedAt", "createdAt", "updatedAt")
 SELECT gen_random_uuid(), "document", "password", "role"::text::"UserRole", "deletedAt", "createdAt", "updatedAt"
-FROM "admins";
+FROM "admins"
+ON CONFLICT ("document") DO NOTHING;
 
 UPDATE "admins" SET "userId" = (
     SELECT "id" FROM "users" WHERE "users"."document" = "admins"."document"
 );
 
--- Migra teachers existentes: cria registro em users e vincula
+-- Para admins sem userId (document duplicado dentro da própria tabela),
+-- cria user com document sintético único
+INSERT INTO "users" ("id", "document", "password", "role", "deletedAt", "createdAt", "updatedAt")
+SELECT gen_random_uuid(), 'dup_admin_' || "id", "password", "role"::text::"UserRole", "deletedAt", "createdAt", "updatedAt"
+FROM "admins"
+WHERE "userId" IS NULL;
+
+UPDATE "admins" SET "userId" = (
+    SELECT "id" FROM "users" WHERE "users"."document" = 'dup_admin_' || "admins"."id"
+)
+WHERE "userId" IS NULL;
+
+-- Migra teachers existentes
 INSERT INTO "users" ("id", "document", "password", "role", "deletedAt", "createdAt", "updatedAt")
 SELECT gen_random_uuid(), "document", "password", 'teacher'::"UserRole", "deletedAt", "createdAt", "updatedAt"
-FROM "teachers";
+FROM "teachers"
+ON CONFLICT ("document") DO NOTHING;
 
 UPDATE "teachers" SET "userId" = (
     SELECT "id" FROM "users" WHERE "users"."document" = "teachers"."document"
 );
 
--- Migra students existentes: cria registro em users e vincula
+-- Para teachers sem userId (document duplicado dentro da própria tabela)
+INSERT INTO "users" ("id", "document", "password", "role", "deletedAt", "createdAt", "updatedAt")
+SELECT gen_random_uuid(), 'dup_teacher_' || "id", "password", 'teacher'::"UserRole", "deletedAt", "createdAt", "updatedAt"
+FROM "teachers"
+WHERE "userId" IS NULL;
+
+UPDATE "teachers" SET "userId" = (
+    SELECT "id" FROM "users" WHERE "users"."document" = 'dup_teacher_' || "teachers"."id"
+)
+WHERE "userId" IS NULL;
+
+-- Migra students existentes
 INSERT INTO "users" ("id", "document", "password", "role", "deletedAt", "createdAt", "updatedAt")
 SELECT gen_random_uuid(), "document", "password", 'student'::"UserRole", "deletedAt", "createdAt", "updatedAt"
-FROM "students";
+FROM "students"
+ON CONFLICT ("document") DO NOTHING;
 
 UPDATE "students" SET "userId" = (
     SELECT "id" FROM "users" WHERE "users"."document" = "students"."document"
 );
+
+-- Para students sem userId (document duplicado dentro da própria tabela)
+INSERT INTO "users" ("id", "document", "password", "role", "deletedAt", "createdAt", "updatedAt")
+SELECT gen_random_uuid(), 'dup_student_' || "id", "password", 'student'::"UserRole", "deletedAt", "createdAt", "updatedAt"
+FROM "students"
+WHERE "userId" IS NULL;
+
+UPDATE "students" SET "userId" = (
+    SELECT "id" FROM "users" WHERE "users"."document" = 'dup_student_' || "students"."id"
+)
+WHERE "userId" IS NULL;
 
 -- Torna userId obrigatório agora que todos os registros foram populados
 ALTER TABLE "admins" ALTER COLUMN "userId" SET NOT NULL;
