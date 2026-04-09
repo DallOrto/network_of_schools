@@ -2,6 +2,26 @@ import { Request, Response, NextFunction } from "express";
 import { AppError } from "../error/AppError";
 
 /**
+ * Injeta automaticamente schoolId e/ou networkId no body a partir do JWT.
+ * - school_admin: injeta schoolId
+ * - network_admin: injeta networkId
+ * - super_admin: não injeta nada (deve informar no body)
+ */
+export function injectScope(req: Request, _res: Response, next: NextFunction): void {
+  const user = req.user!;
+
+  if (user.role === "school_admin" && user.schoolId) {
+    req.body.schoolId = user.schoolId;
+  }
+
+  if (user.role === "network_admin" && user.networkId) {
+    req.body.networkId = user.networkId;
+  }
+
+  next();
+}
+
+/**
  * Garante que teacher e student só modificam seus próprios dados.
  * Admins (super_admin, network_admin, school_admin) passam livremente.
  */

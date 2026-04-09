@@ -2,6 +2,7 @@ import { CreateTeacherClassRequest, CreateTeacherClassResponse } from "../../../
 
 interface ICreateTeacherClassRepository {
     create(data: CreateTeacherClassRequest): Promise<CreateTeacherClassResponse>
+    createAtomic(data: CreateTeacherClassRequest): Promise<CreateTeacherClassResponse>
 }
 
 export { ICreateTeacherClassRepository }

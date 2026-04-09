@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Network of Schools API",
-    "description": "API REST para gerenciamento de redes de escolas, professores, alunos e turmas.\n\n## Autenticação\nTodos os endpoints (exceto `/auth/login`) exigem um token JWT no header `Authorization: Bearer <token>`.\n\n## Roles e RBAC\n\nO sistema possui 5 papéis (roles):\n\n| Role | Descrição |\n|------|----------|\n| `super_admin` | Acesso total a todos os recursos e redes |\n| `network_admin` | Administra sua própria rede (networkId no JWT) |\n| `school_admin` | Administra sua própria escola (schoolId no JWT) |\n| `teacher` | Professor — pode atualizar apenas seus próprios dados |\n| `student` | Aluno — pode atualizar apenas seus próprios dados |\n\n## Middlewares de Escopo\n\n- **requireSameNetwork**: `network_admin` só pode editar a rede à qual pertence (validado pelo `networkId` no JWT).\n- **requireSameSchool**: `school_admin` só pode criar recursos na sua própria escola (valida `body.schoolId` contra `schoolId` do JWT). `super_admin` e `network_admin` ignoram esta restrição.\n- **requireSelf**: `teacher` e `student` só podem atualizar seus próprios dados (`params.id` deve coincidir com o `id` do JWT). `super_admin` ignora esta restrição.",
+    "description": "API REST para gerenciamento de redes de escolas, professores, alunos e turmas.\n\n## Autenticação\nTodos os endpoints (exceto `/auth/login`) exigem um token JWT no header `Authorization: Bearer <token>`.\n\n## Roles e RBAC\n\nO sistema possui 5 papéis (roles):\n\n| Role | Descrição |\n|------|----------|\n| `super_admin` | Acesso total a todos os recursos e redes |\n| `network_admin` | Administra sua própria rede (networkId no JWT) |\n| `school_admin` | Administra sua própria escola (schoolId no JWT) |\n| `teacher` | Professor — pode atualizar apenas seus próprios dados |\n| `student` | Aluno — pode atualizar apenas seus próprios dados |\n\n## Middlewares de Escopo\n\n- **injectScope**: Injeta automaticamente `schoolId`/`networkId` no body a partir do JWT antes da validação de escopo. `school_admin` recebe `schoolId` injetado; `network_admin` recebe `networkId` injetado; `super_admin` deve fornecer esses valores manualmente no body.\n- **requireSameNetwork**: `network_admin` só pode editar a rede à qual pertence (validado pelo `networkId` no JWT).\n- **requireSameSchool**: `school_admin` só pode criar recursos na sua própria escola (valida `body.schoolId` contra `schoolId` do JWT — garantido por `injectScope`). `super_admin` e `network_admin` ignoram esta restrição.\n- **requireSelf**: `teacher` e `student` só podem atualizar seus próprios dados (`params.id` deve coincidir com o `id` do JWT). `super_admin` ignora esta restrição.",
     "version": "1.0.0"
   },
   "servers": [
@@ -184,7 +184,7 @@
       "post": {
         "tags": ["Schools"],
         "summary": "Criar escola",
-        "description": "**Roles permitidas:** `super_admin`, `network_admin`.",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`.\n\n**injectScope:** `network_admin` não precisa enviar `networkId` no body — ele é injetado automaticamente a partir do JWT. `super_admin` deve fornecer `networkId` manualmente.",
         "requestBody": {
           "required": true,
           "content": {
@@ -272,7 +272,7 @@
       "post": {
         "tags": ["Teachers"],
         "summary": "Criar professor",
-        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**Escopo:** `school_admin` só pode criar professores na sua própria escola (`requireSameSchool` — valida `body.schoolId`).",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**injectScope:** `school_admin` não precisa enviar `schoolId` no body — ele é injetado automaticamente a partir do JWT. `network_admin` recebe `networkId` injetado. `super_admin` deve fornecer `schoolId` manualmente.\n\n**Escopo:** `school_admin` só pode criar professores na sua própria escola (`requireSameSchool` — `schoolId` é garantido por `injectScope`).",
         "requestBody": {
           "required": true,
           "content": {
@@ -374,7 +374,7 @@
       "post": {
         "tags": ["Students"],
         "summary": "Criar aluno",
-        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**Escopo:** `school_admin` só pode criar alunos na sua própria escola (`requireSameSchool` — valida `body.schoolId`).\n\nApós a criação, a API envia os dados do aluno para o serviço externo de conformidade (`POST /students/compliance`). A criação é rejeitada caso o aluno não seja aprovado pela análise de conformidade.",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**injectScope:** `school_admin` não precisa enviar `schoolId` no body — ele é injetado automaticamente a partir do JWT. `super_admin` deve fornecer `schoolId` manualmente.\n\n**Escopo:** `school_admin` só pode criar alunos na sua própria escola (`requireSameSchool` — `schoolId` é garantido por `injectScope`).\n\nApós a criação, a API envia os dados do aluno para o serviço externo de conformidade (`POST /students/compliance`). A criação é rejeitada caso o aluno não seja aprovado pela análise de conformidade.\n\nIndependentemente do resultado (aprovação ou reprovação), **toda tentativa é registrada** em `enrollment_attempts` com o `complianceId` e, quando reprovada, o motivo da recusa. Consulte o histórico via `GET /students/{document}/enrollment-attempts`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -510,11 +510,42 @@
         }
       }
     },
+    "/students/{document}/enrollment-attempts": {
+      "get": {
+        "tags": ["Students"],
+        "summary": "Listar histórico de tentativas de matrícula",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\nRetorna o histórico completo de tentativas de cadastro de um aluno identificado pelo `document`, incluindo aprovações e reprovações com seus respectivos motivos e IDs de compliance. Ordenado da tentativa mais recente para a mais antiga.",
+        "parameters": [
+          {
+            "name": "document",
+            "in": "path",
+            "required": true,
+            "description": "Documento (CPF ou similar) do aluno",
+            "schema": { "type": "string", "example": "12345678900" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Histórico de tentativas de matrícula",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/EnrollmentAttemptResponse" }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" }
+        }
+      }
+    },
     "/classes": {
       "post": {
         "tags": ["Classes"],
         "summary": "Criar turma",
-        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**Escopo:** `school_admin` só pode criar turmas na sua própria escola (`requireSameSchool` — valida `body.schoolId`).",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**injectScope:** `school_admin` não precisa enviar `schoolId` no body — ele é injetado automaticamente a partir do JWT. `super_admin` deve fornecer `schoolId` manualmente.\n\n**Escopo:** `school_admin` só pode criar turmas na sua própria escola (`requireSameSchool` — `schoolId` é garantido por `injectScope`).",
         "requestBody": {
           "required": true,
           "content": {
@@ -782,6 +813,49 @@
           "id": { "type": "string", "format": "uuid" },
           "createdAt": { "type": "string", "format": "date-time" },
           "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "EnrollmentAttemptResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890" },
+          "status": {
+            "type": "string",
+            "enum": ["APPROVED", "REJECTED", "ERROR"],
+            "example": "REJECTED"
+          },
+          "complianceId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "ID do registro de conformidade na API de compliance. Serve como comprovante da verificação.",
+            "example": "f9e8d7c6-b5a4-3210-fedc-ba9876543210"
+          },
+          "complianceStudentId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ID do aluno na API de compliance. Permite rastrear tentativas do mesmo aluno mesmo antes de ele ser criado na API.",
+            "example": "c0ffee00-dead-beef-cafe-123456789abc"
+          },
+          "studentId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "ID do aluno nesta API. Preenchido apenas quando `status` é `APPROVED`.",
+            "example": "11223344-5566-7788-99aa-bbccddeeff00"
+          },
+          "rejectionReason": {
+            "type": "string",
+            "nullable": true,
+            "description": "Motivo da reprovação retornado pela API de compliance. Preenchido apenas quando `status` é `REJECTED`.",
+            "example": "B"
+          },
+          "attemptedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Data e hora da tentativa.",
+            "example": "2026-04-08T10:00:00.000Z"
+          }
         }
       },
       "CreateNetworkRequest": {

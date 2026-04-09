@@ -2,6 +2,7 @@ import { CreateStudentService } from "../../services/student/CreateStudentServic
 import { ICreateStudentRepository } from "../../domain/interfaces/repositories/student/ICreateStudentRepository";
 import { ICreateSchoolRepository } from "../../domain/interfaces/repositories/school/ICreateSchoolRepository";
 import { IComplianceService } from "../../domain/interfaces/services/IComplianceService";
+import { ICreateEnrollmentAttemptRepository } from "../../domain/interfaces/repositories/enrollmentAttempt/ICreateEnrollmentAttemptRepository";
 import { AppError } from "../../error/AppError";
 
 const mockSchool = {
@@ -44,15 +45,29 @@ const makeSchoolRepository = (): jest.Mocked<ICreateSchoolRepository> => ({
 });
 
 const makeComplianceApproved = (): jest.Mocked<IComplianceService> => ({
-  check: jest.fn().mockResolvedValue({ approved: true })
+  check: jest.fn().mockResolvedValue({
+    complianceId: "compliance-id",
+    approved: true,
+    reason: null,
+    student: { id: "compliance-student-id", name: "João Silva", document: "12345678900", schoolId: "school-id" }
+  })
 });
 
 const makeComplianceRejected = (): jest.Mocked<IComplianceService> => ({
-  check: jest.fn().mockResolvedValue({ approved: false, reason: "CPF irregular" })
+  check: jest.fn().mockResolvedValue({
+    complianceId: "compliance-id",
+    approved: false,
+    reason: "CPF irregular",
+    student: { id: "compliance-student-id", name: "João Silva", document: "12345678900", schoolId: "school-id" }
+  })
 });
 
 const makeComplianceUnavailable = (): jest.Mocked<IComplianceService> => ({
   check: jest.fn().mockRejectedValue(new AppError("Compliance service unavailable", 503))
+});
+
+const makeEnrollmentAttemptRepository = (): jest.Mocked<ICreateEnrollmentAttemptRepository> => ({
+  create: jest.fn().mockResolvedValue({})
 });
 
 describe("CreateStudentService", () => {
@@ -60,7 +75,8 @@ describe("CreateStudentService", () => {
     const service = new CreateStudentService(
       makeStudentRepository(),
       makeSchoolRepository(),
-      makeComplianceApproved()
+      makeComplianceApproved(),
+      makeEnrollmentAttemptRepository()
     );
 
     const result = await service.execute(studentInput);
@@ -75,7 +91,8 @@ describe("CreateStudentService", () => {
     const service = new CreateStudentService(
       makeStudentRepository(),
       schoolRepo,
-      makeComplianceApproved()
+      makeComplianceApproved(),
+      makeEnrollmentAttemptRepository()
     );
 
     await expect(service.execute(studentInput)).rejects.toMatchObject({
@@ -88,7 +105,8 @@ describe("CreateStudentService", () => {
     const service = new CreateStudentService(
       makeStudentRepository(),
       makeSchoolRepository(),
-      makeComplianceRejected()
+      makeComplianceRejected(),
+      makeEnrollmentAttemptRepository()
     );
 
     await expect(service.execute(studentInput)).rejects.toMatchObject({
@@ -101,7 +119,8 @@ describe("CreateStudentService", () => {
     const service = new CreateStudentService(
       makeStudentRepository(),
       makeSchoolRepository(),
-      makeComplianceUnavailable()
+      makeComplianceUnavailable(),
+      makeEnrollmentAttemptRepository()
     );
 
     await expect(service.execute(studentInput)).rejects.toMatchObject({
@@ -116,10 +135,55 @@ describe("CreateStudentService", () => {
     const service = new CreateStudentService(
       studentRepo,
       makeSchoolRepository(),
-      makeComplianceRejected()
+      makeComplianceRejected(),
+      makeEnrollmentAttemptRepository()
     );
 
     await expect(service.execute(studentInput)).rejects.toMatchObject({ statusCode: 422 });
     expect(studentRepo.create).not.toHaveBeenCalled();
+  });
+
+  it("deve salvar EnrollmentAttempt com status APPROVED quando compliance aprova", async () => {
+    const enrollmentRepo = makeEnrollmentAttemptRepository();
+
+    const service = new CreateStudentService(
+      makeStudentRepository(),
+      makeSchoolRepository(),
+      makeComplianceApproved(),
+      enrollmentRepo
+    );
+
+    await service.execute(studentInput);
+
+    expect(enrollmentRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: "APPROVED",
+        complianceId: "compliance-id",
+        complianceStudentId: "compliance-student-id",
+        studentId: "student-id"
+      })
+    );
+  });
+
+  it("deve salvar EnrollmentAttempt com status REJECTED quando compliance reprova", async () => {
+    const enrollmentRepo = makeEnrollmentAttemptRepository();
+
+    const service = new CreateStudentService(
+      makeStudentRepository(),
+      makeSchoolRepository(),
+      makeComplianceRejected(),
+      enrollmentRepo
+    );
+
+    await expect(service.execute(studentInput)).rejects.toMatchObject({ statusCode: 422 });
+
+    expect(enrollmentRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: "REJECTED",
+        complianceId: "compliance-id",
+        complianceStudentId: "compliance-student-id",
+        rejectionReason: "CPF irregular"
+      })
+    );
   });
 });

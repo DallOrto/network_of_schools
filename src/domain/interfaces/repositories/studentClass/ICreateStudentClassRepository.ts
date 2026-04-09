@@ -2,6 +2,7 @@ import { CreateStudentClassRequest, CreateStudentClassResponse } from "../../../
 
 interface ICreateStudentClassRepository {
     create(data: CreateStudentClassRequest): Promise<CreateStudentClassResponse>
+    createAtomic(data: CreateStudentClassRequest): Promise<CreateStudentClassResponse>
 }
 
 export { ICreateStudentClassRepository }

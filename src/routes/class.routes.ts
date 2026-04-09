@@ -7,7 +7,7 @@ import { DeleteClassController } from "../controllers/class/DeleteClassControlle
 import { ListClassStudentController } from "../controllers/class/ListClassStudentController";
 import { ListClassTeacherWithStudentController } from "../controllers/class/ListClassTeacherWithStudentController";
 import { authorize } from "../middlewares/rbacMiddleware";
-import { requireSameSchool } from "../middlewares/scopeMiddleware";
+import { requireSameSchool, injectScope } from "../middlewares/scopeMiddleware";
 
 const createClassController = new CreateClassController();
 const createTeacherClassController = new CreateTeacherClassController();
@@ -19,7 +19,7 @@ const listClassTeacherWithStudentController = new ListClassTeacherWithStudentCon
 
 const classRoutes = Router();
 
-classRoutes.post("/", authorize("super_admin", "network_admin", "school_admin"), requireSameSchool, createClassController.handle);
+classRoutes.post("/", authorize("super_admin", "network_admin", "school_admin"), injectScope, requireSameSchool, createClassController.handle);
 // POST /teacher e /student usam classId no body (não schoolId), portanto a validação de escopo
 // requer lookup no banco — deve ser feita no service layer.
 classRoutes.post("/teacher", authorize("super_admin", "network_admin", "school_admin"), createTeacherClassController.handle);

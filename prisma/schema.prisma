@@ -52,10 +52,11 @@ model School {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
-  Teacher Teacher[]
-  Student Student[]
-  Class   Class[]
-  Admin   Admin[]
+  Teacher           Teacher[]
+  Student           Student[]
+  Class             Class[]
+  Admin             Admin[]
+  EnrollmentAttempt EnrollmentAttempt[]
 
   @@map("schools")
 }
@@ -124,6 +125,7 @@ model Class {
   StudentClass StudentClass[]
   TeacherClass TeacherClass[]
 
+  @@unique([name, classDay, startTime, endTime])
   @@map("classes")
 }
 
@@ -174,6 +176,7 @@ model StudentClass {
   classId   String
   class     Class   @relation(fields: [classId], references: [id])
 
+  @@unique([studentId, classId])
   @@map("StudentsClasses")
 }
 
@@ -184,5 +187,28 @@ model TeacherClass {
   classId   String
   class     Class   @relation(fields: [classId], references: [id])
 
+  @@unique([teacherId, classId])
   @@map("TeachersClasses")
+}
+
+enum EnrollmentAttemptStatus {
+  APPROVED
+  REJECTED
+  ERROR
+}
+
+model EnrollmentAttempt {
+  id                  String                  @id @default(uuid())
+  complianceStudentId String
+  studentId           String?
+  studentName         String
+  studentDocument     String
+  schoolId            String
+  school              School                  @relation(fields: [schoolId], references: [id])
+  status              EnrollmentAttemptStatus
+  complianceId        String?
+  rejectionReason     String?
+  attemptedAt         DateTime                @default(now())
+
+  @@map("enrollment_attempts")
 }

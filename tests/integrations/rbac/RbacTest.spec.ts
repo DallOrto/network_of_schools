@@ -167,40 +167,40 @@ describe("RBAC — requireSelf middleware", () => {
 
 // ─── requireSameSchool ────────────────────────────────────────────────────────
 
-describe("RBAC — requireSameSchool middleware", () => {
+describe("RBAC — injectScope middleware", () => {
   // schoolAdminToken has schoolId: "test-school-id"
-  // We send a DIFFERENT schoolId in the body → 403
+  // injectScope overwrites any schoolId in the body with the JWT value.
+  // school_admin can never create resources in another school — the schoolId
+  // they send is ignored and replaced, so a 403 is no longer triggered at the
+  // middleware layer; the request proceeds using their own schoolId.
 
-  it("school_admin → 403 when creating a teacher in a different school", async () => {
+  it("school_admin → schoolId from body is overwritten by JWT (no 403 on POST /teachers)", async () => {
     const response = await schoolAdminRequest
       .post("/teachers")
       .send(mockITeacherRequest("different-school-id"));
 
-    expect(response.status).toBe(403);
-    expect(response.body.message).toContain("outra escola");
+    // No 403 — injectScope replaced the schoolId. Will fail at service level
+    // (school not found) but the scope restriction is enforced by injection.
+    expect(response.status).not.toBe(403);
   });
 
-  it("school_admin → 403 when creating a student in a different school", async () => {
+  it("school_admin → schoolId from body is overwritten by JWT (no 403 on POST /students)", async () => {
     const response = await schoolAdminRequest
       .post("/students")
       .send(mockIStudentRequest("different-school-id"));
 
-    expect(response.status).toBe(403);
-    expect(response.body.message).toContain("outra escola");
+    expect(response.status).not.toBe(403);
   });
 
-  it("school_admin → 403 when creating a class in a different school", async () => {
+  it("school_admin → schoolId from body is overwritten by JWT (no 403 on POST /classes)", async () => {
     const response = await schoolAdminRequest
       .post("/classes")
       .send(mockIClassRequest("different-school-id"));
 
-    expect(response.status).toBe(403);
-    expect(response.body.message).toContain("outra escola");
+    expect(response.status).not.toBe(403);
   });
 
   it("super_admin → bypasses school scope check on POST /teachers", async () => {
-    // super_admin should not be blocked by requireSameSchool
-    // It may fail at service level (school not found), but not at middleware level
     const response = await superAppRequest
       .post("/teachers")
       .send(mockITeacherRequest("any-school-id"));
@@ -209,7 +209,6 @@ describe("RBAC — requireSameSchool middleware", () => {
   });
 
   it("network_admin → bypasses school scope check on POST /teachers", async () => {
-    // network_admin also bypasses requireSameSchool (school-level restriction)
     const response = await networkAdminRequest
       .post("/teachers")
       .send(mockITeacherRequest("any-school-id"));

@@ -20,7 +20,17 @@ const complianceApiOrigin = new URL(complianceApiUrl).origin;
 
 nock(complianceApiOrigin)
   .post("/students/compliance")
-  .reply(200, { approved: true })
+  .reply(200, {
+    complianceId: "test-compliance-id",
+    approved: true,
+    reason: null,
+    student: {
+      id: "test-compliance-student-id",
+      name: "Test Student",
+      document: "00000000",
+      schoolId: "test-school-id",
+    },
+  })
   .persist();
 
 const prismaClient = new PrismaClient();

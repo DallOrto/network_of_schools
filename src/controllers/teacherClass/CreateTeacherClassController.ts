@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { CreateTeacherClassRequest } from "../../domain/dtos/teacherClass/TeacherClassDTO";
-import { ClassRepository } from "../../repositories/class/ClassRepository";
 import { TeacherRepository } from "../../repositories/teacher/TeacherRepository";
 import { TeacherClassRepository } from "../../repositories/teacherClass/TeacherClassRepository";
 import { AuditLogRepository } from "../../repositories/auditLog/AuditLogRepository";
@@ -13,8 +12,7 @@ class CreateTeacherClassController {
 
     const createTeacherClassService = new CreateTeacherClassService(
       new TeacherClassRepository(),
-      new TeacherRepository(),
-      new ClassRepository()
+      new TeacherRepository()
     );
 
     await createTeacherClassService.execute({ teacherId, classId });

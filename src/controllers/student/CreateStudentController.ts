@@ -6,6 +6,7 @@ import { AuditLogRepository } from "../../repositories/auditLog/AuditLogReposito
 import { ComplianceService } from "../../services/compliance/ComplianceService";
 import { CreateStudentService } from "../../services/student/CreateStudentService";
 import { AuditLogService } from "../../services/auditLog/AuditLogService";
+import { EnrollmentAttemptRepository } from "../../repositories/enrollmentAttempt/EnrollmentAttemptRepository";
 
 class CreateStudentController {
   async handle(request: Request, response: Response) {
@@ -14,7 +15,8 @@ class CreateStudentController {
     const createStudentService = new CreateStudentService(
       new StudentRepository(),
       new CreateSchoolRepository(),
-      new ComplianceService()
+      new ComplianceService(),
+      new EnrollmentAttemptRepository()
     );
 
     const student = await createStudentService.execute({ name, document, password, birthDate, schoolId });

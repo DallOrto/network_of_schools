@@ -3,6 +3,7 @@ import { CreateStudentService } from "../../../../src/services/student/CreateStu
 import { ICreateStudentRepository } from "../../../../src/domain/interfaces/repositories/student/ICreateStudentRepository";
 import { ICreateSchoolRepository } from "../../../../src/domain/interfaces/repositories/school/ICreateSchoolRepository";
 import { IComplianceService } from "../../../../src/domain/interfaces/services/IComplianceService";
+import { ICreateEnrollmentAttemptRepository } from "../../../../src/domain/interfaces/repositories/enrollmentAttempt/ICreateEnrollmentAttemptRepository";
 import { AppError } from "../../../../src/error/AppError";
 
 jest.mock("bcryptjs");
@@ -19,7 +20,16 @@ const mockSchoolRepository: jest.Mocked<ICreateSchoolRepository> = {
 };
 
 const mockComplianceService: jest.Mocked<IComplianceService> = {
-  check: jest.fn().mockResolvedValue({ approved: true })
+  check: jest.fn().mockResolvedValue({
+    complianceId: "compliance-id",
+    approved: true,
+    reason: null,
+    student: { id: "compliance-student-id", name: "John", document: "12345678", schoolId: "school-id" }
+  })
+};
+
+const mockEnrollmentAttemptRepository: jest.Mocked<ICreateEnrollmentAttemptRepository> = {
+  create: jest.fn().mockResolvedValue({})
 };
 
 const fakeSchool = { id: "school-id", name: "School", address: "Addr", networkId: "net-id", createdAt: new Date(), updatedAt: new Date() };
@@ -40,7 +50,7 @@ describe("CreateStudentService", () => {
     (bcrypt.hash as jest.Mock).mockResolvedValue("hashed-password");
     mockStudentRepository.create.mockResolvedValue(fakeStudentResponse);
 
-    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository, mockComplianceService);
+    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository, mockComplianceService, mockEnrollmentAttemptRepository);
     const result = await service.execute(fakeStudentRequest);
 
     expect(mockSchoolRepository.findOne).toHaveBeenCalledWith("school-id");
@@ -55,7 +65,7 @@ describe("CreateStudentService", () => {
   it("should throw AppError when school does not exist", async () => {
     mockSchoolRepository.findOne.mockResolvedValue(null);
 
-    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository, mockComplianceService);
+    const service = new CreateStudentService(mockStudentRepository, mockSchoolRepository, mockComplianceService, mockEnrollmentAttemptRepository);
     await expect(service.execute(fakeStudentRequest)).rejects.toMatchObject({
       message: "School does not exist!"
     });
