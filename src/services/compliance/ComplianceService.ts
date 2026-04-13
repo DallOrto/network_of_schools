@@ -21,6 +21,7 @@ class ComplianceService implements IComplianceService {
         {
           headers: { "x-api-key": process.env.INTERNAL_API_KEY },
           timeout: 5000,
+          // 202 é sucesso — axios só aceita 2xx por padrão, então funciona sem config extra
         }
       );
       return response.data;
