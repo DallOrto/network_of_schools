@@ -1,4 +1,4 @@
-import { createNetwork, createSchool } from "../../helpers/helper";
+import { createNetwork, createSchool, createStudent } from "../../helpers/helper";
 import {
   mockINetworkRequest,
   mockISchoolRequest,
@@ -18,7 +18,7 @@ describe("List Student Controller", () => {
 
     const studentRequestBody = mockIStudentRequest(schoolResponse.id);
 
-    await superAppRequest.post("/students").send(studentRequestBody);
+    await createStudent(studentRequestBody);
 
     const studentListResponse = await superAppRequest.get(
       `/students/list?schoolId=${schoolResponse.id}`

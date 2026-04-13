@@ -373,8 +373,8 @@
     "/students": {
       "post": {
         "tags": ["Students"],
-        "summary": "Criar aluno",
-        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**injectScope:** `school_admin` não precisa enviar `schoolId` no body — ele é injetado automaticamente a partir do JWT. `super_admin` deve fornecer `schoolId` manualmente.\n\n**Escopo:** `school_admin` só pode criar alunos na sua própria escola (`requireSameSchool` — `schoolId` é garantido por `injectScope`).\n\nApós a criação, a API envia os dados do aluno para o serviço externo de conformidade (`POST /students/compliance`). A criação é rejeitada caso o aluno não seja aprovado pela análise de conformidade.\n\nIndependentemente do resultado (aprovação ou reprovação), **toda tentativa é registrada** em `enrollment_attempts` com o `complianceId` e, quando reprovada, o motivo da recusa. Consulte o histórico via `GET /students/{document}/enrollment-attempts`.",
+        "summary": "Criar aluno (fluxo assíncrono)",
+        "description": "**Roles permitidas:** `super_admin`, `network_admin`, `school_admin`.\n\n**injectScope:** `school_admin` não precisa enviar `schoolId` no body — ele é injetado automaticamente a partir do JWT. `super_admin` deve fornecer `schoolId` manualmente.\n\n**Escopo:** `school_admin` só pode criar alunos na sua própria escola (`requireSameSchool` — `schoolId` é garantido por `injectScope`).\n\n**Fluxo assíncrono:** A matrícula não é imediata. A API registra a solicitação, chama o serviço de conformidade e retorna **202** com `enrollmentAttemptId`. O resultado (aprovação ou reprovação) chega via webhook após o processamento. Consulte o status via `GET /students/{document}/enrollment-attempts`.",
         "requestBody": {
           "required": true,
           "content": {
@@ -384,11 +384,17 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Aluno criado com sucesso",
+          "202": {
+            "description": "Solicitação de matrícula aceita — processamento assíncrono iniciado",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/PersonResponse" }
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "enrollmentAttemptId": { "type": "string", "format": "uuid" },
+                    "status": { "type": "string", "enum": ["PROCESSING"] }
+                  }
+                }
               }
             }
           },
@@ -506,6 +512,46 @@
           "204": { "description": "Aluno desativado com sucesso" },
           "401": { "$ref": "#/components/responses/Unauthorized" },
           "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": { "$ref": "#/components/responses/NotFound" }
+        }
+      }
+    },
+    "/internal/compliance-result/{attemptId}": {
+      "post": {
+        "tags": ["Students"],
+        "summary": "Webhook de resultado de compliance (uso interno)",
+        "description": "**Uso interno entre APIs.** Chamado pelo serviço de compliance (API 2) quando o processamento de um job é concluído.\n\n**Autenticação:** `x-api-key` (não usa JWT).\n\nSe aprovado: cria o `User` + `Student` e atualiza o `EnrollmentAttempt` para `APPROVED`.\nSe reprovado: atualiza o `EnrollmentAttempt` para `REJECTED` com o motivo.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "attemptId",
+            "in": "path",
+            "required": true,
+            "description": "ID do EnrollmentAttempt criado na solicitação original",
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["jobId", "complianceId", "approved", "complianceStudentId"],
+                "properties": {
+                  "jobId": { "type": "string" },
+                  "complianceId": { "type": "string" },
+                  "approved": { "type": "boolean" },
+                  "reason": { "type": "string", "nullable": true },
+                  "complianceStudentId": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Resultado processado com sucesso" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
           "404": { "$ref": "#/components/responses/NotFound" }
         }
       }
@@ -821,8 +867,8 @@
           "id": { "type": "string", "format": "uuid", "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890" },
           "status": {
             "type": "string",
-            "enum": ["APPROVED", "REJECTED", "ERROR"],
-            "example": "REJECTED"
+            "enum": ["PROCESSING", "APPROVED", "REJECTED", "ERROR"],
+            "example": "PROCESSING"
           },
           "complianceId": {
             "type": "string",

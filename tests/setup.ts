@@ -20,16 +20,9 @@ const complianceApiOrigin = new URL(complianceApiUrl).origin;
 
 nock(complianceApiOrigin)
   .post("/students/compliance")
-  .reply(200, {
-    complianceId: "test-compliance-id",
-    approved: true,
-    reason: null,
-    student: {
-      id: "test-compliance-student-id",
-      name: "Test Student",
-      document: "00000000",
-      schoolId: "test-school-id",
-    },
+  .reply(202, {
+    jobId: "test-job-id",
+    status: "PROCESSING",
   })
   .persist();
 
@@ -86,6 +79,12 @@ export const superAppRequest = {
   get: (url: string) => _request.get(url).set("Authorization", `Bearer ${authToken}`),
   put: (url: string) => _request.put(url).set("Authorization", `Bearer ${authToken}`),
   delete: (url: string) => _request.delete(url).set("Authorization", `Bearer ${authToken}`),
+};
+
+// Simula chamadas internas entre APIs (usa x-api-key, sem JWT)
+const internalApiKey = process.env.INTERNAL_API_KEY ?? "test-internal-api-key";
+export const internalRequest = {
+  post: (url: string) => _request.post(url).set("x-api-key", internalApiKey),
 };
 
 export const unauthRequest = _request;

@@ -1,5 +1,5 @@
 import nock from "nock";
-import { unauthRequest, superAppRequest, teacherToken, studentToken } from "../../setup";
+import { unauthRequest, superAppRequest, internalRequest, teacherToken, studentToken } from "../../setup";
 import { createNetwork, createSchool } from "../../helpers/helper";
 import { mockINetworkRequest, mockISchoolRequest, mockIStudentRequest } from "../../helpers/mock";
 
@@ -7,40 +7,59 @@ const complianceApiUrl = process.env.COMPLIANCE_API_URL || "https://compliance-s
 const complianceApiOrigin = new URL(complianceApiUrl).origin;
 
 const defaultComplianceReply = {
-  complianceId: "test-compliance-id",
-  approved: true,
-  reason: null,
-  student: {
-    id: "test-compliance-student-id",
-    name: "Test Student",
-    document: "00000000",
-    schoolId: "test-school-id",
-  },
+  jobId: "test-job-id",
+  status: "PROCESSING",
 };
 
 afterEach(() => {
   nock.cleanAll();
   nock(complianceApiOrigin)
     .post("/students/compliance")
-    .reply(200, defaultComplianceReply)
+    .reply(202, defaultComplianceReply)
     .persist();
 });
 
 describe("List Enrollment Attempts Controller", () => {
-  it("should return enrollment attempts for a student document", async () => {
-    const networkResponse = await createNetwork(mockINetworkRequest());
-    const schoolResponse = await createSchool(mockISchoolRequest(networkResponse.id));
-    const studentRequestBody = mockIStudentRequest(schoolResponse.id);
+  it("should return PROCESSING attempt right after POST /students", async () => {
+    const network = await createNetwork(mockINetworkRequest());
+    const school = await createSchool(mockISchoolRequest(network.id));
+    const studentBody = mockIStudentRequest(school.id);
 
-    await superAppRequest.post("/students").send(studentRequestBody);
+    await superAppRequest.post("/students").send(studentBody);
 
     const response = await superAppRequest.get(
-      `/students/${studentRequestBody.document}/enrollment-attempts`
+      `/students/${studentBody.document}/enrollment-attempts`
     );
 
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body.length).toBeGreaterThanOrEqual(1);
+    expect(response.body[0]).toMatchObject({ status: "PROCESSING" });
+  });
+
+  it("should return APPROVED attempt after webhook callback", async () => {
+    const network = await createNetwork(mockINetworkRequest());
+    const school = await createSchool(mockISchoolRequest(network.id));
+    const studentBody = mockIStudentRequest(school.id);
+
+    const createResponse = await superAppRequest.post("/students").send(studentBody);
+    const attemptId = createResponse.body.enrollmentAttemptId;
+
+    await internalRequest
+      .post(`/internal/compliance-result/${attemptId}`)
+      .send({
+        jobId: "test-job-id",
+        complianceId: "test-compliance-id",
+        approved: true,
+        reason: null,
+        complianceStudentId: "test-compliance-student-id",
+      });
+
+    const response = await superAppRequest.get(
+      `/students/${studentBody.document}/enrollment-attempts`
+    );
+
+    expect(response.status).toBe(200);
     expect(response.body[0]).toMatchObject({
       status: "APPROVED",
       complianceId: "test-compliance-id",
@@ -58,39 +77,17 @@ describe("List Enrollment Attempts Controller", () => {
   });
 
   it("should return attempts ordered by most recent first", async () => {
-    const networkResponse = await createNetwork(mockINetworkRequest());
-    const schoolResponse = await createSchool(mockISchoolRequest(networkResponse.id));
-    const studentRequestBody = mockIStudentRequest(schoolResponse.id);
+    const network = await createNetwork(mockINetworkRequest());
+    const school = await createSchool(mockISchoolRequest(network.id));
+    const studentBody = mockIStudentRequest(school.id);
 
-    // configura: 1ª chamada → rejected, demais → approved
-    nock.cleanAll();
-    nock(complianceApiOrigin)
-      .post("/students/compliance")
-      .once()
-      .reply(200, {
-        complianceId: "compliance-rejected",
-        approved: false,
-        reason: "A",
-        student: {
-          id: "cs-order-test",
-          name: studentRequestBody.name,
-          document: studentRequestBody.document,
-          schoolId: schoolResponse.id,
-        },
-      });
-    nock(complianceApiOrigin)
-      .post("/students/compliance")
-      .reply(200, defaultComplianceReply)
-      .persist();
-
-    // 1ª tentativa → reprovada
-    await superAppRequest.post("/students").send(studentRequestBody);
-
-    // 2ª tentativa → aprovada
-    await superAppRequest.post("/students").send(studentRequestBody);
+    // 1ª tentativa
+    const first = await superAppRequest.post("/students").send(studentBody);
+    // 2ª tentativa com o mesmo documento
+    const second = await superAppRequest.post("/students").send(studentBody);
 
     const response = await superAppRequest.get(
-      `/students/${studentRequestBody.document}/enrollment-attempts`
+      `/students/${studentBody.document}/enrollment-attempts`
     );
 
     expect(response.status).toBe(200);
@@ -98,6 +95,9 @@ describe("List Enrollment Attempts Controller", () => {
     expect(new Date(response.body[0].attemptedAt).getTime()).toBeGreaterThanOrEqual(
       new Date(response.body[1].attemptedAt).getTime()
     );
+
+    // Apenas para evitar unused variable warning
+    void first; void second;
   });
 
   it("should return 403 for teacher role", async () => {

@@ -27,7 +27,10 @@ import {
   CreateTeacherClassResponse
 } from "../../src/domain/dtos/teacherClass/TeacherClassDTO";
 import { CreateAdminRequest, CreateAdminResponse } from "../../src/domain/dtos/admin/AdminDTO";
-import { superAppRequest } from "../setup";
+import { PrismaClient } from ".prisma/client";
+import { superAppRequest, internalRequest } from "../setup";
+
+const prisma = new PrismaClient();
 
 export async function createNetwork(body: CreateNetworkRequest) {
   const networkResponse = await superAppRequest.post("/networks").send(body);
@@ -55,13 +58,45 @@ export async function createTeacher(body: CreateTeacherRequest) {
   return createTeacherResponseBody;
 }
 
-export async function createStudent(body: CreateStudentRequest) {
-  const studentResponse = await superAppRequest.post("/students").send(body);
+/**
+ * Cria um aluno completando o fluxo assíncrono inteiro:
+ * 1. POST /students → recebe enrollmentAttemptId (PROCESSING)
+ * 2. POST /internal/compliance-result/:id → simula o webhook de aprovação
+ * 3. Busca o aluno criado no banco e retorna
+ */
+export async function createStudent(body: CreateStudentRequest): Promise<CreateStudentResponse> {
+  const pendingResponse = await superAppRequest.post("/students").send(body);
+  const { enrollmentAttemptId } = pendingResponse.body;
 
-  const createStudentResponseBody =
-    studentResponse.body as CreateStudentResponse;
+  await internalRequest
+    .post(`/internal/compliance-result/${enrollmentAttemptId}`)
+    .send({
+      jobId: "test-job-id",
+      complianceId: "test-compliance-id",
+      approved: true,
+      reason: null,
+      complianceStudentId: "test-compliance-student-id",
+    });
 
-  return createStudentResponseBody;
+  const attempt = await prisma.enrollmentAttempt.findUnique({
+    where: { id: enrollmentAttemptId },
+  });
+
+  const student = await prisma.student.findUniqueOrThrow({
+    where: { id: attempt!.studentId! },
+    include: { user: true },
+  });
+
+  return {
+    id: student.id,
+    name: student.name,
+    document: (student as any).user.document,
+    birthDate: student.birthDate,
+    schoolId: student.schoolId,
+    deletedAt: (student as any).user.deletedAt,
+    createdAt: student.createdAt,
+    updatedAt: student.updatedAt,
+  } as unknown as CreateStudentResponse;
 }
 
 export async function createClass(body: CreateClassRequest) {
