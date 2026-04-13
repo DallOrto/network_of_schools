@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import { authRoutes } from "./auth.routes";
+import { internalRoutes } from "./internal.routes";
 import { networkRoutes } from "./network.routes";
 import { schoolRoutes } from "./school.routes";
 import { teacherRoutes } from "./teacher.routes";
@@ -11,6 +12,7 @@ import { adminRoutes } from "./admin.routes";
 const routes = Router();
 
 routes.use("/auth", authRoutes);
+routes.use("/internal", internalRoutes); // Protegido por x-api-key, não por JWT
 
 routes.use(authMiddleware);
 

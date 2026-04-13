@@ -3,18 +3,12 @@ export interface ComplianceCheckRequest {
   document: string;
   birthDate: string;
   schoolId: string;
+  callbackUrl: string;
 }
 
 export interface ComplianceCheckResponse {
-  complianceId: string;
-  approved: boolean;
-  reason?: string | null;
-  student: {
-    id: string;
-    name: string;
-    document: string;
-    schoolId: string;
-  };
+  jobId: string;
+  status: 'PROCESSING';
 }
 
 export interface IComplianceService {

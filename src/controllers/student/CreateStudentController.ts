@@ -19,18 +19,10 @@ class CreateStudentController {
       new EnrollmentAttemptRepository()
     );
 
-    const student = await createStudentService.execute({ name, document, password, birthDate, schoolId });
+    const result = await createStudentService.execute({ name, document, password, birthDate, schoolId });
 
-    await new AuditLogService(new AuditLogRepository()).log({
-      actorId: request.user!.id,
-      actorRole: request.user!.role,
-      action: "CREATE",
-      entity: "STUDENT",
-      entityId: student.id,
-      metadata: { name: student.name, schoolId },
-    });
-
-    return response.status(201).json(student);
+    // A auditoria de criação efetiva será registrada no callback, quando o aluno for criado
+    return response.status(202).json(result);
   }
 }
 

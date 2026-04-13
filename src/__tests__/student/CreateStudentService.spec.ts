@@ -14,15 +14,20 @@ const mockSchool = {
   updatedAt: new Date()
 };
 
-const mockStudent = {
-  id: "student-id",
-  name: "João Silva",
-  document: "12345678900",
-  birthDate: new Date("2000-01-01"),
+const mockAttempt = {
+  id: "attempt-id",
+  complianceStudentId: "pending",
+  complianceJobId: null,
+  studentId: null,
+  studentName: "João Silva",
+  studentDocument: "12345678900",
+  studentBirthDate: new Date("2000-01-01"),
+  hashedPassword: "hashed",
   schoolId: "school-id",
-  deletedAt: null,
-  createdAt: new Date(),
-  updatedAt: new Date()
+  status: "PROCESSING" as const,
+  complianceId: null,
+  rejectionReason: null,
+  attemptedAt: new Date()
 };
 
 const studentInput = {
@@ -34,7 +39,7 @@ const studentInput = {
 };
 
 const makeStudentRepository = (): jest.Mocked<ICreateStudentRepository> => ({
-  create: jest.fn().mockResolvedValue(mockStudent),
+  create: jest.fn(),
   findOne: jest.fn().mockResolvedValue(null),
   softDelete: jest.fn().mockResolvedValue(undefined)
 });
@@ -44,22 +49,8 @@ const makeSchoolRepository = (): jest.Mocked<ICreateSchoolRepository> => ({
   findOne: jest.fn().mockResolvedValue(mockSchool)
 });
 
-const makeComplianceApproved = (): jest.Mocked<IComplianceService> => ({
-  check: jest.fn().mockResolvedValue({
-    complianceId: "compliance-id",
-    approved: true,
-    reason: null,
-    student: { id: "compliance-student-id", name: "João Silva", document: "12345678900", schoolId: "school-id" }
-  })
-});
-
-const makeComplianceRejected = (): jest.Mocked<IComplianceService> => ({
-  check: jest.fn().mockResolvedValue({
-    complianceId: "compliance-id",
-    approved: false,
-    reason: "CPF irregular",
-    student: { id: "compliance-student-id", name: "João Silva", document: "12345678900", schoolId: "school-id" }
-  })
+const makeComplianceService = (): jest.Mocked<IComplianceService> => ({
+  check: jest.fn().mockResolvedValue({ jobId: "job-123", status: "PROCESSING" })
 });
 
 const makeComplianceUnavailable = (): jest.Mocked<IComplianceService> => ({
@@ -67,21 +58,86 @@ const makeComplianceUnavailable = (): jest.Mocked<IComplianceService> => ({
 });
 
 const makeEnrollmentAttemptRepository = (): jest.Mocked<ICreateEnrollmentAttemptRepository> => ({
-  create: jest.fn().mockResolvedValue({})
+  create: jest.fn().mockResolvedValue(mockAttempt),
+  updateJobId: jest.fn().mockResolvedValue(undefined),
+  updateFromCallback: jest.fn().mockResolvedValue({}),
+  findById: jest.fn().mockResolvedValue(mockAttempt)
 });
 
+// Seta API_BASE_URL para o callbackUrl ser construído
+process.env.API_BASE_URL = "http://localhost:4003";
+
 describe("CreateStudentService", () => {
-  it("deve criar o aluno quando a escola existe e o compliance aprova", async () => {
+  it("deve retornar enrollmentAttemptId com status PROCESSING", async () => {
     const service = new CreateStudentService(
       makeStudentRepository(),
       makeSchoolRepository(),
-      makeComplianceApproved(),
+      makeComplianceService(),
       makeEnrollmentAttemptRepository()
     );
 
     const result = await service.execute(studentInput);
 
-    expect(result).toMatchObject({ name: "João Silva", schoolId: "school-id" });
+    expect(result).toEqual({
+      enrollmentAttemptId: "attempt-id",
+      status: "PROCESSING"
+    });
+  });
+
+  it("deve criar EnrollmentAttempt com status PROCESSING antes de chamar compliance", async () => {
+    const enrollmentRepo = makeEnrollmentAttemptRepository();
+
+    const service = new CreateStudentService(
+      makeStudentRepository(),
+      makeSchoolRepository(),
+      makeComplianceService(),
+      enrollmentRepo
+    );
+
+    await service.execute(studentInput);
+
+    expect(enrollmentRepo.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        status: "PROCESSING",
+        studentName: "João Silva",
+        studentDocument: "12345678900",
+        schoolId: "school-id"
+      })
+    );
+  });
+
+  it("deve atualizar o jobId no attempt após receber resposta da compliance", async () => {
+    const enrollmentRepo = makeEnrollmentAttemptRepository();
+
+    const service = new CreateStudentService(
+      makeStudentRepository(),
+      makeSchoolRepository(),
+      makeComplianceService(),
+      enrollmentRepo
+    );
+
+    await service.execute(studentInput);
+
+    expect(enrollmentRepo.updateJobId).toHaveBeenCalledWith("attempt-id", "job-123");
+  });
+
+  it("deve enviar callbackUrl com o attemptId para a compliance", async () => {
+    const complianceService = makeComplianceService();
+
+    const service = new CreateStudentService(
+      makeStudentRepository(),
+      makeSchoolRepository(),
+      complianceService,
+      makeEnrollmentAttemptRepository()
+    );
+
+    await service.execute(studentInput);
+
+    expect(complianceService.check).toHaveBeenCalledWith(
+      expect.objectContaining({
+        callbackUrl: "http://localhost:4003/internal/compliance-result/attempt-id"
+      })
+    );
   });
 
   it("deve lançar AppError quando a escola não existe", async () => {
@@ -91,27 +147,13 @@ describe("CreateStudentService", () => {
     const service = new CreateStudentService(
       makeStudentRepository(),
       schoolRepo,
-      makeComplianceApproved(),
+      makeComplianceService(),
       makeEnrollmentAttemptRepository()
     );
 
     await expect(service.execute(studentInput)).rejects.toMatchObject({
       message: "School does not exist!",
       statusCode: 400
-    });
-  });
-
-  it("deve lançar AppError 422 quando o compliance reprova o aluno", async () => {
-    const service = new CreateStudentService(
-      makeStudentRepository(),
-      makeSchoolRepository(),
-      makeComplianceRejected(),
-      makeEnrollmentAttemptRepository()
-    );
-
-    await expect(service.execute(studentInput)).rejects.toMatchObject({
-      message: "CPF irregular",
-      statusCode: 422
     });
   });
 
@@ -129,61 +171,18 @@ describe("CreateStudentService", () => {
     });
   });
 
-  it("não deve criar o aluno no banco quando o compliance reprova", async () => {
+  it("não deve chamar studentRepository.create (criação ocorre no callback)", async () => {
     const studentRepo = makeStudentRepository();
 
     const service = new CreateStudentService(
       studentRepo,
       makeSchoolRepository(),
-      makeComplianceRejected(),
+      makeComplianceService(),
       makeEnrollmentAttemptRepository()
-    );
-
-    await expect(service.execute(studentInput)).rejects.toMatchObject({ statusCode: 422 });
-    expect(studentRepo.create).not.toHaveBeenCalled();
-  });
-
-  it("deve salvar EnrollmentAttempt com status APPROVED quando compliance aprova", async () => {
-    const enrollmentRepo = makeEnrollmentAttemptRepository();
-
-    const service = new CreateStudentService(
-      makeStudentRepository(),
-      makeSchoolRepository(),
-      makeComplianceApproved(),
-      enrollmentRepo
     );
 
     await service.execute(studentInput);
 
-    expect(enrollmentRepo.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        status: "APPROVED",
-        complianceId: "compliance-id",
-        complianceStudentId: "compliance-student-id",
-        studentId: "student-id"
-      })
-    );
-  });
-
-  it("deve salvar EnrollmentAttempt com status REJECTED quando compliance reprova", async () => {
-    const enrollmentRepo = makeEnrollmentAttemptRepository();
-
-    const service = new CreateStudentService(
-      makeStudentRepository(),
-      makeSchoolRepository(),
-      makeComplianceRejected(),
-      enrollmentRepo
-    );
-
-    await expect(service.execute(studentInput)).rejects.toMatchObject({ statusCode: 422 });
-
-    expect(enrollmentRepo.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        status: "REJECTED",
-        complianceId: "compliance-id",
-        complianceStudentId: "compliance-student-id",
-        rejectionReason: "CPF irregular"
-      })
-    );
+    expect(studentRepo.create).not.toHaveBeenCalled();
   });
 });

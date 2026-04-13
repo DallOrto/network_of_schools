@@ -2,9 +2,12 @@ import { EnrollmentAttemptStatus } from "@prisma/client";
 
 interface CreateEnrollmentAttemptRequest {
     complianceStudentId: string;
+    complianceJobId?: string;
     studentId?: string;
     studentName: string;
     studentDocument: string;
+    studentBirthDate: Date;
+    hashedPassword: string;
     schoolId: string;
     status: EnrollmentAttemptStatus;
     complianceId?: string;
@@ -14,9 +17,12 @@ interface CreateEnrollmentAttemptRequest {
 interface CreateEnrollmentAttemptResponse {
     id: string;
     complianceStudentId: string;
+    complianceJobId: string | null;
     studentId: string | null;
     studentName: string;
     studentDocument: string;
+    studentBirthDate: Date;
+    hashedPassword: string;
     schoolId: string;
     status: EnrollmentAttemptStatus;
     complianceId: string | null;

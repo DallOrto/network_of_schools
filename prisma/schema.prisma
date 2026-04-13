@@ -192,6 +192,7 @@ model TeacherClass {
 }
 
 enum EnrollmentAttemptStatus {
+  PROCESSING
   APPROVED
   REJECTED
   ERROR
@@ -200,9 +201,12 @@ enum EnrollmentAttemptStatus {
 model EnrollmentAttempt {
   id                  String                  @id @default(uuid())
   complianceStudentId String
+  complianceJobId     String?
   studentId           String?
   studentName         String
   studentDocument     String
+  studentBirthDate    DateTime
+  hashedPassword      String
   schoolId            String
   school              School                  @relation(fields: [schoolId], references: [id])
   status              EnrollmentAttemptStatus
